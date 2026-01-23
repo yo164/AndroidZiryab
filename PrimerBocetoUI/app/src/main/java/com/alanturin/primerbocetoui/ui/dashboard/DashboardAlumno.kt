@@ -1,67 +1,62 @@
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-
-
 
 @Composable
 fun DashboardScreen() {
-    val menuItems = listOf(
-        "Programación" to { println("Opción Programación seleccionada") },
-        "Base de datos" to { println("Opción Base de datos seleccionada") },
-        "Lenguaje de marcas" to { println("Opción Lenguaje de marcas seleccionada") }
-        // Agrega más elementos si quieres
+    // Lista de asignaturas
+    val asignaturas = listOf(
+        "Programación",
+        "Base de datos",
+        "Lenguaje de marcas",
+        "Entornos de Desarrollo",
+        "Sistemas Informáticos",
+        "Formación y Orientación Laboral"
     )
 
-    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    val maxVisible = 4
-    val visibleItems = menuItems.size.coerceAtMost(maxVisible)
-
-    // Espaciado entre cards y margen externo
-    val spacing = 16.dp
-    val horizontalPadding = 16.dp
-    val totalSpacing = spacing * (visibleItems - 1)
-    val itemHeight = (screenHeight - totalSpacing - spacing * 2) / visibleItems
-
+    // Si caben todas, no hace scroll. Si no caben, permite el scroll.
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = horizontalPadding, vertical = spacing),
-        verticalArrangement = Arrangement.spacedBy(spacing),
-        userScrollEnabled = menuItems.size > maxVisible
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(bottom = 16.dp)
     ) {
-        items(menuItems.size) { index ->
-            val (title, action) = menuItems[index]
-            MenuOption(title = title, onClick = action, height = itemHeight)
+        items(asignaturas) { asignatura ->
+            AsignaturaItem(
+                titulo = asignatura,
+                onClick = { println("Click en $asignatura") }
+            )
         }
     }
 }
 
 @Composable
-fun MenuOption(title: String, onClick: () -> Unit, height: Dp) {
+fun AsignaturaItem(titulo: String, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(height)
+            .height(100.dp)
             .clickable { onClick() },
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-        shape = MaterialTheme.shapes.medium // Bordes redondeados visibles
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        shape = MaterialTheme.shapes.medium
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(horizontal = 20.dp),
             contentAlignment = Alignment.CenterStart
         ) {
-            Text(text = title, style = MaterialTheme.typography.bodyLarge)
+            Text(
+                text = titulo,
+                style = MaterialTheme.typography.titleMedium
+            )
         }
     }
 }
-

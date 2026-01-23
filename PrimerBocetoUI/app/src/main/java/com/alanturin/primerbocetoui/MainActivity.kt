@@ -1,5 +1,6 @@
 package com.alanturin.primerbocetoui
 
+import DashboardProfesorScreen
 import DashboardScreen
 import LoginScreen
 import android.os.Bundle
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
 
                         }*/
                         //Llamada a Dashboad del alumno
-                        DashboardScreen()
+                        DashboardProfesorScreen()
                     }
                 }
             }
