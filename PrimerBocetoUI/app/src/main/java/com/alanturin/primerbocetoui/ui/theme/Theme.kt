@@ -1,5 +1,25 @@
 package com.alanturin.primerbocetoui.ui.theme
 
+import BackgroundDark
+import BackgroundLight
+import ErrorDark
+import ErrorLight
+import OnBackgroundDark
+import OnBackgroundLight
+import OnErrorDark
+import OnErrorLight
+import OnPrimaryDark
+import OnPrimaryLight
+import OnSecondaryDark
+import OnSecondaryLight
+import OnSurfaceDark
+import OnSurfaceLight
+import PrimaryDark
+import PrimaryLight
+import SecondaryDark
+import SecondaryLight
+import SurfaceDark
+import SurfaceLight
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -12,15 +32,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = PrimaryDark,
+    onPrimary = OnPrimaryDark,
+    secondary = SecondaryDark,
+    onSecondary = OnSecondaryDark,
+    background = BackgroundDark,
+    surface = SurfaceDark,
+    onBackground = OnBackgroundDark,
+    onSurface = OnSurfaceDark,
+    error = ErrorDark,
+    onError = OnErrorDark
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = PrimaryLight,
+    onPrimary = OnPrimaryLight,
+    secondary = SecondaryLight,
+    onSecondary = OnSecondaryLight,
+    background = BackgroundLight,
+    surface = SurfaceLight,
+    onBackground = OnBackgroundLight,
+    onSurface = OnSurfaceLight,
+    error = ErrorLight,
+    onError = OnErrorLight
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -37,7 +71,7 @@ private val LightColorScheme = lightColorScheme(
 fun PrimerBocetoUITheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
