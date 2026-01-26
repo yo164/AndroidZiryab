@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Academic Management</string>
+
+    <!-- Headers -->
+    <string name="title_gestion_academica">Academic Management</string>
+    <string name="subtitle_gestion_academica">Manage your profile and activities</string>
+
+    <!-- Menu Items -->
+    <string name="menu_ficha_usuario">User Profile</string>
+    <string name="menu_horario">Schedule</string>
+    <string name="menu_calendario">Calendar</string>
+    <string name="menu_tablon">Notice Board</string>
+
+    <!-- Content Descriptions -->
+    <string name="cd_ficha_usuario">User profile icon</string>
+    <string name="cd_horario">Clock icon for schedule</string>
+    <string name="cd_calendario">Calendar icon</string>
+    <string name="cd_tablon">Notifications icon</string>
+</resources>

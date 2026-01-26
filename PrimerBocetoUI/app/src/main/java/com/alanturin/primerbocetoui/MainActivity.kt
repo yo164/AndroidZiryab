@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import com.alanturin.primerbocetoui.ui.gestion.GestionAcademicaScreen
 import com.alanturin.primerbocetoui.ui.theme.PrimerBocetoUITheme
 
 class MainActivity : ComponentActivity() {
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
 
                         }*/
                         //Llamada a Dashboad del alumno
-                        DashboardScreen()
+                        GestionAcademicaScreen()
                     }
                 }
             }

@@ -1,3 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PrimerBocetoUI</string>
+    <string name="app_name">Gestión Académica</string>
+
+    <!-- Headers -->
+    <string name="title_gestion_academica">Gestión Académica</string>
+    <string name="subtitle_gestion_academica">Administra tu perfil y actividades</string>
+
+    <!-- Menu Items -->
+    <string name="menu_ficha_usuario">Ficha Usuario</string>
+    <string name="menu_horario">Horario</string>
+    <string name="menu_calendario">Calendario</string>
+    <string name="menu_tablon">Tablón</string>
+
+    <!-- Content Descriptions -->
+    <string name="cd_ficha_usuario">Icono de perfil de usuario</string>
+    <string name="cd_horario">Icono de reloj para horario</string>
+    <string name="cd_calendario">Icono de calendario</string>
+    <string name="cd_tablon">Icono de notificaciones</string>
 </resources>

@@ -40,6 +40,15 @@ android {
 }
 
 dependencies {
+    //FIREBASE
+    implementation(libs.firebase.bom)
+    implementation(libs.firebase.auth)
+
+    //BOM
+    implementation(platform(libs.firebase.bom))
+
+    //MATERIAL ICONS
+    implementation(libs.androidx.compose.material.icons.extended)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
