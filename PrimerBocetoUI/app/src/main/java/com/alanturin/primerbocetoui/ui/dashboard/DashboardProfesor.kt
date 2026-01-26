@@ -12,12 +12,12 @@ import androidx.compose.ui.unit.dp
 fun DashboardProfesorScreen() {
     // Lista de clases/grupos que imparte el profesor
     val gruposProfe = listOf(
-        "1º DAM - Programación",
-        "2º DAM - Acceso a Datos",
-        "1º DAW - Base de Datos",
-        "2º DAW - Desarrollo Web",
-        "1º ASIR - Lenguaje de Marcas",
-        "Tutoria - 2º DAM"
+        "Programación",
+        "Acceso a Datos",
+        "Base de Datos",
+        "Desarrollo Web",
+        "Lenguaje de Marcas",
+        "Tutoria"
     )
 
     // LazyColumn gestiona el scroll automáticamente:
