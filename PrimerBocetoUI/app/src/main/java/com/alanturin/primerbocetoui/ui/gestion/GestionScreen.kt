@@ -5,15 +5,14 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Schedule
-import androidx.compose.material.icons.filled.CalendarToday
-import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -24,18 +23,58 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.alanturin.primerbocetoui.R
 
 @Composable
-fun GestionAcademicaScreen() {
+fun GestionAcademicaScreen(
+    modifier: Modifier = Modifier,
+    viewModel: GestionAcademicaViewModel = hiltViewModel(),
+    onMenuClick: (Long) -> Unit
+) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    when (uiState) {
+        is GestionUiState.Initial -> {
+            // Estado inicial, no hace nada
+        }
+        is GestionUiState.Loading -> {
+            GestionLoadingScreen(modifier)
+        }
+        is GestionUiState.Success -> {
+            GestionList(modifier, uiState, onMenuClick)
+        }
+    }
+}
+
+@Composable
+private fun GestionLoadingScreen(modifier: Modifier) {
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier.size(64.dp),
+            color = Color(0xFF7C3AED)
+        )
+    }
+}
+
+@Composable
+private fun GestionList(
+    modifier: Modifier,
+    uiState: GestionUiState,
+    onMenuClick: (Long) -> Unit
+) {
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(Color(0xFFFAFAFA)),
         verticalArrangement = Arrangement.spacedBy(14.dp),
         contentPadding = PaddingValues(16.dp)
     ) {
-        // 🎨 HEADER
+        // HEADER
         item {
             Column(
                 modifier = Modifier
@@ -59,68 +98,30 @@ fun GestionAcademicaScreen() {
             }
         }
 
-        // 📱 TARJETA 1 - Ficha Usuario
-        item {
-            AcademicCardVertical(
-                title = stringResource(id = R.string.menu_ficha_usuario),
-                icon = Icons.Default.Person,
-                backgroundColor = Color(0xFFF3E8FF),
-                borderColor = Color(0xFFE9D5FF),
-                iconColor = Color(0xFF7C3AED),
-                contentDescription = stringResource(id = R.string.cd_ficha_usuario),
-                onClick = { }
-            )
-        }
-
-        // 📱 TARJETA 2 - Horario
-        item {
-            AcademicCardVertical(
-                title = stringResource(id = R.string.menu_horario),
-                icon = Icons.Default.Schedule,
-                backgroundColor = Color(0xFFCCFBF1),
-                borderColor = Color(0xFF99F6E0),
-                iconColor = Color(0xFF14B8A6),
-                contentDescription = stringResource(id = R.string.cd_horario),
-                onClick = { }
-            )
-        }
-
-        // 📱 TARJETA 3 - Calendario
-        item {
-            AcademicCardVertical(
-                title = stringResource(id = R.string.menu_calendario),
-                icon = Icons.Default.CalendarToday,
-                backgroundColor = Color(0xFFFEF3C7),
-                borderColor = Color(0xFFFCD34D),
-                iconColor = Color(0xFFF59E0B),
-                contentDescription = stringResource(id = R.string.cd_calendario),
-                onClick = { }
-            )
-        }
-
-        // 📱 TARJETA 4 - Tablón
-        item {
-            AcademicCardVertical(
-                title = stringResource(id = R.string.menu_tablon),
-                icon = Icons.Default.Notifications,
-                backgroundColor = Color(0xFFFCE7F3),
-                borderColor = Color(0xFFFBBF24),
-                iconColor = Color(0xFFEC4899),
-                contentDescription = stringResource(id = R.string.cd_tablon),
-                onClick = { }
+        // ITEMS
+        items(
+            items = (uiState as GestionUiState.Success).options,
+            key = { item -> item.id }
+        ) { option ->
+            GestionCardVertical(
+                titleResId = option.titleResId,
+                icon = option.icon,
+                backgroundColor = option.backgroundColor,
+                borderColor = option.borderColor,
+                iconColor = option.iconColor,
+                onClick = { onMenuClick(option.id) }
             )
         }
     }
 }
 
 @Composable
-fun AcademicCardVertical(
-    title: String,
+fun GestionCardVertical(
+    titleResId: Int,
     icon: ImageVector,
     backgroundColor: Color,
     borderColor: Color,
     iconColor: Color,
-    contentDescription: String,
     onClick: () -> Unit
 ) {
     Box(
@@ -151,7 +152,7 @@ fun AcademicCardVertical(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // 🎨 ICONO
+            // ICONO
             Box(
                 modifier = Modifier
                     .size(60.dp)
@@ -163,15 +164,15 @@ fun AcademicCardVertical(
             ) {
                 Icon(
                     imageVector = icon,
-                    contentDescription = contentDescription,
+                    contentDescription = stringResource(id = titleResId),
                     tint = iconColor,
                     modifier = Modifier.size(32.dp)
                 )
             }
 
-            // 📝 TEXTO
+            // TEXTO
             Text(
-                text = title,
+                text = stringResource(id = titleResId),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF1F2937),
@@ -180,23 +181,7 @@ fun AcademicCardVertical(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // ⬅️ BOTÓN FLECHA
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .background(
-                        color = Color(0xFF7C3AED),
-                        shape = RoundedCornerShape(50.dp)
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "›",
-                    fontSize = 24.sp,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-                )
             }
         }
     }
-}
+

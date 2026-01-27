@@ -13,14 +13,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ListaAlumnos(){
+fun ListaAlumnos(
+    title: String,
+    height: Dp? = null,
+    onClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .then(height?.let { Modifier.height(it) } ?: Modifier) // Si height es null, usa altura automática
+            .then(height?.let { Modifier.height(it) } ?: Modifier)
             .clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         shape = MaterialTheme.shapes.medium
@@ -29,7 +34,7 @@ fun ListaAlumnos(){
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp), // espacio entre los textos
+            verticalArrangement = Arrangement.spacedBy(4.dp),
             horizontalAlignment = Alignment.Start
         ) {
             Text(
@@ -38,10 +43,9 @@ fun ListaAlumnos(){
             )
             Text(
                 text = "Nombre Profesor",
-                style = MaterialTheme.typography.bodyMedium, // un poco más pequeño que el título
-                color = MaterialTheme.colorScheme.onSurfaceVariant // opcional, para diferenciarlo
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
-}
 }
