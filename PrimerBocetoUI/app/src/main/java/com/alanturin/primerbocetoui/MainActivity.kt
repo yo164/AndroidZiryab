@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import com.alanturin.primerbocetoui.ui.MainScreen
 import com.alanturin.primerbocetoui.ui.profesor.ClasesProfesorScreen
 import com.alanturin.primerbocetoui.ui.screen.ClasesAlumnoScreen
 import com.alanturin.primerbocetoui.ui.theme.PrimerBocetoUITheme
@@ -19,25 +20,18 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             PrimerBocetoUITheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Box(modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)) {
+                val userRole = "STUDENT"
 
-                        // Llamada a tu LoginScreen
-                        /*LoginScreen {_, _ ->
-
-                        }*/
-                        //Llamada a Dashboad del alumno
-                        ClasesAlumnoScreen()
-
+                MainScreen(
+                    userRole = userRole,
+                    userName = "Estudiante Alumno",
+                    userEmail = "Estudiante1@ziryab.es",
+                    onLogout = {
                     }
-                }
+                )
             }
         }
     }
 }
-
