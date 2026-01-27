@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -95,5 +96,8 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     // MATERIAL ICONS EXTENDED
-    implementation("androidx.compose.material:material-icons-extended:1.7.8")
+    implementation(libs.androidx.compose.material.icons.extended)
+
+    //SERIALIZATION
+    implementation(libs.kotlinx.serialization.json.v163)
 }

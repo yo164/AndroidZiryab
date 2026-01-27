@@ -1,4 +1,4 @@
-package com.alanturin.primerbocetoui.ui.screen
+package com.alanturin.primerbocetoui.ui.alumno
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.alanturin.primerbocetoui.data.remote.model.Asignatura
-import com.alanturin.primerbocetoui.ui.alumno.ClasesAlumnoViewModel
 
 @Composable
 fun ClasesAlumnoScreen(
