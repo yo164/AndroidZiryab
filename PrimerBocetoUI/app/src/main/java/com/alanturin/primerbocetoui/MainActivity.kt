@@ -1,7 +1,5 @@
 package com.alanturin.primerbocetoui
 
-import DashboardProfesorScreen
-import DashboardScreen
 import LoginScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
