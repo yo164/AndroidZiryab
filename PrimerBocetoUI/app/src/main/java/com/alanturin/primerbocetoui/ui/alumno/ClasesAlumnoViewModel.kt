@@ -29,6 +29,9 @@ class ClasesAlumnoViewModel @Inject constructor(
     val error: StateFlow<String?> = _error.asStateFlow()
 
     fun cargarClases(studentId: Long) {
+        if (_asignaturas.value.isNotEmpty()) {
+            return
+        }
         viewModelScope.launch {
             _isLoading.value = true
             _error.value = null
@@ -45,4 +48,19 @@ class ClasesAlumnoViewModel @Inject constructor(
             _isLoading.value = false
         }
     }
+
+    fun recargarClases(studentId: Long) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            _error.value = null
+            val result = repository.getClases(studentId)
+            result.onSuccess { lista ->
+                _asignaturas.value = lista
+            }.onFailure { exception ->
+                _error.value = "Error al actualizar: ${exception.message}"
+            }
+            _isLoading.value = false
+        }
+    }
+
 }
