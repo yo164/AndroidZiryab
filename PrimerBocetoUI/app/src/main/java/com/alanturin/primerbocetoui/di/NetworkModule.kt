@@ -19,7 +19,7 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://localhost:3000/")
+            .baseUrl("https://ziryabback.onrender.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
