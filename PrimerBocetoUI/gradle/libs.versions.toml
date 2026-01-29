@@ -24,6 +24,8 @@ coil = "2.7.0"
 room = "2.6.1"
 navigationCompose = "2.8.3"
 serialization = "1.6.3"
+material3 = "1.4.0"
+runtimeVersion = "1.10.1"
 
 [libraries]
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
@@ -69,6 +71,8 @@ androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = 
 # Navigation & ViewModel
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+androidx-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtimeVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

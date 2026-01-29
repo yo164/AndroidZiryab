@@ -1,3 +1,5 @@
+package com.alanturin.primerbocetoui.ui.components
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -7,9 +9,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun UserMenu(
@@ -20,7 +22,7 @@ fun UserMenu(
     var expanded by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.wrapContentSize(Alignment.TopEnd)) {
-        // Mini avatar clickeable
+        // Mini avatar
         Box(
             modifier = Modifier
                 .size(40.dp)
@@ -36,7 +38,7 @@ fun UserMenu(
             )
         }
 
-        // Menu desplegable
+        // Menú desplegable
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
@@ -47,14 +49,15 @@ fun UserMenu(
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(text = userEmail, style = MaterialTheme.typography.bodySmall)
                 Spacer(modifier = Modifier.height(12.dp))
-                Divider()
+                HorizontalDivider()
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(
                     onClick = {
                         expanded = false
                         onLogout()
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
                 ) {
                     Text("Cerrar sesión")
                 }

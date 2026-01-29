@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,19 +23,20 @@ import com.alanturin.primerbocetoui.data.remote.model.Asignatura
 
 @Composable
 fun ClasesAlumnoScreen(
-    viewModel: ClasesAlumnoViewModel = hiltViewModel()
+    viewModel: ClasesAlumnoViewModel = hiltViewModel(),
+    onAsignaturaClick: (Long, String) -> Unit
 ) {
     val asignaturas by viewModel.asignaturas.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
 
-    // Cargar datos al iniciar
+    // Cargar datos al iniciar (solo si no hay datos ya en memoria)
     LaunchedEffect(true) {
-        viewModel.cargarClases(2L) // ID del alumno (puedes cambiarlo dinámicamente luego)
+        viewModel.cargarClases(2L)
     }
 
     Scaffold(
-        containerColor = Color(0xFFF8FAFC) // Fondo gris muy claro (Slate-50)
+        containerColor = Color(0xFFF8FAFC) // Slate-50
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -41,24 +44,55 @@ fun ClasesAlumnoScreen(
                 .padding(paddingValues)
                 .padding(16.dp)
         ) {
-            // CABECERA
             Column(modifier = Modifier.fillMaxSize()) {
-                Text(
-                    text = "Mis Asignaturas",
-                    style = MaterialTheme.typography.headlineMedium.copy(
-                        fontWeight = FontWeight.ExtraBold,
-                        brush = Brush.horizontalGradient(
-                            colors = listOf(Color(0xFF7C3AED), Color(0xFF4F46E5)) // Violet to Indigo
-                        )
-                    ),
-                    modifier = Modifier.padding(bottom = 24.dp)
-                )
 
-                if (isLoading) {
+                // --- CABECERA (Título + Botón Refrescar) ---
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 24.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    // TÍTULO
+                    Text(
+                        text = "Mis Asignaturas",
+                        style = MaterialTheme.typography.headlineMedium.copy(
+                            fontWeight = FontWeight.ExtraBold,
+                            brush = Brush.horizontalGradient(
+                                colors = listOf(Color(0xFF7C3AED), Color(0xFF4F46E5))
+                            )
+                        )
+                    )
+
+                    // BOTÓN REFRESCAR
+                    IconButton(
+                        onClick = { viewModel.recargarClases(2L) },
+                        enabled = !isLoading
+                    ) {
+                        if (isLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(24.dp),
+                                strokeWidth = 2.dp,
+                                color = Color(0xFF7C3AED)
+                            )
+                        } else {
+                            Icon(
+                                imageVector = Icons.Default.Refresh,
+                                contentDescription = "Recargar",
+                                tint = Color(0xFF7C3AED)
+                            )
+                        }
+                    }
+                }
+
+                // --- ESTADOS DE LA UI ---
+                if (isLoading && asignaturas.isEmpty()) {
+                    // Solo mostramos el loader central si la lista está vacía
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator(color = Color(0xFF7C3AED))
                     }
-                } else if (error != null) {
+                } else if (error != null && asignaturas.isEmpty()) {
                     Card(
                         colors = CardDefaults.cardColors(containerColor = Color(0xFFFEF2F2)),
                         modifier = Modifier.fillMaxWidth()
@@ -70,13 +104,17 @@ fun ClasesAlumnoScreen(
                         )
                     }
                 } else {
-                    // LISTA DE TARJETAS
+                    // LISTA DE ASIGNATURAS
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(16.dp),
                         contentPadding = PaddingValues(bottom = 16.dp)
                     ) {
                         itemsIndexed(asignaturas) { index, asignatura ->
-                            AsignaturaCard(asignatura = asignatura, index = index)
+                            AsignaturaCard(
+                                asignatura = asignatura,
+                                index = index,
+                                onClick = onAsignaturaClick
+                            )
                         }
                     }
                 }
@@ -86,8 +124,12 @@ fun ClasesAlumnoScreen(
 }
 
 @Composable
-fun AsignaturaCard(asignatura: Asignatura, index: Int) {
-    // TEMAS DE COLOR (Igual que en tu Angular)
+fun AsignaturaCard(
+    asignatura: Asignatura,
+    index: Int,
+    onClick: (Long, String) -> Unit
+) {
+    // Definición de temas de colores (Themes)
     val themes = listOf(
         listOf(Color(0xFFDBEAFE), Color(0xFFEFF6FF)), // Blue
         listOf(Color(0xFFF3E8FF), Color(0xFFFAF5FF)), // Purple
@@ -117,8 +159,8 @@ fun AsignaturaCard(asignatura: Asignatura, index: Int) {
         elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp) // Un poco de aire vertical
-            .clickable { /* Navegar */ },
+            .padding(vertical = 4.dp)
+            .clickable { onClick(asignatura.id, asignatura.nombre) }, // Click en toda la tarjeta
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Box(
@@ -131,59 +173,57 @@ fun AsignaturaCard(asignatura: Asignatura, index: Int) {
         ) {
             Column(
                 modifier = Modifier
-                    .padding(24.dp) // Padding generoso como en la web (p-6)
+                    .padding(24.dp)
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // 1. TÍTULO ASIGNATURA
+                // TÍTULO
                 Text(
                     text = asignatura.nombre,
                     style = MaterialTheme.typography.headlineSmall.copy(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = (-0.5).sp
                     ),
-                    color = Color(0xFF1F2937), // Gray-800
+                    color = Color(0xFF1F2937),
                     textAlign = TextAlign.Center
                 )
 
-                // 2. LÍNEA DIVISORIA (hr)
+                // DIVISOR
                 HorizontalDivider(
                     modifier = Modifier
                         .padding(vertical = 16.dp)
-                        .fillMaxWidth(0.8f), // Que no llegue hasta los bordes
+                        .fillMaxWidth(0.8f),
                     thickness = 2.dp,
                     color = borderColor.copy(alpha = 0.6f)
                 )
 
-                // 3. SECCIÓN GRADO/CURSO (Sin iconos, solo texto y pastilla)
+                // CURSO
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    // Etiqueta pequeña "GRADO/CURSO"
                     Text(
                         text = "GRADO/CURSO",
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 1.sp
                         ),
-                        color = Color(0xFF6B7280), // Gray-500
+                        color = Color(0xFF6B7280),
                         modifier = Modifier.padding(bottom = 6.dp)
                     )
 
-                    // La "Pastilla" blanca (bg-white/60)
                     Surface(
-                        shape = RoundedCornerShape(50), // Completamente redonda
+                        shape = RoundedCornerShape(50),
                         color = Color.White.copy(alpha = 0.6f),
                         shadowElevation = 0.dp,
                         border = null
                     ) {
                         Text(
-                            text = asignatura.curso, // "1º ESO - A"
+                            text = asignatura.curso,
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontWeight = FontWeight.Medium
                             ),
-                            color = Color(0xFF374151), // Gray-700
+                            color = Color(0xFF374151),
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
                         )
                     }
@@ -191,13 +231,13 @@ fun AsignaturaCard(asignatura: Asignatura, index: Int) {
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // 4. BOTÓN ACCEDER
+                // BOTÓN ACCEDER
                 Button(
-                    onClick = { /* Acción */ },
+                    onClick = { onClick(asignatura.id, asignatura.nombre) }, // Click en el botón
                     colors = ButtonDefaults.buttonColors(
                         containerColor = textColor
                     ),
-                    shape = RoundedCornerShape(16.dp), // rounded-xl
+                    shape = RoundedCornerShape(16.dp),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp),
