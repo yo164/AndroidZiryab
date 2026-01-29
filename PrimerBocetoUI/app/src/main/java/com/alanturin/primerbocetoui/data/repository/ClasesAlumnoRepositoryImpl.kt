@@ -2,6 +2,7 @@ package com.alanturin.primerbocetoui.data.repository
 
 import com.alanturin.primerbocetoui.data.remote.ClasesAlumnoRemoteDataSource
 import com.alanturin.primerbocetoui.data.remote.model.Asignatura
+import com.alanturin.primerbocetoui.data.remote.model.toDomain
 import com.alanturin.primerbocetoui.domain.repository.ClasesAlumnoRepository
 import javax.inject.Inject
 
@@ -11,20 +12,12 @@ class ClasesAlumnoRepositoryImpl @Inject constructor(
 
     override suspend fun getClases(studentId: Long): Result<List<Asignatura>> {
         return try {
-            // 1. Llamada al servidor
             val response = remoteDataSource.getClasesAlumno(studentId)
 
             if (response.isSuccessful) {
-                val remoteList = response.body()?.items ?: emptyList()
-
-                // 2. Mapeo MANUAL (para evitar errores con toDomain por ahora)
-                val domainList = remoteList.map { item ->
-                    Asignatura(
-                        id = item.id,
-                        nombre = item.name,
-                        curso = "${item.course} - ${item.group}"
-                    )
-                }
+                val remoteList = response.body()?.data ?: emptyList()
+                
+                val domainList = remoteList.map { it.toDomain() }
 
                 Result.success(domainList)
             } else {

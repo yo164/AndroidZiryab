@@ -1,25 +1,42 @@
 package com.alanturin.primerbocetoui.data.remote.model
 
 import com.google.gson.annotations.SerializedName
-// IMPORTANTE: Asegúrate de que este import apunte a donde tienes tu modelo Asignatura
 
+// Estructura principal de la respuesta
 data class AlumnoAsignaturaListRemote(
-    @SerializedName("items")
-    val items: List<AlumnoAsignaturaRemote>
+    val success: Boolean,
+    val data: List<ItemRemote>,
+    val count: Int
 )
 
-data class AlumnoAsignaturaRemote(
+data class ItemRemote(
+    val subject: SubjectRemote,
+    val group: GroupRemote,
+    val schoolYear: String
+)
+
+data class SubjectRemote(
     val id: Long,
     val name: String,
-    val course: String,
-    val group: String,
-    val schoolYear: String?
+    val idCourse: Long,
+    val course: CourseRemote
 )
 
-fun AlumnoAsignaturaRemote.toDomain(): Asignatura {
+data class CourseRemote(
+    val id: Long,
+    val name: String
+)
+
+data class GroupRemote(
+    val id: Long,
+    val name: String,
+    val createdAt: String
+)
+
+fun ItemRemote.toDomain(): Asignatura {
     return Asignatura(
-        id = this.id,
-        nombre = this.name,
-        curso = "${this.course} - ${this.group}"
+        id = this.subject.id,
+        nombre = this.subject.name,
+        curso = "${this.subject.course.name} - ${this.group.name}"
     )
 }
