@@ -11,16 +11,28 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun LoginScreen(
-    onLoginClick: (email: String, password: String) -> Unit
+    onLoginClick: (email: String, password: String) -> Unit,
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
-    // Estados para email y contraseña
+    val isLoading by viewModel.isLoading.collectAsState()
+    val error by viewModel.error.collectAsState()
+    val loginSuccess by viewModel.loginSuccess.collectAsState()
+
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var showPassword by remember { mutableStateOf(false) }
-    var errorMessage by remember { mutableStateOf("") }
+    var localError by remember { mutableStateOf("") }
+
+    LaunchedEffect(loginSuccess) {
+        if (loginSuccess) {
+            onLoginClick(email, password)
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -37,19 +49,18 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Input de email
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
             label = { Text("Email") },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Input de contraseña
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
@@ -66,14 +77,23 @@ fun LoginScreen(
                 )
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        if (errorMessage.isNotEmpty()) {
+        if (error != null) {
             Text(
-                text = errorMessage,
+                text = error!!,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+        }
+
+        if (localError.isNotEmpty()) {
+            Text(
+                text = localError,
                 color = MaterialTheme.colorScheme.error,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
@@ -82,35 +102,26 @@ fun LoginScreen(
         Button(
             onClick = {
                 when {
-                    email.isBlank() -> errorMessage = "El email no puede estar vacío"
-                    password.isBlank() -> errorMessage = "La contraseña no puede estar vacía"
+                    email.isBlank() -> localError = "El email no puede estar vacío"
+                    password.isBlank() -> localError = "La contraseña no puede estar vacía"
                     else -> {
-                        errorMessage = ""
-                        onLoginClick(email, password)
+                        localError = ""
+                        viewModel.login(email, password)
                     }
                 }
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading
         ) {
-            Text("Ingresar")
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    color = Color.White,
+                    strokeWidth = 2.dp
+                )
+            } else {
+                Text("Ingresar")
+            }
         }
     }
-    /*auth.signInWithEmailAndPassword(email, password)
-        .addOnCompleteListener(this) { task ->
-            if (task.isSuccessful) {
-                // Sign in success, update UI with the signed-in user's information
-                Log.d(TAG, "signInWithEmail:success")
-                val user = auth.currentUser
-                updateUI(user)
-            } else {
-                // If sign in fails, display a message to the user.
-                Log.w(TAG, "signInWithEmail:failure", task.exception)
-                Toast.makeText(
-                    baseContext,
-                    "Authentication failed.",
-                    Toast.LENGTH_SHORT,
-                ).show()
-                updateUI(null)
-            }
-        }*/
 }

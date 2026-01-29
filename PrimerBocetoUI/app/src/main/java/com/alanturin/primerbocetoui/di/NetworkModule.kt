@@ -35,4 +35,10 @@ object NetworkModule {
     fun provideApplicationScope(): CoroutineScope {
         return CoroutineScope(SupervisorJob() + Dispatchers.Default)
     }
+
+    @Provides
+    @Singleton
+    fun provideAuthApi(retrofit: Retrofit): com.alanturin.primerbocetoui.data.remote.AuthApi {
+        return retrofit.create(com.alanturin.primerbocetoui.data.remote.AuthApi::class.java)
+    }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "708163806772",
+    "project_id": "ziryab-7006e",
+    "storage_bucket": "ziryab-7006e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:708163806772:android:62d6c1bda9dbb4a3c14c61",
+        "android_client_info": {
+          "package_name": "com.alanturin.primerbocetoui"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVaMA_Ntwb2H6H-DkAMkXSsDf8GGtnVx4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

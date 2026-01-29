@@ -57,7 +57,19 @@ abstract class AppModule {
 
             return ClasesAlumnoRepositoryImpl(dataSource)
         }
+
+        @Provides
+        @Singleton
+        fun provideFirebaseAuth(): com.google.firebase.auth.FirebaseAuth {
+            return com.google.firebase.auth.FirebaseAuth.getInstance()
+        }
     }
+
+    @Binds
+    @Singleton
+    abstract fun bindAuthRepository(
+        authRepositoryImpl: com.alanturin.primerbocetoui.data.repository.AuthRepositoryImpl
+    ): com.alanturin.primerbocetoui.domain.repository.AuthRepository
 }
 
 @Qualifier
