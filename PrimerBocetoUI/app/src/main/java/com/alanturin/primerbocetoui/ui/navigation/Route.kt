@@ -1,15 +1,20 @@
 package com.alanturin.primerbocetoui.ui.navigation
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.alanturin.primerbocetoui.ui.alumno.ClasesAlumnoScreen
 import com.alanturin.primerbocetoui.ui.gestion.GestionAcademicaScreen
 import com.alanturin.primerbocetoui.ui.login.LoginScreen
 import kotlinx.serialization.Serializable
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.alanturin.primerbocetoui.ui.alumno.ClasesAlumnoViewModel
+import com.alanturin.primerbocetoui.ui.alumno.TemarioAlumno.TemarioAlumnoScreen
 
 @Serializable
 sealed class Route {
@@ -19,9 +24,11 @@ sealed class Route {
     @Serializable
     data object ClasesAlumno : Route()
 
-    // NUEVAS RUTAS DE GESTIÓN
     @Serializable
     data object Gestion : Route()
+
+    @Serializable
+    data class Temario(val id: Long, val nombre: String) : Route()
 
     @Serializable
     data object FichaUsuario : Route()
@@ -37,12 +44,17 @@ sealed class Route {
 }
 
 fun NavController.navigateToClasesAlumno() {
-    this.navigate(Route.ClasesAlumno)
+    this.navigate(Route.ClasesAlumno) {
+        popUpTo(Route.Login) { inclusive = true }
+    }
 }
 
-// NUEVAS FUNCIONES DE NAVEGACIÓN
 fun NavController.navigateToGestion() {
     this.navigate(Route.Gestion)
+}
+
+fun NavController.navigateToTemario(id: Long, nombre: String) {
+    this.navigate(Route.Temario(id, nombre))
 }
 
 fun NavController.navigateToFichaUsuario() {
@@ -77,12 +89,13 @@ fun NavGraphBuilder.loginDestination(
 }
 
 fun NavGraphBuilder.clasesAlumnoDestination(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onAsignaturaClick: (Long, String) -> Unit
 ) {
     composable<Route.ClasesAlumno> {
         ClasesAlumnoScreen(
             viewModel = hiltViewModel(),
-            onAsignaturaClick = { _, _ -> }
+            onAsignaturaClick = onAsignaturaClick
         )
     }
 }
@@ -100,7 +113,21 @@ fun NavGraphBuilder.gestionDestination(
     }
 }
 
-// NUEVOS DESTINATIONS (por ahora vacíos, para que agregues las pantallas)
+fun NavGraphBuilder.temarioDestination(
+    onBack: () -> Unit
+) {
+    composable<Route.Temario> { backStackEntry ->
+        val route: Route.Temario = backStackEntry.toRoute()
+
+        TemarioAlumnoScreen(
+            asignaturaId = route.id,
+            asignaturaNombre = route.nombre,
+            userRole = "STUDENT",
+            onBack = onBack
+        )
+    }
+}
+
 fun NavGraphBuilder.fichaUsuarioDestination(
     modifier: Modifier = Modifier
 ) {
@@ -131,4 +158,9 @@ fun NavGraphBuilder.tablonDestination(
     composable<Route.Tablon> {
         // TODO: Tu TablonScreen aquí
     }
+}
+
+sealed class BottomNavItem(val route: Route, val icon: ImageVector, val label: String) {
+    data object Clases : BottomNavItem(Route.ClasesAlumno, Icons.Default.Home, "Clases")
+    data object Gestion : BottomNavItem(Route.Gestion, Icons.Default.List, "Gestión")
 }

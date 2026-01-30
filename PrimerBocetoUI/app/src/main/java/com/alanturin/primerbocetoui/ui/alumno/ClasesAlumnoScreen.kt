@@ -23,6 +23,7 @@ import com.alanturin.primerbocetoui.data.remote.model.Asignatura
 
 @Composable
 fun ClasesAlumnoScreen(
+    modifier: Modifier = Modifier,
     viewModel: ClasesAlumnoViewModel = hiltViewModel(),
     onAsignaturaClick: (Long, String) -> Unit
 ) {
@@ -30,13 +31,12 @@ fun ClasesAlumnoScreen(
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
 
-    // Cargar datos al iniciar (solo si no hay datos ya en memoria)
     LaunchedEffect(true) {
         viewModel.cargarClases(2L)
     }
 
     Scaffold(
-        containerColor = Color(0xFFF8FAFC) // Slate-50
+        containerColor = Color(0xFFF8FAFC)
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -45,8 +45,7 @@ fun ClasesAlumnoScreen(
                 .padding(16.dp)
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
-
-                // --- CABECERA (Título + Botón Refrescar) ---
+                Spacer(modifier = Modifier.height(60.dp))
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -54,7 +53,6 @@ fun ClasesAlumnoScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    // TÍTULO
                     Text(
                         text = "Mis Asignaturas",
                         style = MaterialTheme.typography.headlineMedium.copy(
@@ -65,7 +63,6 @@ fun ClasesAlumnoScreen(
                         )
                     )
 
-                    // BOTÓN REFRESCAR
                     IconButton(
                         onClick = { viewModel.recargarClases(2L) },
                         enabled = !isLoading
@@ -86,9 +83,7 @@ fun ClasesAlumnoScreen(
                     }
                 }
 
-                // --- ESTADOS DE LA UI ---
                 if (isLoading && asignaturas.isEmpty()) {
-                    // Solo mostramos el loader central si la lista está vacía
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator(color = Color(0xFF7C3AED))
                     }
@@ -129,7 +124,6 @@ fun AsignaturaCard(
     index: Int,
     onClick: (Long, String) -> Unit
 ) {
-    // Definición de temas de colores (Themes)
     val themes = listOf(
         listOf(Color(0xFFDBEAFE), Color(0xFFEFF6FF)), // Blue
         listOf(Color(0xFFF3E8FF), Color(0xFFFAF5FF)), // Purple
@@ -160,7 +154,7 @@ fun AsignaturaCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp)
-            .clickable { onClick(asignatura.id, asignatura.nombre) }, // Click en toda la tarjeta
+            .clickable { onClick(asignatura.id, asignatura.nombre) },
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Box(
@@ -177,7 +171,6 @@ fun AsignaturaCard(
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // TÍTULO
                 Text(
                     text = asignatura.nombre,
                     style = MaterialTheme.typography.headlineSmall.copy(
@@ -188,7 +181,6 @@ fun AsignaturaCard(
                     textAlign = TextAlign.Center
                 )
 
-                // DIVISOR
                 HorizontalDivider(
                     modifier = Modifier
                         .padding(vertical = 16.dp)
@@ -197,7 +189,6 @@ fun AsignaturaCard(
                     color = borderColor.copy(alpha = 0.6f)
                 )
 
-                // CURSO
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
@@ -231,9 +222,8 @@ fun AsignaturaCard(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // BOTÓN ACCEDER
                 Button(
-                    onClick = { onClick(asignatura.id, asignatura.nombre) }, // Click en el botón
+                    onClick = { onClick(asignatura.id, asignatura.nombre) },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = textColor
                     ),

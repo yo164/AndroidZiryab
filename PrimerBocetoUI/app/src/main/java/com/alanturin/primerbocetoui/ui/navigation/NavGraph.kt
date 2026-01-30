@@ -5,18 +5,45 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.alanturin.primerbocetoui.ui.components.AppFooter
+import com.alanturin.primerbocetoui.ui.components.AppHeader
 
 @Composable
 fun NavGraph() {
     val navController = rememberNavController()
-
     val startDestination = Route.Login
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+    val showBars = currentDestination?.hasRoute<Route.ClasesAlumno>() == true ||
+            currentDestination?.hasRoute<Route.Gestion>() == true
+
 
     Scaffold(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            if (showBars) {
+                AppHeader(
+                    title = "Ziryab",
+                    userName = "Alumno",
+                    onLogout = {
+                        navController.navigate(Route.Login) {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    }
+                )
+            }
+        },
+        bottomBar = {
+            if (showBars) {
+                AppFooter(navController = navController)
+            }
+        }
     ) { innerPadding ->
 
         val contentModifier = Modifier
@@ -34,7 +61,31 @@ fun NavGraph() {
                 }
             )
 
-            clasesAlumnoDestination(contentModifier)
+            clasesAlumnoDestination(
+                modifier = contentModifier,
+                onAsignaturaClick = { id, nombre ->
+                    navController.navigateToTemario(id, nombre)
+                }
+            )
+
+            gestionDestination(
+                modifier = contentModifier,
+                onMenuClick = { /* TODO: Navegación interna de gestión si la necesitas */ }
+            )
+
+            temarioDestination(
+                onBack = {
+                    navController.popBackStack()
+                }
+            )
+
+            fichaUsuarioDestination(modifier = contentModifier)
+
+            horarioDestination(modifier = contentModifier)
+
+            calendarioDestination(modifier = contentModifier)
+
+            tablonDestination(modifier = contentModifier)
         }
     }
 }

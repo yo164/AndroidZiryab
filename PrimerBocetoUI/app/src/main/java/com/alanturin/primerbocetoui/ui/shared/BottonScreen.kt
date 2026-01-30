@@ -1,6 +1,5 @@
-package com.alanturin.primerbocetoui.ui.navegation // Asegúrate de que el package coincida con tu carpeta real (navigation vs navegation)
+package com.alanturin.primerbocetoui.ui.shared
 
-// 👇 ESTOS SON LOS IMPORTS QUE TE FALTABAN
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Settings
