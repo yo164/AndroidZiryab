@@ -14,7 +14,11 @@ import com.alanturin.primerbocetoui.ui.gestion.GestionAcademicaScreen
 import com.alanturin.primerbocetoui.ui.login.LoginScreen
 import kotlinx.serialization.Serializable
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.alanturin.primerbocetoui.ui.UserProfile.FichaUsuarioScreen
 import com.alanturin.primerbocetoui.ui.alumno.TemarioAlumno.TemarioAlumnoScreen
+import com.alanturin.primerbocetoui.ui.calendar.CalendarioScreen
+import com.alanturin.primerbocetoui.ui.horario.HorarioScreen
+import com.alanturin.primerbocetoui.ui.noticeBoard.TablonScreen
 
 @Serializable
 sealed class Route {
@@ -128,11 +132,12 @@ fun NavGraphBuilder.temarioDestination(
     }
 }
 
+// 👇 AQUÍ CONECTAMOS LAS NUEVAS PANTALLAS
 fun NavGraphBuilder.fichaUsuarioDestination(
     modifier: Modifier = Modifier
 ) {
     composable<Route.FichaUsuario> {
-        // TODO: Tu FichaUsuarioScreen aquí
+        FichaUsuarioScreen(modifier = modifier)
     }
 }
 
@@ -140,7 +145,7 @@ fun NavGraphBuilder.horarioDestination(
     modifier: Modifier = Modifier
 ) {
     composable<Route.Horario> {
-        // TODO: Tu HorarioScreen aquí
+        HorarioScreen(modifier = modifier)
     }
 }
 
@@ -148,7 +153,7 @@ fun NavGraphBuilder.calendarioDestination(
     modifier: Modifier = Modifier
 ) {
     composable<Route.Calendario> {
-        // TODO: Tu CalendarioScreen aquí
+        CalendarioScreen(modifier = modifier)
     }
 }
 
@@ -156,7 +161,7 @@ fun NavGraphBuilder.tablonDestination(
     modifier: Modifier = Modifier
 ) {
     composable<Route.Tablon> {
-        // TODO: Tu TablonScreen aquí
+        TablonScreen(modifier = modifier)
     }
 }
 

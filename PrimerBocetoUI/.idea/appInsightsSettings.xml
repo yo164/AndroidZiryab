@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.alanturin.primerbocetoui" />
+                  <option name="mobileSdkAppId" value="1:708163806772:android:62d6c1bda9dbb4a3c14c61" />
+                  <option name="projectId" value="ziryab-7006e" />
+                  <option name="projectNumber" value="708163806772" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

@@ -20,6 +20,15 @@ fun NavGraph() {
     val startDestination = Route.Login
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+    val currentTitle = when {
+        currentDestination?.hasRoute<Route.ClasesAlumno>() == true -> "Mis Asignaturas"
+        currentDestination?.hasRoute<Route.Gestion>() == true -> "Gestión"
+        currentDestination?.hasRoute<Route.Horario>() == true -> "Horario"
+        currentDestination?.hasRoute<Route.Calendario>() == true -> "Agenda"
+        currentDestination?.hasRoute<Route.Tablon>() == true -> "Tablón"
+        currentDestination?.hasRoute<Route.FichaUsuario>() == true -> "Mi Perfil"
+        else -> "Ziryab"
+    }
     val showBars = currentDestination?.hasRoute<Route.ClasesAlumno>() == true ||
             currentDestination?.hasRoute<Route.Gestion>() == true
 
@@ -70,7 +79,14 @@ fun NavGraph() {
 
             gestionDestination(
                 modifier = contentModifier,
-                onMenuClick = { /* TODO: Navegación interna de gestión si la necesitas */ }
+                onMenuClick = { id ->
+                    when(id) {
+                        1L -> navController.navigateToFichaUsuario()
+                        2L -> navController.navigateToHorario()
+                        3L -> navController.navigateToCalendario()
+                        4L -> navController.navigateToTablon()
+                    }
+                }
             )
 
             temarioDestination(
