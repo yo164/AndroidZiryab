@@ -70,7 +70,14 @@ fun NavGraph() {
 
             gestionDestination(
                 modifier = contentModifier,
-                onMenuClick = { /* TODO: Navegación interna de gestión si la necesitas */ }
+                onMenuClick = { id ->
+                    when (id) {
+                        1L -> navController.navigateToFichaUsuario()
+                        2L -> navController.navigateToHorario()
+                        3L -> navController.navigateToCalendario()
+                        4L -> navController.navigateToTablon()
+                    }
+                }
             )
 
             temarioDestination(

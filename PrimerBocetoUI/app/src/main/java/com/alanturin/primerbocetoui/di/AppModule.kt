@@ -16,6 +16,9 @@ import com.alanturin.primerbocetoui.data.remote.ClasesAlumnoApi
 import com.alanturin.primerbocetoui.data.remote.ClasesAlumnoRemoteDataSource
 import com.alanturin.primerbocetoui.domain.repository.ClasesAlumnoRepository
 import com.alanturin.primerbocetoui.data.repository.ClasesAlumnoRepositoryImpl
+import com.alanturin.primerbocetoui.data.remote.CalendarApi
+import com.alanturin.primerbocetoui.data.repository.CalendarRepositoryImpl
+import com.alanturin.primerbocetoui.domain.repository.CalendarRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -33,6 +36,12 @@ abstract class AppModule {
     abstract fun bindClasesRepository(
         clasesRepositoryImpl: ClasesProfesorRepositoryImpl
     ): ClasesProfesorRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindCalendarRepository(
+        calendarRepositoryImpl: CalendarRepositoryImpl
+    ): CalendarRepository
 
 
     companion object {
@@ -62,6 +71,12 @@ abstract class AppModule {
         @Singleton
         fun provideFirebaseAuth(): com.google.firebase.auth.FirebaseAuth {
             return com.google.firebase.auth.FirebaseAuth.getInstance()
+        }
+
+        @Provides
+        @Singleton
+        fun provideCalendarApi(retrofit: Retrofit): CalendarApi {
+            return retrofit.create(CalendarApi::class.java)
         }
     }
 

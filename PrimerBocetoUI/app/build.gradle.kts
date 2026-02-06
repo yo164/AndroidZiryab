@@ -102,4 +102,7 @@ dependencies {
     // FIREBASE
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
+
+    // Calendar
+    implementation(libs.calendar.compose)
 }

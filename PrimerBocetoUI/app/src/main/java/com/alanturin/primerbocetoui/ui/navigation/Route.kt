@@ -132,7 +132,7 @@ fun NavGraphBuilder.fichaUsuarioDestination(
     modifier: Modifier = Modifier
 ) {
     composable<Route.FichaUsuario> {
-        // TODO: Tu FichaUsuarioScreen aquí
+        // TODO: FichaUsuarioScreen aquí
     }
 }
 
@@ -140,7 +140,7 @@ fun NavGraphBuilder.horarioDestination(
     modifier: Modifier = Modifier
 ) {
     composable<Route.Horario> {
-        // TODO: Tu HorarioScreen aquí
+        // TODO: HorarioScreen aquí
     }
 }
 
@@ -148,7 +148,7 @@ fun NavGraphBuilder.calendarioDestination(
     modifier: Modifier = Modifier
 ) {
     composable<Route.Calendario> {
-        // TODO: Tu CalendarioScreen aquí
+        com.alanturin.primerbocetoui.ui.calendario.CalendarioScreen(modifier = modifier)
     }
 }
 
@@ -156,7 +156,7 @@ fun NavGraphBuilder.tablonDestination(
     modifier: Modifier = Modifier
 ) {
     composable<Route.Tablon> {
-        // TODO: Tu TablonScreen aquí
+        // TODO: TablonScreen aquí
     }
 }
 
