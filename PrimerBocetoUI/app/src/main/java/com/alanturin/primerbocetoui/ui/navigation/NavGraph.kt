@@ -13,6 +13,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.alanturin.primerbocetoui.ui.components.AppFooter
 import com.alanturin.primerbocetoui.ui.components.AppHeader
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun NavGraph() {
@@ -32,8 +33,13 @@ fun NavGraph() {
                     title = "Ziryab",
                     userName = "Alumno",
                     onLogout = {
+                        FirebaseAuth.getInstance().signOut()
+
                         navController.navigate(Route.Login) {
-                            popUpTo(0) { inclusive = true }
+                            popUpTo(navController.graph.startDestinationId) {
+                                inclusive = true
+                            }
+                            launchSingleTop = true
                         }
                     }
                 )
