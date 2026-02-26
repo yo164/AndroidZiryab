@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 
 @Composable
 fun LoginScreen(
-    onLoginClick: (email: String, password: String) -> Unit,
+    onLoginSuccess: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val isLoading by viewModel.isLoading.collectAsState()
@@ -30,7 +30,7 @@ fun LoginScreen(
 
     LaunchedEffect(loginSuccess) {
         if (loginSuccess) {
-            onLoginClick(email, password)
+            onLoginSuccess()
         }
     }
 

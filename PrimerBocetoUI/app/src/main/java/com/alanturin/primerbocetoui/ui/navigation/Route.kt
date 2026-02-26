@@ -79,11 +79,7 @@ fun NavGraphBuilder.loginDestination(
 ) {
     composable<Route.Login> {
         LoginScreen(
-            onLoginClick = { email: String, password: String ->
-                if (email.isNotBlank() && password.isNotBlank()) {
-                    onLoginSuccess()
-                }
-            }
+            onLoginSuccess = onLoginSuccess
         )
     }
 }

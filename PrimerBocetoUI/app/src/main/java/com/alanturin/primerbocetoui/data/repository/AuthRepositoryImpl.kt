@@ -1,6 +1,7 @@
 package com.alanturin.primerbocetoui.data.repository
 
 import com.alanturin.primerbocetoui.domain.repository.AuthRepository
+import com.alanturin.primerbocetoui.data.remote.model.LoginRequest
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -16,7 +17,7 @@ class AuthRepositoryImpl @Inject constructor(
             val user = authResult.user ?: throw Exception("Error en Firebase Auth: Usuario nulo")
             val firebaseUID = user.uid
 
-            val request = com.alanturin.primerbocetoui.data.remote.model.LoginRequest(
+            val request = LoginRequest(
                 email = email,
                 password = pass,
                 firebaseUID = firebaseUID
