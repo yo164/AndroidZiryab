@@ -5,14 +5,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.alanturin.primerbocetoui.ui.components.AppFooter
 import com.alanturin.primerbocetoui.ui.components.AppHeader
+import com.alanturin.primerbocetoui.ui.login.LoginViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
@@ -21,8 +24,13 @@ fun NavGraph() {
     val startDestination = Route.Login
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+
+    val loginViewModel: LoginViewModel = hiltViewModel()
+    val userRole by loginViewModel.userRole.collectAsState()
+
     val showBars = currentDestination?.hasRoute<Route.ClasesAlumno>() == true ||
-            currentDestination?.hasRoute<Route.Gestion>() == true
+            currentDestination?.hasRoute<Route.Gestion>() == true ||
+            currentDestination?.hasRoute<Route.Groups>() == true
 
 
     Scaffold(
@@ -63,8 +71,13 @@ fun NavGraph() {
             loginDestination(
                 modifier = contentModifier,
                 onLoginSuccess = {
-                    navController.navigateToClasesAlumno()
+                    if (userRole == "TEACHER") {
+                        navController.navigateToClasesProfesor()
+                    } else {
+                        navController.navigateToClasesAlumno()
+                    }
                 }
+
             )
 
             clasesAlumnoDestination(
@@ -82,6 +95,7 @@ fun NavGraph() {
                         2L -> navController.navigateToHorario()
                         3L -> navController.navigateToCalendario()
                         4L -> navController.navigateToTablon()
+                        5L -> navController.navigateToGroups()
                     }
                 }
             )
@@ -99,6 +113,11 @@ fun NavGraph() {
             calendarioDestination(modifier = contentModifier)
 
             tablonDestination(modifier = contentModifier)
+
+            groupsDestination(modifier = contentModifier)
+
+            clasesProfesorDestination(modifier = contentModifier)
+
         }
     }
 }

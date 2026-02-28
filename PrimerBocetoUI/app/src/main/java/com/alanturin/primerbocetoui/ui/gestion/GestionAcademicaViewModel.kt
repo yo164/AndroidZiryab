@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -72,6 +73,14 @@ class GestionAcademicaViewModel @Inject constructor(
                 backgroundColor = Color(0xFFFCE7F3),
                 borderColor = Color(0xFF936E9D),
                 iconColor = Color(0xFFFF6881)
+            ),
+            GestionItemUiState(
+                id = 5,
+                titleResId = com.alanturin.primerbocetoui.R.string.menu_groups,
+                icon = Icons.Default.Group,
+                backgroundColor = Color(0xFFDBEAFE),
+                borderColor = Color(0xFF93C5FD),
+                iconColor = Color(0xFF3B82F6)
             )
         )
     }

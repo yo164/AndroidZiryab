@@ -15,6 +15,8 @@ import com.alanturin.primerbocetoui.ui.login.LoginScreen
 import kotlinx.serialization.Serializable
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.alanturin.primerbocetoui.ui.alumno.TemarioAlumno.TemarioAlumnoScreen
+import com.alanturin.primerbocetoui.ui.group.GroupScreen
+import com.alanturin.primerbocetoui.ui.profesor.ClasesProfesorScreen
 
 @Serializable
 sealed class Route {
@@ -41,6 +43,17 @@ sealed class Route {
 
     @Serializable
     data object Tablon : Route()
+
+    @Serializable
+    data object Groups : Route()
+
+    /**
+     * Ruta de la pantalla de asignaturas del profesor.
+     */
+    @Serializable
+    data object ClasesProfesor : Route()
+
+
 }
 
 fun NavController.navigateToClasesAlumno() {
@@ -73,6 +86,17 @@ fun NavController.navigateToTablon() {
     this.navigate(Route.Tablon)
 }
 
+/**
+ * Navega a la pantalla de asignaturas del profesor
+ * eliminando la pantalla de login de la pila de navegación.
+ */
+fun NavController.navigateToClasesProfesor() {
+    this.navigate(Route.ClasesProfesor) {
+        popUpTo(Route.Login) { inclusive = true }
+    }
+}
+
+
 fun NavGraphBuilder.loginDestination(
     modifier: Modifier = Modifier,
     onLoginSuccess: () -> Unit
@@ -97,6 +121,17 @@ fun NavGraphBuilder.clasesAlumnoDestination(
             viewModel = hiltViewModel(),
             onAsignaturaClick = onAsignaturaClick
         )
+    }
+}
+
+/**
+ * Define el destino de navegación para la pantalla de asignaturas del profesor.
+ */
+fun NavGraphBuilder.clasesProfesorDestination(
+    modifier: Modifier = Modifier
+) {
+    composable<Route.ClasesProfesor> {
+        ClasesProfesorScreen()
     }
 }
 
@@ -157,6 +192,18 @@ fun NavGraphBuilder.tablonDestination(
 ) {
     composable<Route.Tablon> {
         // TODO: TablonScreen aquí
+    }
+}
+
+fun NavController.navigateToGroups() {
+    this.navigate(Route.Groups)
+}
+
+fun NavGraphBuilder.groupsDestination(
+    modifier: Modifier = Modifier
+) {
+    composable<Route.Groups> {
+        GroupScreen()
     }
 }
 

@@ -11,6 +11,8 @@
     <string name="menu_horario">Horario</string>
     <string name="menu_calendario">Calendario</string>
     <string name="menu_tablon">Tablón</string>
+    <string name="menu_groups">Grupos</string>
+
 
     <!-- Content Descriptions -->
     <string name="cd_ficha_usuario">Icono de perfil de usuario</string>

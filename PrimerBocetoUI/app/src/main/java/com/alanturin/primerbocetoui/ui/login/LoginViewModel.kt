@@ -24,19 +24,25 @@ class LoginViewModel @Inject constructor(
     private val _loginSuccess = MutableStateFlow(false)
     val loginSuccess: StateFlow<Boolean> = _loginSuccess.asStateFlow()
 
+    /**
+     * Rol del usuario autenticado: "TEACHER", "STUDENT" o "ADMIN".
+     * */
+    private val _userRole = MutableStateFlow<String?>(null)
+    val userRole: StateFlow<String?> = _userRole.asStateFlow()
+
     fun login(email: String, pass: String) {
         viewModelScope.launch {
             _isLoading.value = true
             _error.value = null
             
             val result = authRepository.login(email, pass)
-            
-            result.onSuccess {
-                _loginSuccess.value = true
-            }.onFailure { exception ->
-                _error.value = exception.message ?: "Error al iniciar sesión"
-            }
 
+            if (result.isSuccess) {
+                _userRole.value = result.getOrNull()
+                _loginSuccess.value = true
+            } else {
+                _error.value = result.exceptionOrNull()?.message ?: "Error al iniciar sesión"
+            }
             _isLoading.value = false
         }
     }

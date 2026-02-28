@@ -1,5 +1,6 @@
 package com.alanturin.primerbocetoui.data.repository
 
+import com.alanturin.primerbocetoui.data.remote.model.LoginRequest
 import com.alanturin.primerbocetoui.domain.repository.AuthRepository
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.tasks.await
@@ -10,22 +11,38 @@ class AuthRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth
 ) : AuthRepository {
 
-    override suspend fun login(email: String, pass: String): Result<Boolean> {
+    /**
+     * Autentica al usuario contra Firebase Auth y el backend Ziryab.
+     *
+     * @param email Correo electrónico del usuario.
+     * @param pass Contraseña del usuario.
+     * @return [Result] con el rol del usuario si el login es exitoso, o excepción si falla.
+     */
+    override suspend fun login(email: String, pass: String): Result<String> {
         return try {
             val authResult = auth.signInWithEmailAndPassword(email, pass).await()
-            val user = authResult.user ?: throw Exception("Error en Firebase Auth: Usuario nulo")
-            val firebaseUID = user.uid
+            val user = authResult.user
 
-            val request = com.alanturin.primerbocetoui.data.remote.model.LoginRequest(
+            if (user == null) {
+                throw Exception("Usuario nulo")
+            }
+
+            val firebaseUID = user.uid
+            val request = LoginRequest(
                 email = email,
                 password = pass,
                 firebaseUID = firebaseUID
             )
-            
+
             val response = api.login(request)
 
             if (response.isSuccessful) {
-                Result.success(true)
+                val body = response.body()
+                if (body == null) {
+                    throw Exception("Body vacío")
+                }
+                val role = body.data.role
+                Result.success(role)
             } else {
                 auth.signOut()
                 Result.failure(Exception("Error en servidor Ziryab: ${response.code()}"))
