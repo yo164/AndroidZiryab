@@ -2,8 +2,9 @@ package com.alanturin.primerbocetoui.ui.profesor
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alanturin.primerbocetoui.data.remote.model.Asignatura
+import com.alanturin.primerbocetoui.domain.model.Asignatura
 import com.alanturin.primerbocetoui.data.repository.ClasesProfesorRepository
+import com.alanturin.primerbocetoui.ui.session.AssignmentSessionService
 import com.alanturin.primerbocetoui.ui.session.SessionViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ClasesProfesorViewModel @Inject constructor(
     private val repository: ClasesProfesorRepository,
-    private val sessionViewModel: SessionViewModel
+    private val sessionViewModel: SessionViewModel,
+    private val assignmentSessionService: AssignmentSessionService
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
@@ -43,6 +45,14 @@ class ClasesProfesorViewModel @Inject constructor(
                 _uiState.value = UiState.Error("No hay sesión activa")
             }
         }
+
+
+    }
+
+    fun seleccionarAsignatura(asignatura: Asignatura) {
+        android.util.Log.d("ZIRYAB", "idSubject: ${asignatura.idSubject}, idGroup: ${asignatura.idGroup}")
+
+        assignmentSessionService.saveCurrentAssignment(asignatura.idSubject, asignatura.idGroup)
     }
 
     // Estados de la vista (Loading, Error, Success) como en tu HTML @if

@@ -2,7 +2,7 @@ package com.alanturin.primerbocetoui.ui.alumno
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alanturin.primerbocetoui.data.remote.model.Asignatura
+import com.alanturin.primerbocetoui.domain.model.Asignatura
 import com.alanturin.primerbocetoui.domain.repository.ClasesAlumnoRepository
 import com.alanturin.primerbocetoui.ui.session.SessionViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

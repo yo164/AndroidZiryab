@@ -30,7 +30,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.alanturin.primerbocetoui.data.remote.model.Asignatura
+import com.alanturin.primerbocetoui.domain.model.Asignatura
 
 @Composable
 fun ClasesProfesorScreen(
@@ -75,7 +75,13 @@ fun ClasesProfesorScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(ui.asignaturas) { asignatura ->
-                        AsignaturaCard(asignatura, onGestionar)
+                        AsignaturaCard(
+                            asignatura = asignatura,
+                            onGestionar = {
+                                viewModel.seleccionarAsignatura(asignatura)
+                                onGestionar()
+                            }
+                        )
                     }
                 }
             }
@@ -139,7 +145,9 @@ fun AsignaturaCard(asignatura: Asignatura, onGestionar: () -> Unit) {
 
             // Botón Gestionar
             Button(
-                onClick = { onGestionar() },
+                onClick = {
+                    onGestionar()
+                },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3B82F6)) // blue-500
             ) {

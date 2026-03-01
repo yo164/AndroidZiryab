@@ -1,7 +1,7 @@
 package com.alanturin.primerbocetoui.data.repository
 
 import com.alanturin.primerbocetoui.data.remote.ClasesAlumnoRemoteDataSource
-import com.alanturin.primerbocetoui.data.remote.model.Asignatura
+import com.alanturin.primerbocetoui.domain.model.Asignatura
 import com.alanturin.primerbocetoui.data.remote.model.toDomain
 import com.alanturin.primerbocetoui.domain.repository.ClasesAlumnoRepository
 import javax.inject.Inject

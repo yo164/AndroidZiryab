@@ -32,7 +32,8 @@ fun NavGraph() {
             currentDestination?.hasRoute<Route.Gestion>() == true ||
             currentDestination?.hasRoute<Route.Groups>() == true ||
             currentDestination?.hasRoute<Route.ClasesProfesor>() == true||
-            currentDestination?.hasRoute<Route.GestionClases>() == true
+            currentDestination?.hasRoute<Route.GestionClases>() == true ||
+            currentDestination?.hasRoute<Route.Task>() == true
 
 
     Scaffold(
@@ -126,9 +127,12 @@ fun NavGraph() {
             )
             gestionClasesDestination(
                 modifier = contentModifier,
-                onNavigateToTasks = { /* TODO */ },
+                onNavigateToTasks = {  navController.navigateToTask() },
                 onNavigateToListaAlumnos = { /* TODO */ }
             )
+
+            taskDestination(modifier = contentModifier)
+
 
         }
     }

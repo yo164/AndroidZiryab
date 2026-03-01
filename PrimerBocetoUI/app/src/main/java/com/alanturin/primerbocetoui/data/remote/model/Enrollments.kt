@@ -1,7 +1,19 @@
 package com.alanturin.primerbocetoui.data.remote.model
 
-data class Enrollments (
-    val id: Int,
-    val studentId: Int
 
+data class EnrollmentListRemote(
+    val success: Boolean,
+    val data: List<EnrollmentItemRemote>,
+    val count: Int
 )
+
+data class EnrollmentItemRemote(
+    val id: Int,
+    val idStudent: Int,
+    val idGroup: Int,
+    val idSubject: Int,
+    val schoolYear: String,
+    val status: String,
+    val student: Student
+)
+

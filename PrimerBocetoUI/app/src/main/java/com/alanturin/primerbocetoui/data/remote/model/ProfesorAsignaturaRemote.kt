@@ -1,5 +1,7 @@
 package com.alanturin.primerbocetoui.data.remote.model
 
+import com.alanturin.primerbocetoui.domain.model.Asignatura
+
 data class AsignaturaListRemote(
     val success: Boolean,
     val data: List<AsignaturaItemRemote>,
@@ -33,8 +35,11 @@ data class GroupDataRemote(
 
 fun AsignaturaItemRemote.toExternal(): Asignatura {
     return Asignatura(
-        id = this.subject.id.toLong(),
+        id = this.id.toLong(),
+        idSubject = this.subject.id,
+        idGroup = this.group.id,
         nombre = this.subject.name,
+        grade = this.subject.grade,
         curso = "${this.subject.course.name} - ${this.group.name}"
     )
 }

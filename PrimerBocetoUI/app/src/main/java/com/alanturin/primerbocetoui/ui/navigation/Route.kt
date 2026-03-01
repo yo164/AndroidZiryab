@@ -14,11 +14,12 @@ import com.alanturin.primerbocetoui.ui.gestion.GestionAcademicaScreen
 import com.alanturin.primerbocetoui.ui.login.LoginScreen
 import kotlinx.serialization.Serializable
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.alanturin.primerbocetoui.data.remote.model.Asignatura
+import com.alanturin.primerbocetoui.domain.model.Asignatura
 import com.alanturin.primerbocetoui.ui.alumno.TemarioAlumno.TemarioAlumnoScreen
 import com.alanturin.primerbocetoui.ui.group.GroupScreen
 import com.alanturin.primerbocetoui.ui.profesor.ClasesProfesorScreen
 import com.alanturin.primerbocetoui.ui.profesor.gestionclases.GestionClasesScreen
+import com.alanturin.primerbocetoui.ui.profesor.tasks.TaskScreen
 
 @Serializable
 sealed class Route {
@@ -60,6 +61,12 @@ sealed class Route {
      */
     @Serializable
     data object GestionClases : Route()
+
+    /**
+     * Ruta de la pantalla de Tasks
+     * */
+    @Serializable
+    data object Task : Route()
 
 
 }
@@ -109,6 +116,13 @@ fun NavController.navigateToClasesProfesor() {
  */
 fun NavController.navigateToGestionClases() {
     this.navigate(Route.GestionClases)
+}
+
+/**
+ * Navega a la pantalla de Tasks
+ */
+fun NavController.navigateToTask() {
+    this.navigate(Route.Task)
 }
 
 fun NavGraphBuilder.loginDestination(
@@ -165,6 +179,17 @@ fun NavGraphBuilder.gestionClasesDestination(
             onNavigateToTasks = onNavigateToTasks,
             onNavigateToListaAlumnos = onNavigateToListaAlumnos
         )
+    }
+}
+
+/**
+ * Define el destino de navegación para la pantalla de Tasks
+ */
+fun NavGraphBuilder.taskDestination(
+    modifier: Modifier = Modifier
+) {
+    composable<Route.Task> {
+        TaskScreen()
     }
 }
 // NUEVO DESTINATION PARA GESTIÓN
