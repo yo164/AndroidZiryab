@@ -21,11 +21,17 @@ import com.alanturin.primerbocetoui.data.remote.ClasesAlumnoRemoteDataSource
 import com.alanturin.primerbocetoui.domain.repository.ClasesAlumnoRepository
 import com.alanturin.primerbocetoui.data.repository.ClasesAlumnoRepositoryImpl
 import com.alanturin.primerbocetoui.data.remote.CalendarApi
+import com.alanturin.primerbocetoui.data.remote.EnrollmentApi
 import com.alanturin.primerbocetoui.data.remote.GroupApi
 import com.alanturin.primerbocetoui.data.remote.GroupRemoteDataSource
+import com.alanturin.primerbocetoui.data.remote.WeekScheduleApi
 import com.alanturin.primerbocetoui.data.repository.CalendarRepositoryImpl
+import com.alanturin.primerbocetoui.data.repository.EnrollmentRepository
+import com.alanturin.primerbocetoui.data.repository.EnrollmentRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.GroupRepository
 import com.alanturin.primerbocetoui.data.repository.GroupRepositoryImpl
+import com.alanturin.primerbocetoui.data.repository.WeekScheduleRepository
+import com.alanturin.primerbocetoui.data.repository.WeekScheduleRepositoryImpl
 import com.alanturin.primerbocetoui.domain.repository.CalendarRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 
@@ -58,7 +64,14 @@ abstract class AppModule {
         groupRepositoryImpl: GroupRepositoryImpl
     ): GroupRepository
 
+    @Binds
+    @Singleton
+    abstract fun bindEnrollmentRepository(impl: EnrollmentRepositoryImpl): EnrollmentRepository
 
+
+    @Binds
+    @Singleton
+    abstract fun bindWeekScheduleRepository(impl: WeekScheduleRepositoryImpl): WeekScheduleRepository
     companion object {
 
         @Provides
@@ -121,6 +134,14 @@ abstract class AppModule {
         fun provideGroupDao(database: AppDatabase): GroupDao {
             return database.groupDao()
         }
+
+        @Provides
+        @Singleton
+        fun provideEnrollmentApi(retrofit: Retrofit): EnrollmentApi = retrofit.create(EnrollmentApi::class.java)
+
+        @Provides
+        @Singleton
+        fun provideWeekScheduleApi(retrofit: Retrofit): WeekScheduleApi = retrofit.create(WeekScheduleApi::class.java)
     }
 
     @Binds

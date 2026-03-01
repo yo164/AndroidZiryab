@@ -47,18 +47,18 @@ fun AlumnoCard(
         ) {
             Text(
                 text = "$nombre $apellidos",
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.weight(1f)
             )
 
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 Button(
                     onClick = { asistencia = "F" },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (asistencia == "F") Color.Red else Color.LightGray
                     )
                 ) {
-                    Text("F", fontSize = 18.sp)
+                    Text("F", fontSize = 16.sp)
                 }
 
                 Button(
@@ -67,7 +67,7 @@ fun AlumnoCard(
                         containerColor = if (asistencia == "R") Color(0xFFFFA500) else Color.LightGray
                     )
                 ) {
-                    Text("R", fontSize = 18.sp)
+                    Text("R", fontSize = 16.sp)
                 }
 
                 Button(
@@ -76,7 +76,7 @@ fun AlumnoCard(
                         containerColor = if (asistencia == "A") Color(0xFF4CAF50) else Color.LightGray
                     )
                 ) {
-                    Text("A", fontSize = 18.sp)
+                    Text("A", fontSize = 16.sp)
                 }
             }
         }

@@ -17,8 +17,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.alanturin.primerbocetoui.domain.model.Asignatura
 import com.alanturin.primerbocetoui.ui.alumno.TemarioAlumno.TemarioAlumnoScreen
 import com.alanturin.primerbocetoui.ui.group.GroupScreen
+import com.alanturin.primerbocetoui.ui.horario.HorarioScreen
 import com.alanturin.primerbocetoui.ui.profesor.ClasesProfesorScreen
 import com.alanturin.primerbocetoui.ui.profesor.gestionclases.GestionClasesScreen
+import com.alanturin.primerbocetoui.ui.profesor.listaAlumnos.AlumnoListScreen
 import com.alanturin.primerbocetoui.ui.profesor.tasks.TaskScreen
 
 @Serializable
@@ -68,6 +70,11 @@ sealed class Route {
     @Serializable
     data object Task : Route()
 
+    /**
+     * Ruta dela pantalla de alumnos para pasar lista
+     */
+    @Serializable
+    data object AlumnoList: Route()
 
 }
 
@@ -123,6 +130,14 @@ fun NavController.navigateToGestionClases() {
  */
 fun NavController.navigateToTask() {
     this.navigate(Route.Task)
+}
+
+/**
+ * Navega a la pantalla de listaalumnos para pasar lista
+ */
+
+fun NavController.navigateToAlumnoList() {
+    this.navigate(Route.AlumnoList)
 }
 
 fun NavGraphBuilder.loginDestination(
@@ -192,6 +207,17 @@ fun NavGraphBuilder.taskDestination(
         TaskScreen()
     }
 }
+
+/**
+ * Define el destino de navegación para la pantalla de AlumnoList
+ */
+fun NavGraphBuilder.alumnoListDestination(
+    modifier: Modifier = Modifier
+) {
+    composable<Route.AlumnoList> {
+        AlumnoListScreen( modifier = modifier)
+    }
+}
 // NUEVO DESTINATION PARA GESTIÓN
 fun NavGraphBuilder.gestionDestination(
     modifier: Modifier = Modifier,
@@ -232,7 +258,7 @@ fun NavGraphBuilder.horarioDestination(
     modifier: Modifier = Modifier
 ) {
     composable<Route.Horario> {
-        // TODO: HorarioScreen aquí
+        HorarioScreen()
     }
 }
 

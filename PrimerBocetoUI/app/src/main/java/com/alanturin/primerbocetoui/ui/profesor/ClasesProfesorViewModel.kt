@@ -50,9 +50,9 @@ class ClasesProfesorViewModel @Inject constructor(
     }
 
     fun seleccionarAsignatura(asignatura: Asignatura) {
-        android.util.Log.d("ZIRYAB", "idSubject: ${asignatura.idSubject}, idGroup: ${asignatura.idGroup}")
+        android.util.Log.d("ZIRYAB", "idSubject: ${asignatura.idSubject}, idGroup: ${asignatura.idGroup}, idAssingment: ${asignatura.id}")
 
-        assignmentSessionService.saveCurrentAssignment(asignatura.idSubject, asignatura.idGroup)
+        assignmentSessionService.saveCurrentAssignment(asignatura.idSubject, asignatura.idGroup, asignatura.id)
     }
 
     // Estados de la vista (Loading, Error, Success) como en tu HTML @if
