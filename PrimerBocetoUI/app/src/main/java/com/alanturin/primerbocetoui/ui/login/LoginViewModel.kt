@@ -3,6 +3,7 @@ package com.alanturin.primerbocetoui.ui.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alanturin.primerbocetoui.domain.repository.AuthRepository
+import com.alanturin.primerbocetoui.ui.session.SessionViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val sessionViewModel: SessionViewModel
 ) : ViewModel() {
 
     private val _isLoading = MutableStateFlow(false)
@@ -38,7 +40,16 @@ class LoginViewModel @Inject constructor(
             val result = authRepository.login(email, pass)
 
             if (result.isSuccess) {
-                _userRole.value = result.getOrNull()
+                // CAMBIADO: antes getOrNull() devolvía un String con el rol
+                // ahora devuelve LoginData completo con id, role, email...
+                val loginData = result.getOrNull()
+                if (loginData != null) {
+                    // NUEVO: guardamos id y rol en SessionViewModel para que
+                    // ClasesProfesorViewModel y otras pantallas puedan acceder al id del usuario
+                    sessionViewModel.saveSession(loginData.id, loginData.role)
+                    // mantenemos el rol aquí para que el NavGraph navegue correctamente
+                    _userRole.value = loginData.role
+                }
                 _loginSuccess.value = true
             } else {
                 _error.value = result.exceptionOrNull()?.message ?: "Error al iniciar sesión"

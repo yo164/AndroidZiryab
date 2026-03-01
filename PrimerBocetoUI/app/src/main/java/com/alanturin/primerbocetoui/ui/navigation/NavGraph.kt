@@ -30,7 +30,9 @@ fun NavGraph() {
 
     val showBars = currentDestination?.hasRoute<Route.ClasesAlumno>() == true ||
             currentDestination?.hasRoute<Route.Gestion>() == true ||
-            currentDestination?.hasRoute<Route.Groups>() == true
+            currentDestination?.hasRoute<Route.Groups>() == true ||
+            currentDestination?.hasRoute<Route.ClasesProfesor>() == true||
+            currentDestination?.hasRoute<Route.GestionClases>() == true
 
 
     Scaffold(
@@ -70,14 +72,14 @@ fun NavGraph() {
         ) {
             loginDestination(
                 modifier = contentModifier,
-                onLoginSuccess = {
+                onLoginSuccess = { userRole ->
+                    android.util.Log.d("ZIRYAB", "Rol al navegar: $userRole")
                     if (userRole == "TEACHER") {
                         navController.navigateToClasesProfesor()
                     } else {
                         navController.navigateToClasesAlumno()
                     }
                 }
-
             )
 
             clasesAlumnoDestination(
@@ -116,7 +118,17 @@ fun NavGraph() {
 
             groupsDestination(modifier = contentModifier)
 
-            clasesProfesorDestination(modifier = contentModifier)
+            clasesProfesorDestination(
+                modifier = contentModifier,
+                onGestionar = {
+                    navController.navigateToGestionClases()
+                }
+            )
+            gestionClasesDestination(
+                modifier = contentModifier,
+                onNavigateToTasks = { /* TODO */ },
+                onNavigateToListaAlumnos = { /* TODO */ }
+            )
 
         }
     }

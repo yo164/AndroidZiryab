@@ -32,7 +32,7 @@ fun ClasesAlumnoScreen(
     val error by viewModel.error.collectAsState()
 
     LaunchedEffect(true) {
-        viewModel.cargarClases(2L)
+        viewModel.cargarClases()
     }
 
     Scaffold(

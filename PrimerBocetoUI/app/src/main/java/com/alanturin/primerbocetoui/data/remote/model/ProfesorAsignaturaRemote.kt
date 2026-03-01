@@ -1,33 +1,40 @@
 package com.alanturin.primerbocetoui.data.remote.model
 
-import com.google.gson.annotations.SerializedName
-
 data class AsignaturaListRemote(
-    @SerializedName("items")
-    val items: List<AsignaturaItemRemote>
+    val success: Boolean,
+    val data: List<AsignaturaItemRemote>,
+    val count: Int
 )
 
 data class AsignaturaItemRemote(
-    @SerializedName("subject")
-    val subject: SubjectDataRemote
+    val id: Int,
+    val schoolYear: String,
+    val status: String,
+    val subject: SubjectDataRemote,
+    val group: GroupDataRemote
 )
 
 data class SubjectDataRemote(
-    val id: Long,
+    val id: Int,
     val name: String,
-    @SerializedName("course")
-    val course: CourseDataRemote?
+    val grade: String,
+    val course: CourseDataRemote
 )
 
 data class CourseDataRemote(
-    val id: Long?,
-    val name: String?
+    val id: Int,
+    val name: String
+)
+
+data class GroupDataRemote(
+    val id: Int,
+    val name: String
 )
 
 fun AsignaturaItemRemote.toExternal(): Asignatura {
     return Asignatura(
-        id = this.subject.id,
-        nombre = this.subject.name, // Aquí ya no será null
-        curso = this.subject.course?.name ?: "Sin curso asignado"
+        id = this.subject.id.toLong(),
+        nombre = this.subject.name,
+        curso = "${this.subject.course.name} - ${this.group.name}"
     )
 }

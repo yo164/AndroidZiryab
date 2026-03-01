@@ -14,9 +14,11 @@ import com.alanturin.primerbocetoui.ui.gestion.GestionAcademicaScreen
 import com.alanturin.primerbocetoui.ui.login.LoginScreen
 import kotlinx.serialization.Serializable
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.alanturin.primerbocetoui.data.remote.model.Asignatura
 import com.alanturin.primerbocetoui.ui.alumno.TemarioAlumno.TemarioAlumnoScreen
 import com.alanturin.primerbocetoui.ui.group.GroupScreen
 import com.alanturin.primerbocetoui.ui.profesor.ClasesProfesorScreen
+import com.alanturin.primerbocetoui.ui.profesor.gestionclases.GestionClasesScreen
 
 @Serializable
 sealed class Route {
@@ -52,6 +54,12 @@ sealed class Route {
      */
     @Serializable
     data object ClasesProfesor : Route()
+
+    /**
+     * Ruta de la pantalla de gestión de clases del profesor.
+     */
+    @Serializable
+    data object GestionClases : Route()
 
 
 }
@@ -96,16 +104,22 @@ fun NavController.navigateToClasesProfesor() {
     }
 }
 
+/**
+ * Navega a la pantalla de gestión de clases.
+ */
+fun NavController.navigateToGestionClases() {
+    this.navigate(Route.GestionClases)
+}
 
 fun NavGraphBuilder.loginDestination(
     modifier: Modifier = Modifier,
-    onLoginSuccess: () -> Unit
+    onLoginSuccess: (role: String) -> Unit
 ) {
     composable<Route.Login> {
         LoginScreen(
-            onLoginClick = { email: String, password: String ->
+            onLoginClick = { email: String, password: String, role: String ->
                 if (email.isNotBlank() && password.isNotBlank()) {
-                    onLoginSuccess()
+                    onLoginSuccess(role)
                 }
             }
         )
@@ -128,13 +142,31 @@ fun NavGraphBuilder.clasesAlumnoDestination(
  * Define el destino de navegación para la pantalla de asignaturas del profesor.
  */
 fun NavGraphBuilder.clasesProfesorDestination(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onGestionar: () -> Unit
 ) {
     composable<Route.ClasesProfesor> {
-        ClasesProfesorScreen()
+        ClasesProfesorScreen(
+            onGestionar = onGestionar
+        )
     }
 }
 
+/**
+ * Define el destino de navegación para la pantalla de gestión de clases.
+ */
+fun NavGraphBuilder.gestionClasesDestination(
+    modifier: Modifier = Modifier,
+    onNavigateToTasks: () -> Unit,
+    onNavigateToListaAlumnos: () -> Unit
+) {
+    composable<Route.GestionClases> {
+        GestionClasesScreen(
+            onNavigateToTasks = onNavigateToTasks,
+            onNavigateToListaAlumnos = onNavigateToListaAlumnos
+        )
+    }
+}
 // NUEVO DESTINATION PARA GESTIÓN
 fun NavGraphBuilder.gestionDestination(
     modifier: Modifier = Modifier,

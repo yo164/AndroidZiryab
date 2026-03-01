@@ -37,7 +37,7 @@ class ClasesProfesorRemoteDataSource @Inject constructor(
 
             if (response.isSuccessful) {
                 // ... tu código ...
-                val remoteItems = response.body()?.items ?: emptyList()
+                val remoteItems = response.body()?.data ?: emptyList()
                 val domainItems = remoteItems.map { it.toExternal() }
                 Result.success(domainItems)
             } else {

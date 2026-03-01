@@ -34,11 +34,12 @@ import com.alanturin.primerbocetoui.data.remote.model.Asignatura
 
 @Composable
 fun ClasesProfesorScreen(
+    onGestionar: () -> Unit,
     viewModel: ClasesProfesorViewModel = hiltViewModel()
 ) {
     // ID quemado por ahora, igual que en tu prueba. Debería venir del Auth.
     LaunchedEffect(true) {
-        viewModel.cargarClases(2L)
+        viewModel.cargarClases()
     }
 
     val state by viewModel.uiState.collectAsState()
@@ -74,7 +75,7 @@ fun ClasesProfesorScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(ui.asignaturas) { asignatura ->
-                        AsignaturaCard(asignatura)
+                        AsignaturaCard(asignatura, onGestionar)
                     }
                 }
             }
@@ -83,7 +84,7 @@ fun ClasesProfesorScreen(
 }
 
 @Composable
-fun AsignaturaCard(asignatura: Asignatura) {
+fun AsignaturaCard(asignatura: Asignatura, onGestionar: () -> Unit) {
     // Replicando tu tarjeta de Angular con gradiente y sombra
     Card(
         modifier = Modifier
@@ -138,7 +139,7 @@ fun AsignaturaCard(asignatura: Asignatura) {
 
             // Botón Gestionar
             Button(
-                onClick = { /* goToTemario logic */ },
+                onClick = { onGestionar() },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3B82F6)) // blue-500
             ) {

@@ -1,5 +1,6 @@
 package com.alanturin.primerbocetoui.data.repository
 
+import com.alanturin.primerbocetoui.data.remote.model.LoginData
 import com.alanturin.primerbocetoui.data.remote.model.LoginRequest
 import com.alanturin.primerbocetoui.domain.repository.AuthRepository
 import com.google.firebase.auth.FirebaseAuth
@@ -18,7 +19,7 @@ class AuthRepositoryImpl @Inject constructor(
      * @param pass Contraseña del usuario.
      * @return [Result] con el rol del usuario si el login es exitoso, o excepción si falla.
      */
-    override suspend fun login(email: String, pass: String): Result<String> {
+    override suspend fun login(email: String, pass: String): Result<LoginData> {
         return try {
             val authResult = auth.signInWithEmailAndPassword(email, pass).await()
             val user = authResult.user
@@ -41,8 +42,8 @@ class AuthRepositoryImpl @Inject constructor(
                 if (body == null) {
                     throw Exception("Body vacío")
                 }
-                val role = body.data.role
-                Result.success(role)
+                val data = body.data
+                Result.success(data)
             } else {
                 auth.signOut()
                 Result.failure(Exception("Error en servidor Ziryab: ${response.code()}"))
