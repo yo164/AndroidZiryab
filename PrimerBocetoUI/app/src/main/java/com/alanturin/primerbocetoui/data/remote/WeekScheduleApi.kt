@@ -10,4 +10,9 @@ interface WeekScheduleApi {
     suspend fun getWeekScheduleByAssignment(
         @Path("idTeacherAssignment") idTeacherAssignment: Long
     ): Response<WeekScheduleListRemote>
+
+    @GET("api/horarios-semanales/teacher/{idTeacher}")
+    suspend fun getWeekScheduleByTeacher(
+        @Path("idTeacher") idTeacher: Long
+    ): Response<WeekScheduleListRemote>
 }

@@ -12,7 +12,7 @@ data class WeekScheduleItemRemote(
     val weekDay: Int,
     val startTime: String,
     val finishTime: String,
-    val teacherAssingment: TeacherAssignmentRemote
+    val teacherAssignment: TeacherAssignmentRemote
 )
 
 

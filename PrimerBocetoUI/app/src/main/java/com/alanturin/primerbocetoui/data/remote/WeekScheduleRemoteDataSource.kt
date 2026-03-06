@@ -23,4 +23,22 @@ class WeekScheduleRemoteDataSource @Inject constructor(
             Result.failure(e)
         }
     }
+
+    suspend fun getWeekScheduleByTeacher(idTeacher: Long): Result<List<WeekScheduleItemRemote>>{
+        return try {
+            val response = api.getWeekScheduleByTeacher(idTeacher)
+            if (response.isSuccessful){
+                val body = response.body()
+                if (body == null){
+                    Result.failure(RuntimeException("Body vacío"))
+                }else{
+                    Result.success(body.data)
+                }
+            }else {
+                Result.failure(RuntimeException("${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

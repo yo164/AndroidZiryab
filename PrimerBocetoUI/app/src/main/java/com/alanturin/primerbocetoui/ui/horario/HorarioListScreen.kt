@@ -30,7 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun HorarioScreen(
     modifier: Modifier = Modifier,
-    viewModel: HorarioViewModel = hiltViewModel()
+    viewModel: HorarioListViewModel = hiltViewModel()
 ) {
     LaunchedEffect(true) {
         viewModel.cargarHorario()
@@ -44,7 +44,7 @@ fun HorarioScreen(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            WeekDay.values().forEach { dia ->
+            WeekDay.entries.forEach { dia ->
                 Button(
                     onClick = { diaSeleccionado = dia },
                     colors = ButtonDefaults.buttonColors(
@@ -57,18 +57,18 @@ fun HorarioScreen(
         }
 
         when (val ui = state) {
-            is HorarioViewModel.UiState.Loading -> {
+            is HorarioListViewModel.UiState.Loading -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
                 }
             }
-            is HorarioViewModel.UiState.Error -> {
+            is HorarioListViewModel.UiState.Error -> {
                 Text(text = ui.message, color = Color.Red)
             }
-            is HorarioViewModel.UiState.Empty -> {
+            is HorarioListViewModel.UiState.Empty -> {
                 Text(text = "No hay horario disponible.")
             }
-            is HorarioViewModel.UiState.Success -> {
+            is HorarioListViewModel.UiState.Success -> {
                 val horariosFiltrados = ui.horarios.filter { it.weekDay == diaSeleccionado.numero }
                 LazyColumn(
                     modifier = Modifier.padding(top = 16.dp),
@@ -79,8 +79,8 @@ fun HorarioScreen(
                             dia = diaSeleccionado.name,
                             horaInicio = horario.startTime,
                             horaFin = horario.finishTime,
-                            subject = horario.teacherAssingment.subject.name,
-                            group = horario.teacherAssingment.group.name
+                            subject = horario.subjectName,
+                            group = horario.groupName
                         )
                     }
                 }

@@ -24,6 +24,7 @@ import com.alanturin.primerbocetoui.data.remote.CalendarApi
 import com.alanturin.primerbocetoui.data.remote.EnrollmentApi
 import com.alanturin.primerbocetoui.data.remote.GroupApi
 import com.alanturin.primerbocetoui.data.remote.GroupRemoteDataSource
+import com.alanturin.primerbocetoui.data.remote.StudentWeekScheduleApi
 import com.alanturin.primerbocetoui.data.remote.WeekScheduleApi
 import com.alanturin.primerbocetoui.data.repository.CalendarRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.EnrollmentRepository
@@ -32,6 +33,8 @@ import com.alanturin.primerbocetoui.data.repository.GroupRepository
 import com.alanturin.primerbocetoui.data.repository.GroupRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.WeekScheduleRepository
 import com.alanturin.primerbocetoui.data.repository.WeekScheduleRepositoryImpl
+import com.alanturin.primerbocetoui.data.repository.studentweekschedule.StudentWeekScheduleRepository
+import com.alanturin.primerbocetoui.data.repository.studentweekschedule.StudentWeekScheduleRepositoryImpl
 import com.alanturin.primerbocetoui.domain.repository.CalendarRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 
@@ -72,6 +75,10 @@ abstract class AppModule {
     @Binds
     @Singleton
     abstract fun bindWeekScheduleRepository(impl: WeekScheduleRepositoryImpl): WeekScheduleRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindStudentWeekScheduleRepository(impl: StudentWeekScheduleRepositoryImpl): StudentWeekScheduleRepository
     companion object {
 
         @Provides
@@ -142,6 +149,10 @@ abstract class AppModule {
         @Provides
         @Singleton
         fun provideWeekScheduleApi(retrofit: Retrofit): WeekScheduleApi = retrofit.create(WeekScheduleApi::class.java)
+
+        @Provides
+        @Singleton
+        fun provideStudentWeekScheduleApi(retrofit: Retrofit): StudentWeekScheduleApi = retrofit.create(StudentWeekScheduleApi::class.java)
     }
 
     @Binds
