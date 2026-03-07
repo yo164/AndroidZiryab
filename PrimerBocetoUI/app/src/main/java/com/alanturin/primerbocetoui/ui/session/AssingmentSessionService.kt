@@ -31,10 +31,14 @@ class AssignmentSessionService @Inject constructor() {
     /** ID del assignment (TeacherOnSubjectOnGroup) activo. */
     private val _currentAssignmentId = MutableStateFlow<Long?>(null)
     val currentAssignmentId: StateFlow<Long?> = _currentAssignmentId.asStateFlow()
-    fun saveCurrentAssignment(idSubject: Int, idGroup: Int, idAssignment: Long) {
+
+    private val _currentClassSession = MutableStateFlow<Int?>(null)
+    val currentClassSession: StateFlow<Int?> = _currentClassSession.asStateFlow()
+    fun saveCurrentAssignment(idSubject: Int, idGroup: Int, idAssignment: Long, idClassSession: Int) {
         _currentSubjectId.value = idSubject
         _currentGroupId.value = idGroup
         _currentAssignmentId.value = idAssignment
+        _currentClassSession.value = idClassSession
     }
 
     /**
@@ -44,5 +48,6 @@ class AssignmentSessionService @Inject constructor() {
         _currentSubjectId.value = null
         _currentGroupId.value = null
         _currentAssignmentId.value = null
+        _currentClassSession.value = null
     }
 }

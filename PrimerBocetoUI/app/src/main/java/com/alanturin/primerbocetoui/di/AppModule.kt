@@ -21,6 +21,7 @@ import com.alanturin.primerbocetoui.data.remote.ClasesAlumnoRemoteDataSource
 import com.alanturin.primerbocetoui.domain.repository.ClasesAlumnoRepository
 import com.alanturin.primerbocetoui.data.repository.ClasesAlumnoRepositoryImpl
 import com.alanturin.primerbocetoui.data.remote.CalendarApi
+import com.alanturin.primerbocetoui.data.remote.ClassSessionsApi
 import com.alanturin.primerbocetoui.data.remote.EnrollmentApi
 import com.alanturin.primerbocetoui.data.remote.GroupApi
 import com.alanturin.primerbocetoui.data.remote.GroupRemoteDataSource
@@ -33,6 +34,8 @@ import com.alanturin.primerbocetoui.data.repository.GroupRepository
 import com.alanturin.primerbocetoui.data.repository.GroupRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.WeekScheduleRepository
 import com.alanturin.primerbocetoui.data.repository.WeekScheduleRepositoryImpl
+import com.alanturin.primerbocetoui.data.repository.classsessions.ClassSessionsRepository
+import com.alanturin.primerbocetoui.data.repository.classsessions.ClassSessionsRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.studentweekschedule.StudentWeekScheduleRepository
 import com.alanturin.primerbocetoui.data.repository.studentweekschedule.StudentWeekScheduleRepositoryImpl
 import com.alanturin.primerbocetoui.domain.repository.CalendarRepository
@@ -79,6 +82,10 @@ abstract class AppModule {
     @Binds
     @Singleton
     abstract fun bindStudentWeekScheduleRepository(impl: StudentWeekScheduleRepositoryImpl): StudentWeekScheduleRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindClassSessionRepository(impl: ClassSessionsRepositoryImpl): ClassSessionsRepository
     companion object {
 
         @Provides
@@ -153,6 +160,11 @@ abstract class AppModule {
         @Provides
         @Singleton
         fun provideStudentWeekScheduleApi(retrofit: Retrofit): StudentWeekScheduleApi = retrofit.create(StudentWeekScheduleApi::class.java)
+
+        @Provides
+        @Singleton
+        fun provideClassSessionsApi(retrofit: Retrofit): ClassSessionsApi =
+            retrofit.create(ClassSessionsApi::class.java)
     }
 
     @Binds

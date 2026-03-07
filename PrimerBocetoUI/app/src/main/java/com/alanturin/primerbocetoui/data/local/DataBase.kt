@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.alanturin.primerbocetoui.data.local.dao.GroupDao
 import com.alanturin.primerbocetoui.data.local.entity.GroupEntity
 
-@Database(entities = [GroupEntity::class], version = 1)
+@Database(entities = [GroupEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun groupDao(): GroupDao
 }
