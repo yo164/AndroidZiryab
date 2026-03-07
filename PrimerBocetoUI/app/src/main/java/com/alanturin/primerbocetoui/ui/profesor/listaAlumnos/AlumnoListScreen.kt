@@ -59,7 +59,11 @@ fun AlumnoListScreen(
                         AlumnoCard(
                             nombre = enrollment.student.name,
                             surname = enrollment.student.surname,
-                            ndSurname = enrollment.student.ndSurname
+                            ndSurname = enrollment.student.ndSurname,
+                            {
+                                    status ->
+                                viewModel.actualizarAsistencia(enrollment.id, status)
+                            }
                         )
                     }
                 }

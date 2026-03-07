@@ -21,6 +21,11 @@ class AlumnoListViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
     val uiState: StateFlow<UiState> = _uiState
 
+    private val _asistencias = MutableStateFlow<Map<Int, AssistanceStatus>>(emptyMap())
+
+    fun actualizarAsistencia(enrollmentId: Int, status: AssistanceStatus) {
+        _asistencias.value = _asistencias.value + (enrollmentId to status)
+    }
     fun cargarAlumnos() {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
@@ -48,19 +53,28 @@ class AlumnoListViewModel @Inject constructor(
 
     fun enviarAsistencias() {
         android.util.Log.d("ZIRYAB", "Preparando datos para enviar asistencias...")
+        val idSession = assignmentSessionService.currentClassSession.value
+
+        if (idSession == null || idSession == 0) {
+            android.util.Log.d("ZIRYAB", "No hay sesión de clase activa")
+            return
+        }
+        android.util.Log.d("ZIRYAB", "id de la class SEssion: $idSession")
 
         val state = _uiState.value
 
         if (state is UiState.Success) {
             state.alumnos.forEach { enrollment ->
                 // idStudentEnrollment - lo tenemos, es el id del enrollment
-                android.util.Log.d("ZIRYAB", "idStudentEnrollment: ${enrollment.id}")
+                val status = _asistencias.value[enrollment.id] ?: AssistanceStatus.PRESENT
 
-                // idSession - necesitamos el id de la sesión de clase de hoy, aun no lo tenemos
-                // android.util.Log.d("ZIRYAB", "idSession: ???")
+                android.util.Log.d("ZIRYAB", "idSession: $idSession, idEnrollment: ${enrollment.id}, status: $status")
 
-                // status - F, R o A que marca el profesor en la tarjeta, aun no lo recogemos
-                // android.util.Log.d("ZIRYAB", "status: ???")
+
+
+
+
+
             }
         }
     }

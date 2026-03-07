@@ -27,10 +27,12 @@ import androidx.compose.ui.unit.sp
 fun AlumnoCard(
     nombre: String,
     surname: String,
-    ndSurname: String?
+    ndSurname: String?,
+    onAsistenciaChange: (AssistanceStatus) -> Unit
+
 ) {
     val apellidos = if (ndSurname != null) "$surname $ndSurname" else surname
-    var asistencia by remember { mutableStateOf<String?>(null) }
+    var asistencia by remember { mutableStateOf<AssistanceStatus?>(null) }
 
     Card(
         modifier = Modifier
@@ -53,27 +55,36 @@ fun AlumnoCard(
 
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 Button(
-                    onClick = { asistencia = "F" },
+                    onClick = {
+                        asistencia = AssistanceStatus.MISSING
+                        onAsistenciaChange(AssistanceStatus.MISSING)
+                              },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (asistencia == "F") Color.Red else Color.LightGray
+                        containerColor = if (asistencia == AssistanceStatus.MISSING) Color.Red else Color.LightGray
                     )
                 ) {
                     Text("F", fontSize = 16.sp)
                 }
 
                 Button(
-                    onClick = { asistencia = "R" },
+                    onClick = {
+                        asistencia = AssistanceStatus.LAG
+                        onAsistenciaChange(AssistanceStatus.LAG)
+                              },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (asistencia == "R") Color(0xFFFFA500) else Color.LightGray
+                        containerColor = if (asistencia == AssistanceStatus.LAG) Color(0xFFFFA500) else Color.LightGray
                     )
                 ) {
                     Text("R", fontSize = 16.sp)
                 }
 
                 Button(
-                    onClick = { asistencia = "A" },
+                    onClick = {
+                        asistencia = AssistanceStatus.PRESENT
+                        onAsistenciaChange(AssistanceStatus.PRESENT)
+                              },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (asistencia == "A") Color(0xFF4CAF50) else Color.LightGray
+                        containerColor = if (asistencia == AssistanceStatus.PRESENT) Color(0xFF4CAF50) else Color.LightGray
                     )
                 ) {
                     Text("A", fontSize = 16.sp)
@@ -89,6 +100,7 @@ fun AlumnoCardPreview() {
     AlumnoCard(
         nombre = "Juan",
         surname = "Pérez",
-        ndSurname = "García"
+        ndSurname = "García",
+        onAsistenciaChange =  {}
     )
 }
