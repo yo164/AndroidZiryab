@@ -2,8 +2,11 @@ package com.alanturin.primerbocetoui.ui.profesor.listaAlumnos
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alanturin.primerbocetoui.data.remote.model.AssistanceBulkRequestRemote
+import com.alanturin.primerbocetoui.data.remote.model.AssistanceItemRequestRemote
 import com.alanturin.primerbocetoui.data.remote.model.EnrollmentItemRemote
 import com.alanturin.primerbocetoui.data.repository.EnrollmentRepository
+import com.alanturin.primerbocetoui.data.repository.assistance.AssistanceRepository
 
 import com.alanturin.primerbocetoui.ui.session.AssignmentSessionService
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AlumnoListViewModel @Inject constructor(
     private val repository: EnrollmentRepository,
-    private val assignmentSessionService: AssignmentSessionService
+    private val assignmentSessionService: AssignmentSessionService,
+    private val assistanceRepository: AssistanceRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
@@ -63,18 +67,27 @@ class AlumnoListViewModel @Inject constructor(
 
         val state = _uiState.value
 
+        var listaAsistencias : List<AssistanceItemRequestRemote> = emptyList()
         if (state is UiState.Success) {
-            state.alumnos.forEach { enrollment ->
-                // idStudentEnrollment - lo tenemos, es el id del enrollment
+            listaAsistencias = state.alumnos.map { enrollment ->
                 val status = _asistencias.value[enrollment.id] ?: AssistanceStatus.PRESENT
-
                 android.util.Log.d("ZIRYAB", "idSession: $idSession, idEnrollment: ${enrollment.id}, status: $status")
+                AssistanceItemRequestRemote(
+                    idSession = idSession,
+                    idStudentEnrollment = enrollment.id,
+                    status = status.name
+                )
+            }
+        }
 
+        viewModelScope.launch {
+            val request = AssistanceBulkRequestRemote(assistances = listaAsistencias)
+            val result = assistanceRepository.createBulk(request)
 
-
-
-
-
+            result.onSuccess {
+                android.util.Log.d("ZIRYAB", "Asistencias enviadas: ${it.count}")
+            }.onFailure {
+                android.util.Log.d("ZIRYAB", "Error al enviar asistencias: ${it.message}")
             }
         }
     }

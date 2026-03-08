@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.alanturin.primerbocetoui.ui.components.AppFooter
 import com.alanturin.primerbocetoui.ui.components.AppHeader
 import com.alanturin.primerbocetoui.ui.login.LoginViewModel
+import com.alanturin.primerbocetoui.ui.session.SessionViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
@@ -25,7 +26,10 @@ fun NavGraph() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
+
     val loginViewModel: LoginViewModel = hiltViewModel()
+
+
     val userRole by loginViewModel.userRole.collectAsState()
 
     val showBars = currentDestination?.hasRoute<Route.ClasesAlumno>() == true ||
@@ -44,10 +48,10 @@ fun NavGraph() {
             if (showBars) {
                 AppHeader(
                     title = "Ziryab",
-                    userName = "Alumno",
+                    userName = "${loginViewModel.userId.collectAsState().value} , ${loginViewModel.userRole.collectAsState().value}",
                     onLogout = {
                         FirebaseAuth.getInstance().signOut()
-
+                        loginViewModel.logout()
                         navController.navigate(Route.Login) {
                             popUpTo(navController.graph.startDestinationId) {
                                 inclusive = true

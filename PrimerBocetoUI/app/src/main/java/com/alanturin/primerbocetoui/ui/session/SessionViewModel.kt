@@ -24,15 +24,19 @@ class SessionViewModel @Inject constructor()  {
     private val _userRole = MutableStateFlow<String?>(null)
     val userRole: StateFlow<String?> = _userRole.asStateFlow()
 
+    private val _token = MutableStateFlow<String?>(null)
+    val token: StateFlow<String?> = _token.asStateFlow()
+
     /**
      * Guarda los datos de sesión tras un login exitoso.
      *
      * @param id Identificador único del usuario en la base de datos.
      * @param role Rol del usuario: "TEACHER", "STUDENT" o "ADMIN".
      */
-    fun saveSession(id: Int, role: String) {
+    fun saveSession(id: Int, role: String, token: String) {
         _userId.value = id
         _userRole.value = role
+        _token.value = token
     }
 
     /**
@@ -41,5 +45,6 @@ class SessionViewModel @Inject constructor()  {
     fun clearSession() {
         _userId.value = null
         _userRole.value = null
+        _token.value = null
     }
 }

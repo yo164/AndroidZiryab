@@ -27,6 +27,7 @@ import com.alanturin.primerbocetoui.data.remote.GroupApi
 import com.alanturin.primerbocetoui.data.remote.GroupRemoteDataSource
 import com.alanturin.primerbocetoui.data.remote.StudentWeekScheduleApi
 import com.alanturin.primerbocetoui.data.remote.WeekScheduleApi
+import com.alanturin.primerbocetoui.data.remote.assistance.AssistanceApi
 import com.alanturin.primerbocetoui.data.repository.CalendarRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.EnrollmentRepository
 import com.alanturin.primerbocetoui.data.repository.EnrollmentRepositoryImpl
@@ -34,6 +35,8 @@ import com.alanturin.primerbocetoui.data.repository.GroupRepository
 import com.alanturin.primerbocetoui.data.repository.GroupRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.WeekScheduleRepository
 import com.alanturin.primerbocetoui.data.repository.WeekScheduleRepositoryImpl
+import com.alanturin.primerbocetoui.data.repository.assistance.AssistanceRepository
+import com.alanturin.primerbocetoui.data.repository.assistance.AssistanceRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.classsessions.ClassSessionsRepository
 import com.alanturin.primerbocetoui.data.repository.classsessions.ClassSessionsRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.studentweekschedule.StudentWeekScheduleRepository
@@ -86,6 +89,10 @@ abstract class AppModule {
     @Binds
     @Singleton
     abstract fun bindClassSessionRepository(impl: ClassSessionsRepositoryImpl): ClassSessionsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAssistanceRepository(impl: AssistanceRepositoryImpl): AssistanceRepository
     companion object {
 
         @Provides
@@ -165,6 +172,11 @@ abstract class AppModule {
         @Singleton
         fun provideClassSessionsApi(retrofit: Retrofit): ClassSessionsApi =
             retrofit.create(ClassSessionsApi::class.java)
+
+        @Provides
+        @Singleton
+        fun provideAssistanceApi(retrofit: Retrofit): AssistanceApi =
+            retrofit.create(AssistanceApi::class.java)
     }
 
     @Binds

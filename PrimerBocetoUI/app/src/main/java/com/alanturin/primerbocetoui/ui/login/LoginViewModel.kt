@@ -29,8 +29,11 @@ class LoginViewModel @Inject constructor(
     /**
      * Rol del usuario autenticado: "TEACHER", "STUDENT" o "ADMIN".
      * */
-    private val _userRole = MutableStateFlow<String?>(null)
-    val userRole: StateFlow<String?> = _userRole.asStateFlow()
+
+    val userRole: StateFlow<String?> = sessionViewModel.userRole
+
+
+    val userId: StateFlow<Int?> = sessionViewModel.userId
 
     fun login(email: String, pass: String) {
         viewModelScope.launch {
@@ -46,9 +49,8 @@ class LoginViewModel @Inject constructor(
                 if (loginData != null) {
                     // NUEVO: guardamos id y rol en SessionViewModel para que
                     // ClasesProfesorViewModel y otras pantallas puedan acceder al id del usuario
-                    sessionViewModel.saveSession(loginData.id, loginData.role)
-                    // mantenemos el rol aquí para que el NavGraph navegue correctamente
-                    _userRole.value = loginData.role
+                    sessionViewModel.saveSession(loginData.id, loginData.role, loginData.token)
+
                 }
                 _loginSuccess.value = true
             } else {
@@ -56,5 +58,9 @@ class LoginViewModel @Inject constructor(
             }
             _isLoading.value = false
         }
+    }
+
+    fun logout(){
+        sessionViewModel.clearSession()
     }
 }
