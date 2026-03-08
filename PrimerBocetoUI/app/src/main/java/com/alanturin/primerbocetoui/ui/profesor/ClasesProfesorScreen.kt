@@ -37,7 +37,6 @@ fun ClasesProfesorScreen(
     onGestionar: () -> Unit,
     viewModel: ClasesProfesorViewModel = hiltViewModel()
 ) {
-    // ID quemado por ahora, igual que en tu prueba. Debería venir del Auth.
     LaunchedEffect(true) {
         viewModel.cargarClases()
     }

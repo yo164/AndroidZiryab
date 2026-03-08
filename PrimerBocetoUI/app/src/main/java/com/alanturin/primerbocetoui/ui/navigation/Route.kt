@@ -16,6 +16,7 @@ import kotlinx.serialization.Serializable
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.alanturin.primerbocetoui.domain.model.Asignatura
 import com.alanturin.primerbocetoui.ui.alumno.TemarioAlumno.TemarioAlumnoScreen
+import com.alanturin.primerbocetoui.ui.fichausuario.FichaUsuarioScreen
 import com.alanturin.primerbocetoui.ui.group.GroupScreen
 import com.alanturin.primerbocetoui.ui.horario.HorarioScreen
 import com.alanturin.primerbocetoui.ui.profesor.ClasesProfesorScreen
@@ -250,7 +251,7 @@ fun NavGraphBuilder.fichaUsuarioDestination(
     modifier: Modifier = Modifier
 ) {
     composable<Route.FichaUsuario> {
-        // TODO: FichaUsuarioScreen aquí
+        FichaUsuarioScreen()
     }
 }
 

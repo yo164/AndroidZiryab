@@ -28,6 +28,9 @@ import com.alanturin.primerbocetoui.data.remote.GroupRemoteDataSource
 import com.alanturin.primerbocetoui.data.remote.StudentWeekScheduleApi
 import com.alanturin.primerbocetoui.data.remote.WeekScheduleApi
 import com.alanturin.primerbocetoui.data.remote.assistance.AssistanceApi
+import com.alanturin.primerbocetoui.data.remote.assistance.forstudents.AssistanceForStudentsApi
+import com.alanturin.primerbocetoui.data.remote.assistance.forstudents.AssistanceForStudentsRemoteDataSource
+import com.alanturin.primerbocetoui.data.remote.assistance.forstudents.AssistanceForStudentsRemoteDataSourceImpl
 import com.alanturin.primerbocetoui.data.repository.CalendarRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.EnrollmentRepository
 import com.alanturin.primerbocetoui.data.repository.EnrollmentRepositoryImpl
@@ -93,6 +96,14 @@ abstract class AppModule {
     @Binds
     @Singleton
     abstract fun bindAssistanceRepository(impl: AssistanceRepositoryImpl): AssistanceRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAssistanceForStudentsRemoteDataSource(
+        impl: AssistanceForStudentsRemoteDataSourceImpl
+    ): AssistanceForStudentsRemoteDataSource
+
+
     companion object {
 
         @Provides
@@ -177,6 +188,11 @@ abstract class AppModule {
         @Singleton
         fun provideAssistanceApi(retrofit: Retrofit): AssistanceApi =
             retrofit.create(AssistanceApi::class.java)
+
+        @Provides
+        @Singleton
+        fun provideAssistanceForStudentsApi(retrofit: Retrofit): AssistanceForStudentsApi =
+            retrofit.create(AssistanceForStudentsApi::class.java)
     }
 
     @Binds

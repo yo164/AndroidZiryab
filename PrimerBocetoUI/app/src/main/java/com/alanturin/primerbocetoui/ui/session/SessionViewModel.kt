@@ -14,7 +14,9 @@ import javax.inject.Singleton
  * Es la fuente de verdad para los datos del usuario logueado.
  */
 @Singleton
-class SessionViewModel @Inject constructor()  {
+class SessionViewModel @Inject constructor(
+    private val assingmentSession: AssignmentSessionService
+)  {
 
     /** ID del usuario autenticado. Null si no hay sesión activa. */
     private val _userId = MutableStateFlow<Int?>(null)
@@ -46,5 +48,6 @@ class SessionViewModel @Inject constructor()  {
         _userId.value = null
         _userRole.value = null
         _token.value = null
+        assingmentSession.clearCurrentAssignment()
     }
 }
