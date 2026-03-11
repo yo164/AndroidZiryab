@@ -10,4 +10,8 @@ interface StudentTaskApi {
     suspend fun getByStudentEnrollment(
         @Path("idStudentEnrollment") idStudentEnrollment: Int
     ): Response<StudentTaskListResponseRemote>
+
+    /**
+     * @PUT
+     */
 }
