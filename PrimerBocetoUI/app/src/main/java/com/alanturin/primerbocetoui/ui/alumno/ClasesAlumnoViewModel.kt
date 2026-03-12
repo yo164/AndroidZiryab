@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.alanturin.primerbocetoui.R
 
 @HiltViewModel
 class ClasesAlumnoViewModel @Inject constructor(
@@ -42,7 +43,7 @@ class ClasesAlumnoViewModel @Inject constructor(
                 _asignaturas.value = lista
             }
             result.onFailure { exception ->
-                _error.value = exception.message ?: "Error desconocido"
+                _error.value = "Error desconocido"
             }
 
             _isLoading.value = false

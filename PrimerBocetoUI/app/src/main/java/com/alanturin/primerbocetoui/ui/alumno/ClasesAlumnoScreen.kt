@@ -20,6 +20,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.alanturin.primerbocetoui.data.remote.model.Asignatura
+import androidx.compose.ui.res.stringResource
+import com.alanturin.primerbocetoui.R
+import com.alanturin.primerbocetoui.domain.model.UserSession
 
 @Composable
 fun ClasesAlumnoScreen(
@@ -32,7 +35,8 @@ fun ClasesAlumnoScreen(
     val error by viewModel.error.collectAsState()
 
     LaunchedEffect(true) {
-        viewModel.cargarClases(2L)
+        val studentId = UserSession.studentId ?: return@LaunchedEffect
+        viewModel.cargarClases(studentId)
     }
 
     Scaffold(
@@ -54,7 +58,7 @@ fun ClasesAlumnoScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "Mis Asignaturas",
+                        text = stringResource(id = R.string.alumno_clases_title),
                         style = MaterialTheme.typography.headlineMedium.copy(
                             fontWeight = FontWeight.ExtraBold,
                             brush = Brush.horizontalGradient(
@@ -64,7 +68,12 @@ fun ClasesAlumnoScreen(
                     )
 
                     IconButton(
-                        onClick = { viewModel.recargarClases(2L) },
+                        onClick = { 
+                            val studentId = UserSession.studentId
+                            if (studentId != null) {
+                                viewModel.recargarClases(studentId)
+                            }
+                        },
                         enabled = !isLoading
                     ) {
                         if (isLoading) {
@@ -76,7 +85,7 @@ fun ClasesAlumnoScreen(
                         } else {
                             Icon(
                                 imageVector = Icons.Default.Refresh,
-                                contentDescription = "Recargar",
+                                contentDescription = stringResource(id = R.string.alumno_clases_cd_reload),
                                 tint = Color(0xFF7C3AED)
                             )
                         }
@@ -93,7 +102,7 @@ fun ClasesAlumnoScreen(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
-                            text = error ?: "Error desconocido",
+                            text = error ?: stringResource(id = R.string.error_unknown),
                             color = Color.Red,
                             modifier = Modifier.padding(16.dp)
                         )
@@ -194,7 +203,7 @@ fun AsignaturaCard(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "GRADO/CURSO",
+                        text = stringResource(id = R.string.alumno_clases_grade),
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 1.sp
@@ -237,7 +246,7 @@ fun AsignaturaCard(
                     )
                 ) {
                     Text(
-                        text = "Acceder",
+                        text = stringResource(id = R.string.alumno_clases_access),
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.Bold
                         )

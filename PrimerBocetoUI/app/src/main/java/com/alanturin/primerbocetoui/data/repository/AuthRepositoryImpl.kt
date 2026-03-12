@@ -11,10 +11,10 @@ class AuthRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth
 ) : AuthRepository {
 
-    override suspend fun login(email: String, pass: String): Result<Boolean> {
+    override suspend fun login(email: String, pass: String): Result<Long> {
         return try {
             val authResult = auth.signInWithEmailAndPassword(email, pass).await()
-            val user = authResult.user ?: throw Exception("Error en Firebase Auth: Usuario nulo")
+            val user = authResult.user ?: throw Exception("El usuario autenticado en Firebase es null.")
             val firebaseUID = user.uid
 
             val request = LoginRequest(
@@ -26,10 +26,11 @@ class AuthRepositoryImpl @Inject constructor(
             val response = api.login(request)
 
             if (response.isSuccessful) {
-                Result.success(true)
+                val userId = response.body()?.data?.id ?: throw Exception("El ID del usuario es nulo en la respuesta")
+                Result.success(userId)
             } else {
                 auth.signOut()
-                Result.failure(Exception("Error en servidor Ziryab: ${response.code()}"))
+                Result.failure(Exception("Error en Login del backend: ${response.code()}"))
             }
         } catch (e: Exception) {
             Result.failure(e)

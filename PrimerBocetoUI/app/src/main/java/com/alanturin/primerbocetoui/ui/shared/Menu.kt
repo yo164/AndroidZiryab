@@ -19,20 +19,22 @@ import com.alanturin.primerbocetoui.ui.navigation.Route
 import com.alanturin.primerbocetoui.ui.navigation.navigateToClasesAlumno
 import com.alanturin.primerbocetoui.ui.navigation.navigateToGestion
 import com.alanturin.primerbocetoui.ui.shared.BottomScreen
+import androidx.compose.ui.res.stringResource
+import com.alanturin.primerbocetoui.R
 
 val fondo = Color(0xFF7C3AED).copy(alpha = 0.15f)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppHeader(
     title: String,
-    userName: String="alumno",
-    userEmail: String="prueba@prueba.com",
+    userName: String = stringResource(id = R.string.menu_default_name),
+    userEmail: String = stringResource(id = R.string.menu_default_email),
     onLogout: () -> Unit = {}
 ) {
     TopAppBar(
         title = {
             Text(
-                text = "Ziryab",
+                text = stringResource(id = R.string.menu_title_ziryab),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -82,13 +84,13 @@ fun AppFooter(
                 icon = {
                     Icon(
                         imageVector = screen.icon,
-                        contentDescription = screen.title,
+                        contentDescription = stringResource(id = screen.titleResId),
                         modifier = Modifier.size(24.dp)
                     )
                 },
                 label = {
                     Text(
-                        text = screen.title,
+                        text = stringResource(id = screen.titleResId),
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontSize = 11.sp,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium

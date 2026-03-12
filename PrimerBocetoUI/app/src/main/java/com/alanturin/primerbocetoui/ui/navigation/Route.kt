@@ -15,6 +15,7 @@ import com.alanturin.primerbocetoui.ui.login.LoginScreen
 import kotlinx.serialization.Serializable
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.alanturin.primerbocetoui.ui.alumno.TemarioAlumno.TemarioAlumnoScreen
+import com.alanturin.primerbocetoui.R
 
 @Serializable
 sealed class Route {
@@ -156,7 +157,7 @@ fun NavGraphBuilder.tablonDestination(
     }
 }
 
-sealed class BottomNavItem(val route: Route, val icon: ImageVector, val label: String) {
-    data object Clases : BottomNavItem(Route.ClasesAlumno, Icons.Default.Home, "Clases")
-    data object Gestion : BottomNavItem(Route.Gestion, Icons.Default.List, "Gestión")
+sealed class BottomNavItem(val route: Route, val icon: ImageVector, val labelResId: Int) {
+    data object Clases : BottomNavItem(Route.ClasesAlumno, Icons.Default.Home, R.string.bottom_nav_clases)
+    data object Gestion : BottomNavItem(Route.Gestion, Icons.Default.List, R.string.bottom_nav_gestion)
 }

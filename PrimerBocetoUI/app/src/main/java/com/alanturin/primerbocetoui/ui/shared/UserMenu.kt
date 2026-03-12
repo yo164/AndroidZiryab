@@ -12,6 +12,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.alanturin.primerbocetoui.R
 
 @Composable
 fun UserMenu(
@@ -32,7 +34,7 @@ fun UserMenu(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = userName.firstOrNull()?.uppercase() ?: "U",
+                text = userName.firstOrNull()?.uppercase() ?: stringResource(id = R.string.menu_user_name_default),
                 color = Color.White,
                 fontWeight = FontWeight.Bold
             )
@@ -59,7 +61,7 @@ fun UserMenu(
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
                 ) {
-                    Text("Cerrar sesión")
+                    Text(stringResource(id = R.string.menu_logout))
                 }
             }
         }

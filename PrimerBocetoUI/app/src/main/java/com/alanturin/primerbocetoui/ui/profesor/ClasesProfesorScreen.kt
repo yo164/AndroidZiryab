@@ -24,6 +24,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
+import com.alanturin.primerbocetoui.R
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -51,7 +53,7 @@ fun ClasesProfesorScreen(
     ) {
         // Título H1
         Text(
-            text = "Asignaturas",
+            text = stringResource(id = R.string.profesor_clases_title),
             style = MaterialTheme.typography.headlineLarge,
             color = Color(0xFF7C3AED), // violet-600 approx
             modifier = Modifier.padding(bottom = 24.dp)
@@ -67,7 +69,7 @@ fun ClasesProfesorScreen(
                 Text(text = ui.message, color = Color.Red)
             }
             is ClasesProfesorViewModel.UiState.Empty -> {
-                Text(text = "No tienes asignaturas asignadas.")
+                Text(text = stringResource(id = R.string.profesor_clases_empty))
             }
             is ClasesProfesorViewModel.UiState.Success -> {
                 LazyColumn(
@@ -119,7 +121,7 @@ fun AsignaturaCard(asignatura: Asignatura) {
             // Grado/Curso
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = "GRADO/CURSO",
+                    text = stringResource(id = R.string.profesor_clases_grade),
                     style = MaterialTheme.typography.labelSmall,
                     color = Color.Gray
                 )
@@ -142,7 +144,7 @@ fun AsignaturaCard(asignatura: Asignatura) {
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3B82F6)) // blue-500
             ) {
-                Text("Gestionar")
+                Text(stringResource(id = R.string.profesor_clases_manage))
             }
         }
     }

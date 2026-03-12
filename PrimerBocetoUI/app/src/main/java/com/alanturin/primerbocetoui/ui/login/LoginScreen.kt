@@ -13,6 +13,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalContext
+import com.alanturin.primerbocetoui.R
 
 @Composable
 fun LoginScreen(
@@ -43,7 +46,7 @@ fun LoginScreen(
     ) {
 
         Text(
-            text = "Iniciar sesión",
+            text = stringResource(id = R.string.login_title),
             style = MaterialTheme.typography.headlineMedium
         )
 
@@ -52,7 +55,7 @@ fun LoginScreen(
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("Email") },
+            label = { Text(stringResource(id = R.string.login_email_label)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             modifier = Modifier.fillMaxWidth(),
@@ -64,12 +67,12 @@ fun LoginScreen(
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Contraseña") },
+            label = { Text(stringResource(id = R.string.login_password_label)) },
             singleLine = true,
             visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
                 Text(
-                    text = if (showPassword) "Ocultar" else "Mostrar",
+                    text = if (showPassword) stringResource(id = R.string.login_hide_password) else stringResource(id = R.string.login_show_password),
                     modifier = Modifier
                         .clickable { showPassword = !showPassword }
                         .padding(8.dp),
@@ -120,7 +123,7 @@ fun LoginScreen(
                     strokeWidth = 2.dp
                 )
             } else {
-                Text("Ingresar")
+                Text(stringResource(id = R.string.login_button_enter))
             }
         }
     }

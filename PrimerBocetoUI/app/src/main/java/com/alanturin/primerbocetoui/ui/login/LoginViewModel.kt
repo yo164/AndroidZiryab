@@ -8,7 +8,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.alanturin.primerbocetoui.domain.model.UserSession
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -31,10 +34,11 @@ class LoginViewModel @Inject constructor(
             
             val result = authRepository.login(email, pass)
             
-            result.onSuccess {
+            result.onSuccess { userId ->
+                UserSession.studentId = userId
                 _loginSuccess.value = true
             }.onFailure { exception ->
-                _error.value = exception.message ?: "Error al iniciar sesión"
+                _error.value = exception.message ?: "Error desconocido al iniciar sesión"
             }
 
             _isLoading.value = false

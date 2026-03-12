@@ -20,6 +20,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.alanturin.primerbocetoui.R
 
 data class UnidadFake(
     val id: Int,
@@ -53,7 +55,7 @@ fun TemarioAlumnoScreen(
                 title = { Text(asignaturaNombre, fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(id = R.string.alumno_temario_cd_back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
@@ -63,7 +65,7 @@ fun TemarioAlumnoScreen(
         floatingActionButton = {
             if (userRole == "TEACHER") {
                 FloatingActionButton(onClick = { /* Subir Tarea */ }, containerColor = Color(0xFF7C3AED)) {
-                    Icon(Icons.Default.Add, contentDescription = "Añadir", tint = Color.White)
+                    Icon(Icons.Default.Add, contentDescription = stringResource(id = R.string.alumno_temario_cd_add), tint = Color.White)
                 }
             }
         }
