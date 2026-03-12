@@ -1,6 +1,6 @@
 package com.alanturin.primerbocetoui.data
 
-import com.alanturin.primerbocetoui.data.remote.model.Asignatura
+import com.alanturin.primerbocetoui.domain.model.Asignatura
 import kotlinx.coroutines.flow.Flow
 
 interface ClasesProfesorDataSource {

@@ -1,5 +1,7 @@
 package com.alanturin.primerbocetoui.data.repository
 
+import com.alanturin.primerbocetoui.data.remote.model.LoginData
+import com.alanturin.primerbocetoui.data.remote.model.LoginRequest
 import com.alanturin.primerbocetoui.domain.repository.AuthRepository
 import com.alanturin.primerbocetoui.data.remote.model.LoginRequest
 import com.google.firebase.auth.FirebaseAuth
@@ -22,7 +24,7 @@ class AuthRepositoryImpl @Inject constructor(
                 password = pass,
                 firebaseUID = firebaseUID
             )
-            
+
             val response = api.login(request)
 
             if (response.isSuccessful) {

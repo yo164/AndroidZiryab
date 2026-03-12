@@ -19,7 +19,7 @@ import com.alanturin.primerbocetoui.R
 
 @Composable
 fun LoginScreen(
-    onLoginSuccess: () -> Unit,
+    onLoginClick: (email: String, password: String, role: String) -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val isLoading by viewModel.isLoading.collectAsState()
@@ -33,7 +33,8 @@ fun LoginScreen(
 
     LaunchedEffect(loginSuccess) {
         if (loginSuccess) {
-            onLoginSuccess()
+            val role = viewModel.userRole.value ?: "STUDENT"
+            onLoginClick(email, password, role)
         }
     }
 

@@ -5,14 +5,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.alanturin.primerbocetoui.ui.components.AppFooter
 import com.alanturin.primerbocetoui.ui.components.AppHeader
+import com.alanturin.primerbocetoui.ui.login.LoginViewModel
+import com.alanturin.primerbocetoui.ui.session.SessionViewModel
 import com.google.firebase.auth.FirebaseAuth
 import androidx.compose.ui.res.stringResource
 import com.alanturin.primerbocetoui.R
@@ -24,8 +28,21 @@ fun NavGraph() {
     val startDestination = Route.Login
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+
+
+    val loginViewModel: LoginViewModel = hiltViewModel()
+
+
+    val userRole by loginViewModel.userRole.collectAsState()
+
     val showBars = currentDestination?.hasRoute<Route.ClasesAlumno>() == true ||
-            currentDestination?.hasRoute<Route.Gestion>() == true
+            currentDestination?.hasRoute<Route.Gestion>() == true ||
+            currentDestination?.hasRoute<Route.Groups>() == true ||
+            currentDestination?.hasRoute<Route.ClasesProfesor>() == true||
+            currentDestination?.hasRoute<Route.GestionClases>() == true ||
+            currentDestination?.hasRoute<Route.Task>() == true ||
+            currentDestination?.hasRoute<Route.AlumnoList>() == true
+
 
 
     Scaffold(
@@ -42,7 +59,7 @@ fun NavGraph() {
                     userEmail = userEmail,
                     onLogout = {
                         FirebaseAuth.getInstance().signOut()
-                        UserSession.studentId = null
+                        loginViewModel.logout()
 
                         navController.navigate(Route.Login) {
                             popUpTo(navController.graph.startDestinationId) {
@@ -71,8 +88,13 @@ fun NavGraph() {
         ) {
             loginDestination(
                 modifier = contentModifier,
-                onLoginSuccess = {
-                    navController.navigateToClasesAlumno()
+                onLoginSuccess = { userRole ->
+                    android.util.Log.d("ZIRYAB", "Rol al navegar: $userRole")
+                    if (userRole == "TEACHER") {
+                        navController.navigateToClasesProfesor()
+                    } else {
+                        navController.navigateToClasesAlumno()
+                    }
                 }
             )
 
@@ -91,6 +113,7 @@ fun NavGraph() {
                         2L -> navController.navigateToHorario()
                         3L -> navController.navigateToCalendario()
                         4L -> navController.navigateToTablon()
+                        5L -> navController.navigateToGroups()
                     }
                 }
             )
@@ -108,6 +131,26 @@ fun NavGraph() {
             calendarioDestination(modifier = contentModifier)
 
             tablonDestination(modifier = contentModifier)
+
+            groupsDestination(modifier = contentModifier)
+
+            clasesProfesorDestination(
+                modifier = contentModifier,
+                onGestionar = {
+                    navController.navigateToGestionClases()
+                }
+            )
+            gestionClasesDestination(
+                modifier = contentModifier,
+                onNavigateToTasks = {  navController.navigateToTask() },
+                onNavigateToListaAlumnos = { navController.navigateToAlumnoList() }
+            )
+
+            taskDestination(modifier = contentModifier)
+
+            alumnoListDestination(modifier = contentModifier)
+
+
         }
     }
 }

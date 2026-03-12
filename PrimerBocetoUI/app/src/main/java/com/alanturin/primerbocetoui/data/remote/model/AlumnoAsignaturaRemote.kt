@@ -1,5 +1,6 @@
 package com.alanturin.primerbocetoui.data.remote.model
 
+import com.alanturin.primerbocetoui.domain.model.Asignatura
 import com.google.gson.annotations.SerializedName
 
 // Estructura principal de la respuesta
@@ -36,7 +37,10 @@ data class GroupRemote(
 fun ItemRemote.toDomain(): Asignatura {
     return Asignatura(
         id = this.subject.id,
+        idSubject = this.subject.id.toInt(),
+        idGroup = this.group.id.toInt(),
         nombre = this.subject.name,
+        grade = "",
         curso = "${this.subject.course.name} - ${this.group.name}"
     )
 }

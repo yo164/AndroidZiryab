@@ -1,6 +1,6 @@
 package com.alanturin.primerbocetoui.domain.repository
 
-import com.alanturin.primerbocetoui.data.remote.model.Asignatura
+import com.alanturin.primerbocetoui.domain.model.Asignatura
 
 
 interface ClasesAlumnoRepository {

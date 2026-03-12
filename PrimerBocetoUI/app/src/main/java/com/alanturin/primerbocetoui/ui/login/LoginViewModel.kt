@@ -3,6 +3,7 @@ package com.alanturin.primerbocetoui.ui.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alanturin.primerbocetoui.domain.repository.AuthRepository
+import com.alanturin.primerbocetoui.ui.session.SessionViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +16,8 @@ import com.alanturin.primerbocetoui.domain.model.UserSession
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val sessionViewModel: SessionViewModel
 ) : ViewModel() {
 
     private val _isLoading = MutableStateFlow(false)
@@ -26,6 +28,15 @@ class LoginViewModel @Inject constructor(
 
     private val _loginSuccess = MutableStateFlow(false)
     val loginSuccess: StateFlow<Boolean> = _loginSuccess.asStateFlow()
+
+    /**
+     * Rol del usuario autenticado: "TEACHER", "STUDENT" o "ADMIN".
+     * */
+
+    val userRole: StateFlow<String?> = sessionViewModel.userRole
+
+
+    val userId: StateFlow<Int?> = sessionViewModel.userId
 
     fun login(email: String, pass: String) {
         viewModelScope.launch {
@@ -41,7 +52,25 @@ class LoginViewModel @Inject constructor(
                 _error.value = exception.message ?: "Error desconocido al iniciar sesión"
             }
 
+            if (result.isSuccess) {
+                // CAMBIADO: antes getOrNull() devolvía un String con el rol
+                // ahora devuelve LoginData completo con id, role, email...
+                val loginData = result.getOrNull()
+                if (loginData != null) {
+                    // NUEVO: guardamos id y rol en SessionViewModel para que
+                    // ClasesProfesorViewModel y otras pantallas puedan acceder al id del usuario
+                    sessionViewModel.saveSession(loginData.id, loginData.role, loginData.token)
+
+                }
+                _loginSuccess.value = true
+            } else {
+                _error.value = result.exceptionOrNull()?.message ?: "Error al iniciar sesión"
+            }
             _isLoading.value = false
         }
+    }
+
+    fun logout(){
+        sessionViewModel.clearSession()
     }
 }
