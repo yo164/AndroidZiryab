@@ -1,97 +1,139 @@
 package com.alanturin.primerbocetoui.ui.fichausuario.justificar
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.UploadFile
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.alanturin.primerbocetoui.ui.camera.CameraScreen
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun JustificarFaltaScreen(
-    subjectName: String = "Programación",
-    date: String = "2025-09-22",
-    startTime: String = "08:15",
-    status: String = "MISSING",
+    subjectName: String,
+    date: String,
+    startTime: String,
+    status: String,
     modifier: Modifier = Modifier,
-    onTakePhoto: () -> Unit = {},
-    onUploadFile: () -> Unit = {}
+    viewModel: JustificarFaltaViewModel = hiltViewModel()
 ) {
-    val statusColor = when (status) {
-        "MISSING" -> Color.Red
-        "LAG" -> Color(0xFFFFA500)
-        else -> Color.Gray
+    val uiState by viewModel.uiState.collectAsState()
+    var showCamera by remember { mutableStateOf(false) }
+
+    // Estado para gestionar los permisos de la cámara
+    val cameraPermissionState = rememberPermissionState(android.Manifest.permission.CAMERA)
+
+    // Lanzador para seleccionar archivos del dispositivo
+    val filePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let { viewModel.onFileSelected(it) }
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        Text(
-            text = "Justificar falta",
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
+    if (showCamera) {
+        CameraScreen(
+            onPhotoTaken = { uri ->
+                viewModel.onPhotoTaken(uri)
+                showCamera = false
+            },
+            onBack = { showCamera = false }
         )
-
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
+    } else {
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text(text = subjectName, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
-                Text(text = date, style = MaterialTheme.typography.bodyMedium)
-                Text(text = startTime, style = MaterialTheme.typography.bodyMedium)
-                Text(text = status, color = statusColor, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold)
+            Text(
+                text = "Justificar Falta",
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold
+            )
+
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFF3F4F6))
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text("Asignatura: $subjectName", fontWeight = FontWeight.Bold)
+                    Text("Fecha: $date")
+                    Text("Hora: $startTime")
+                    Text("Estado: $status", color = if (status == "MISSING") Color.Red else Color.DarkGray)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Botón para usar la Cámara
+            Button(
+                onClick = {
+                    if (cameraPermissionState.status.isGranted) {
+                        showCamera = true
+                    } else {
+                        cameraPermissionState.launchPermissionRequest()
+                    }
+                },
+                modifier = Modifier.fillMaxWidth().height(56.dp)
+            ) {
+                Icon(Icons.Default.CameraAlt, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Hacer foto del justificante")
+            }
+
+            // Botón para elegir archivo del dispositivo
+            OutlinedButton(
+                onClick = { filePickerLauncher.launch("*/*") },
+                modifier = Modifier.fillMaxWidth().height(56.dp)
+            ) {
+                Icon(Icons.Default.UploadFile, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Subir desde el dispositivo")
+            }
+
+            // Feedback y botón final de envío
+            when (uiState) {
+                is JustificarFaltaViewModel.UiState.FileSelected -> {
+                    Text(
+                        text = "✓ Archivo adjuntado correctamente",
+                        color = Color(0xFF10B981),
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                    Button(
+                        onClick = { viewModel.enviarJustificacion(subjectName, date) },
+                        modifier = Modifier.fillMaxWidth().height(56.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF10B981))
+                    ) {
+                        Text("Confirmar y Enviar")
+                    }
+                }
+                is JustificarFaltaViewModel.UiState.Sending -> {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                }
+                is JustificarFaltaViewModel.UiState.Success -> {
+                    Text(
+                        text = "¡Enviado con éxito!",
+                        color = Color(0xFF10B981),
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                }
+                else -> {}
             }
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = onTakePhoto,
-            modifier = Modifier.fillMaxWidth().height(64.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF7C3AED))
-        ) {
-            Icon(imageVector = Icons.Default.CameraAlt, contentDescription = null, modifier = Modifier.size(24.dp))
-            Spacer(modifier = Modifier.size(8.dp))
-            Text("Tomar foto", style = MaterialTheme.typography.bodyLarge)
-        }
-
-        Button(
-            onClick = onUploadFile,
-            modifier = Modifier.fillMaxWidth().height(64.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4C1D95))
-        ) {
-            Icon(imageVector = Icons.Default.UploadFile, contentDescription = null, modifier = Modifier.size(24.dp))
-            Spacer(modifier = Modifier.size(8.dp))
-            Text("Subir documento", style = MaterialTheme.typography.bodyLarge)
-        }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun JustificarFaltaScreenPreview() {
-    JustificarFaltaScreen()
 }
