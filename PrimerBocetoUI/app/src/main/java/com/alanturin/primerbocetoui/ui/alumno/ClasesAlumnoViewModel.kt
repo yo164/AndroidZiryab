@@ -52,10 +52,6 @@ class ClasesAlumnoViewModel @Inject constructor(
             } else {
                 _error.value = "No hay sesión activa"
             }
-            result.onFailure { exception ->
-                _error.value = "Error desconocido"
-            }
-
             _isLoading.value = false
         }
     }

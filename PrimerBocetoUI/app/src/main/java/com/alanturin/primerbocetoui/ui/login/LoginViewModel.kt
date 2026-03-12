@@ -45,8 +45,8 @@ class LoginViewModel @Inject constructor(
             
             val result = authRepository.login(email, pass)
             
-            result.onSuccess { userId ->
-                UserSession.studentId = userId
+            result.onSuccess { loginData ->
+                UserSession.studentId = loginData.id.toLong()
                 _loginSuccess.value = true
             }.onFailure { exception ->
                 _error.value = exception.message ?: "Error desconocido al iniciar sesión"

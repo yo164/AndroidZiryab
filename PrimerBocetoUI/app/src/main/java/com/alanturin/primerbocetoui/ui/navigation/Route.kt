@@ -293,6 +293,6 @@ fun NavGraphBuilder.groupsDestination(
 }
 
 sealed class BottomNavItem(val route: Route, val icon: ImageVector, val label: String) {
-    data object Clases : BottomNavItem(Route.ClasesAlumno, Icons.Default.Home, R.string.bottom_nav_clases)
-    data object Gestion : BottomNavItem(Route.Gestion, Icons.Default.List, R.string.bottom_nav_gestion)
+    data object Clases : BottomNavItem(Route.ClasesAlumno, Icons.Default.Home, "Clases")
+    data object Gestion : BottomNavItem(Route.Gestion, Icons.Default.List, "Gestión")
 }
