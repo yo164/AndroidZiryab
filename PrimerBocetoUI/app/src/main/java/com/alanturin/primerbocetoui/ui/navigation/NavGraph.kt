@@ -115,11 +115,13 @@ fun NavGraph() {
                 }
             )
 
-            fichaUsuarioDestination(modifier = contentModifier)
+            fichaUsuarioDestination(modifier = contentModifier, navController = navController)
 
             horarioDestination(modifier = contentModifier)
 
             calendarioDestination(modifier = contentModifier)
+
+            justificarFaltaDestination(modifier = contentModifier)
 
             tablonDestination(modifier = contentModifier)
 

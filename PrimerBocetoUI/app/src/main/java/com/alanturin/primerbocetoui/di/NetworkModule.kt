@@ -2,7 +2,6 @@ package com.alanturin.primerbocetoui.di
 
 import com.alanturin.primerbocetoui.data.remote.ClasesProfesorApi
 import com.alanturin.primerbocetoui.ui.session.SessionViewModel
-import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,7 +39,7 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:3000/")
+            .baseUrl("http://192.168.18.152:3000")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -63,4 +62,6 @@ object NetworkModule {
     fun provideAuthApi(retrofit: Retrofit): com.alanturin.primerbocetoui.data.remote.AuthApi {
         return retrofit.create(com.alanturin.primerbocetoui.data.remote.AuthApi::class.java)
     }
+
+
 }
