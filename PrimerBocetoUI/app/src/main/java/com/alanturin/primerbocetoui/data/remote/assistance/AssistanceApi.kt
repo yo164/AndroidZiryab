@@ -14,7 +14,7 @@ import retrofit2.http.Path
 
 interface AssistanceApi {
 
-    @GET("api/assistance/session/{id]")
+    @GET("api/assistances/session/{id}")
     suspend fun getAssistancebySessionId(
         @Path("id") id: Int
     ):Response<AssistancesBySessionResponseRemote>
@@ -30,7 +30,7 @@ interface AssistanceApi {
      * actualiza el estado de una asistencia concreta
      * a justificado
      */
-    @PATCH("api/assistance/{id}")
+    @PATCH("api/assistances/{id}")
     suspend fun justifyAssistanceStatus(
         @Path("id") id: Int
     ): Response<JustifyAssistanceRemoteResponse>
@@ -40,7 +40,7 @@ interface AssistanceApi {
      * actualiza el estado de una asistencia a cualquier
      * otro valor
      */
-    @PATCH("api/assistancestatus/{id}")
+    @PATCH("api/assistances/assistancestatus/{id}")
     suspend fun patchAssistanceStatus(
         @Path("id") id: Int,
         @Body request: PatchAssistanceRemoteRequest
