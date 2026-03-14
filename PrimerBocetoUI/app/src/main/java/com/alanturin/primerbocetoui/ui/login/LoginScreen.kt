@@ -12,9 +12,11 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.platform.LocalContext
 import com.alanturin.primerbocetoui.R
 
 @Composable
@@ -41,14 +43,30 @@ fun LoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(24.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         Text(
+            text = "ZIRYAB",
+            style = MaterialTheme.typography.displayLarge.copy(
+                fontWeight = FontWeight.Black,
+                letterSpacing = (-2).sp,
+                brush = Brush.horizontalGradient(
+                    colors = listOf(Color(0xFF7C3AED), Color(0xFF4F46E5))
+                )
+            )
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
             text = stringResource(id = R.string.login_title),
-            style = MaterialTheme.typography.headlineMedium
+            style = MaterialTheme.typography.titleMedium.copy(
+                color = Color.Gray,
+                fontWeight = FontWeight.Medium
+            )
         )
 
         Spacer(modifier = Modifier.height(32.dp))

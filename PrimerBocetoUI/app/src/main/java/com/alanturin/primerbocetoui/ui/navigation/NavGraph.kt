@@ -73,7 +73,7 @@ fun NavGraph() {
         },
         bottomBar = {
             if (showBars) {
-                AppFooter(navController = navController)
+                AppFooter(navController = navController, userRole = userRole)
             }
         }
     ) { innerPadding ->

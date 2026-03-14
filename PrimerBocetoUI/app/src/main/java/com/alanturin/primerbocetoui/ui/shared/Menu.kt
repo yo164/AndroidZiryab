@@ -17,6 +17,7 @@ import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.alanturin.primerbocetoui.ui.navigation.Route
 import com.alanturin.primerbocetoui.ui.navigation.navigateToClasesAlumno
+import com.alanturin.primerbocetoui.ui.navigation.navigateToClasesProfesor
 import com.alanturin.primerbocetoui.ui.navigation.navigateToGestion
 import com.alanturin.primerbocetoui.ui.shared.BottomScreen
 import androidx.compose.ui.res.stringResource
@@ -57,7 +58,8 @@ fun AppHeader(
 
 @Composable
 fun AppFooter(
-    navController: NavController
+    navController: NavController,
+    userRole: String? = null
 ) {
     val navBackStackEntry = navController.currentBackStackEntryAsState().value
     val currentDestination = navBackStackEntry?.destination
@@ -74,7 +76,10 @@ fun AppFooter(
         items.forEach { screen ->
 
             val isSelected = when (screen) {
-                is BottomScreen.Clases -> currentDestination?.hasRoute<Route.ClasesAlumno>() == true
+                is BottomScreen.Clases -> {
+                    currentDestination?.hasRoute<Route.ClasesAlumno>() == true ||
+                    currentDestination?.hasRoute<Route.ClasesProfesor>() == true
+                }
                 is BottomScreen.Gestion -> currentDestination?.hasRoute<Route.Gestion>() == true
             }
 
@@ -100,7 +105,13 @@ fun AppFooter(
                 selected = isSelected,
                 onClick = {
                     when (screen) {
-                        is BottomScreen.Clases -> navController.navigateToClasesAlumno()
+                        is BottomScreen.Clases -> {
+                            if (userRole == "TEACHER") {
+                                navController.navigateToClasesProfesor()
+                            } else {
+                                navController.navigateToClasesAlumno()
+                            }
+                        }
                         is BottomScreen.Gestion -> navController.navigateToGestion()
                     }
                 },
