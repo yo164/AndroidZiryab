@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alanturin.primerbocetoui.data.remote.model.AssistanceStudentItemRemote
 import com.alanturin.primerbocetoui.data.repository.assistance.AssistanceRepository
+import com.alanturin.primerbocetoui.ui.session.SessionViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotificationListViewModel @Inject constructor(
-    private val assistanceRepository: AssistanceRepository
+    private val assistanceRepository: AssistanceRepository,
+    private val sessionViewModel: SessionViewModel
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
@@ -28,7 +30,9 @@ class NotificationListViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = UiState.Loading
 
-            val result = assistanceRepository.getPendingJustifications()
+            val userId = sessionViewModel.userId.value ?: 0
+
+            val result = assistanceRepository.getPendingJustifications(userId)
 
             result.onSuccess { lista ->
                 if (lista.isEmpty()) {

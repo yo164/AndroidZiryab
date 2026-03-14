@@ -13,6 +13,7 @@ import javax.inject.Singleton
 import com.alanturin.primerbocetoui.data.ClasesProfesorDataSource
 import com.alanturin.primerbocetoui.data.local.AppDatabase
 import com.alanturin.primerbocetoui.data.local.dao.GroupDao
+import com.alanturin.primerbocetoui.data.local.dao.HorarioDao
 import com.alanturin.primerbocetoui.data.remote.ClasesProfesorRemoteDataSource
 import com.alanturin.primerbocetoui.data.repository.ClasesProfesorRepository
 import com.alanturin.primerbocetoui.data.repository.ClasesProfesorRepositoryImpl
@@ -184,13 +185,21 @@ abstract class AppModule {
                 context,
                 AppDatabase::class.java,
                 "ziryab_db"
-            ).build()
+            )
+                .fallbackToDestructiveMigration()
+                .build()
         }
 
         @Provides
         @Singleton
         fun provideGroupDao(database: AppDatabase): GroupDao {
             return database.groupDao()
+        }
+
+        @Provides
+        @Singleton
+        fun provideHorarioDao(database: AppDatabase): HorarioDao {
+            return database.horarioDao()
         }
 
         @Provides
