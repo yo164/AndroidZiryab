@@ -9,6 +9,8 @@ import com.alanturin.primerbocetoui.data.remote.model.PatchAssistanceRemoteReque
 
 interface AssistanceRepository {
 
+    suspend fun getPendingJustifications(idTeacher: Int): Result<List<AssistanceStudentItemRemote>>
+
     suspend fun getAssistancesBySessionId(id: Int):Result<AssistancesBySessionResponseRemote>
 
     suspend fun createBulk(request: AssistanceBulkRequestRemote): Result<AssistanceBulkResponseRemote>

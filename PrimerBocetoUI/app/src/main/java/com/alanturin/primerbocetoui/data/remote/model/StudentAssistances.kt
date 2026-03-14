@@ -9,7 +9,16 @@ data class AssistanceStudentResponseRemote(
 data class AssistanceStudentItemRemote(
     val id: Int,
     val status: String,
-    val session: AssistanceSessionRemote
+    val session: AssistanceSessionRemote,
+    val studentEnrollment: StudentEnrollmentRemote
+)
+
+data class StudentEnrollmentRemote(
+    val student: StudentRemote
+)
+
+data class StudentRemote(
+    val name: String
 )
 
 data class AssistanceSessionRemote(

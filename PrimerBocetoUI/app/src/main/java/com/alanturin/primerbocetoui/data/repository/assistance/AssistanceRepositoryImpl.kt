@@ -14,6 +14,17 @@ class AssistanceRepositoryImpl @Inject constructor(
     private val remoteDataSource: AssistanceRemoteDataSourceImpl,
     private val forStudentsRemote: AssistanceForStudentsRemoteDataSource
 ) : AssistanceRepository {
+    override suspend fun getPendingJustifications(idTeacher: Int): Result<List<AssistanceStudentItemRemote>> {
+        val remoteResult = remoteDataSource.getPendingJustifications(idTeacher)
+
+        return if (remoteResult.isSuccess) {
+            remoteResult
+        } else {
+            // TODO: aqui ira la llamada a local datasource (Room)
+            Result.failure(remoteResult.exceptionOrNull() ?: RuntimeException("Error desconocido"))
+        }
+    }
+
     override suspend fun getAssistancesBySessionId(id: Int): Result<AssistancesBySessionResponseRemote> {
         return remoteDataSource.getAssistanesbySessionId(id)
     }
