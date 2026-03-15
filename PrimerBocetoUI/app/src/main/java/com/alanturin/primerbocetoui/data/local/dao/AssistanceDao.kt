@@ -25,7 +25,10 @@ interface AssistanceDao {
     suspend fun updateStatus(id: Int, status: String)
 
     @Query("UPDATE assistance SET uri = :uri WHERE id = :id")
-    suspend fun updateUri(id: Int, uri: String)
+    suspend fun updateUri(id: Int, uri: String): Int
+
+    @Query("SELECT * FROM assistance WHERE id = :id")
+    suspend fun getById(id: Int): AssistanceEntity?
 
     @Query("DELETE FROM assistance")
     suspend fun deleteAll()

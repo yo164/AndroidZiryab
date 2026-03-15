@@ -19,10 +19,12 @@ import com.alanturin.primerbocetoui.ui.camera.CameraScreen
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import androidx.compose.runtime.collectAsState
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun JustificarFaltaScreen(
+    id: Int,
     subjectName: String,
     date: String,
     startTime: String,
@@ -113,8 +115,9 @@ fun JustificarFaltaScreen(
                         fontWeight = FontWeight.Medium,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
+
                     Button(
-                        onClick = { viewModel.enviarJustificacion(subjectName, date) },
+                        onClick = { viewModel.enviarJustificacion( id,subjectName, date) },
                         modifier = Modifier.fillMaxWidth().height(56.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF10B981))
                     ) {

@@ -3,6 +3,7 @@ package com.alanturin.primerbocetoui.ui.fichausuario.justificar
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alanturin.primerbocetoui.data.repository.assistance.AssistanceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,7 +12,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class JustificarFaltaViewModel @Inject constructor() : ViewModel() {
+class JustificarFaltaViewModel @Inject constructor(
+    private val assistanceRepository: AssistanceRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
@@ -30,7 +33,7 @@ class JustificarFaltaViewModel @Inject constructor() : ViewModel() {
         _uiState.value = UiState.FileSelected(uri)
     }
 
-    fun enviarJustificacion(subject: String, date: String) {
+    fun enviarJustificacion(id: Int,subject: String, date: String) {
         val uri = selectedFileUri
         if (uri == null) {
             android.util.Log.e("ZIRYAB", "No hay archivo para enviar")
@@ -40,8 +43,8 @@ class JustificarFaltaViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch {
             _uiState.value = UiState.Sending
 
-            android.util.Log.d("ZIRYAB", "Enviando justificante para $subject del día $date. Archivo: $uri")
-            kotlinx.coroutines.delay(2000)
+            android.util.Log.d("ZIRYAB", "Enviando justificante para la asistencia $id, $subject del día $date. Archivo: $uri")
+            assistanceRepository.justifyRequest(id, uri.toString())
             _uiState.value = UiState.Success
         }
     }

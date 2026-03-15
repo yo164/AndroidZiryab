@@ -16,7 +16,7 @@ import com.alanturin.primerbocetoui.ui.alumno.ficha.FichaUsuarioViewModel
 fun FichaUsuarioScreen(
     modifier: Modifier = Modifier,
     viewModel: FichaUsuarioViewModel = hiltViewModel(),
-    onJustificarClick: (String, String, String, String) -> Unit
+    onJustificarClick: (Int, String, String, String, String) -> Unit
 ) {
     LaunchedEffect(Unit) { viewModel.cargarFaltas() }
 
@@ -27,7 +27,7 @@ fun FichaUsuarioScreen(
 
         // BOTÓN DE EMERGENCIA: Para que puedas probar la cámara aunque la lista esté vacía
         Button(
-            onClick = { onJustificarClick("Clase de Prueba", "2026-03-12", "08:00", "MISSING") },
+            onClick = { onJustificarClick(1,"Clase de Prueba", "2025-03-12", "08:00", "MISSING") },
             modifier = Modifier.padding(vertical = 8.dp).fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
         ) {
@@ -48,6 +48,7 @@ fun FichaUsuarioScreen(
                             asistencia = falta,
                             onClick = {
                                 onJustificarClick(
+                                    falta.id,
                                     falta.subjectName!!,
                                     falta.date!!,
                                     falta.startTime!!,

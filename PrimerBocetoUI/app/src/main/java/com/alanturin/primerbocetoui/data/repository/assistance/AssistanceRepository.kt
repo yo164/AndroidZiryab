@@ -26,4 +26,6 @@ interface AssistanceRepository {
     suspend fun justifyAssistancebyId(id: Int): Result<JustifyAssistanceRemoteResponse>
 
     suspend fun patchAssistancebyId(id: Int, status: String): Result<JustifyAssistanceRemoteResponse>
+
+    suspend fun justifyRequest(id: Int, uri: String):Result<AssistanceItem>
 }

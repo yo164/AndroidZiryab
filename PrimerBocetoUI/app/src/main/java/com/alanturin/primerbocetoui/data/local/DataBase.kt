@@ -21,7 +21,7 @@ import com.alanturin.primerbocetoui.model.Subject
         TeacherEntity::class,
         AssistanceEntity::class,
         SubjectEntity::class],
-    version = 7,
+    version = 8,
     exportSchema = false)
 
 abstract class AppDatabase : RoomDatabase() {

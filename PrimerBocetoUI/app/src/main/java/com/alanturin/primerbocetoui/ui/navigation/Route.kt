@@ -41,6 +41,7 @@ sealed class Route {
     @Serializable data object AlumnoList: Route()
     @Serializable
     data class JustificarFalta(
+        val id: Int,
         val subjectName: String,
         val date: String,
         val startTime: String,
@@ -111,9 +112,10 @@ fun NavGraphBuilder.fichaUsuarioDestination(
 ) {
     composable<Route.FichaUsuario> {
         FichaUsuarioScreen(
-            onJustificarClick = { subject, date, time, status ->
+            onJustificarClick = { id, subject, date, time, status ->
                 navController.navigate(
                     Route.JustificarFalta(
+                        id = id,
                         subjectName = subject,
                         date = date,
                         startTime = time,
@@ -131,6 +133,7 @@ fun NavGraphBuilder.justificarFaltaDestination(
     composable<Route.JustificarFalta> { backStackEntry ->
         val data = backStackEntry.toRoute<Route.JustificarFalta>()
         JustificarFaltaScreen(
+            id = data.id,
             subjectName = data.subjectName,
             date = data.date,
             startTime = data.startTime,
