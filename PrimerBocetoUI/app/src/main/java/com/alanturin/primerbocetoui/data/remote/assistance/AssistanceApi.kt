@@ -14,6 +14,9 @@ import retrofit2.http.Path
 
 interface AssistanceApi {
 
+    @GET("api/assistances")
+    suspend fun getAll(): Response<AssistancesBySessionResponseRemote>
+
     @GET("api/assistances/session/{id}")
     suspend fun getAssistancebySessionId(
         @Path("id") id: Int

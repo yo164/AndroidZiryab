@@ -35,8 +35,8 @@ class HorarioListViewModel @Inject constructor(
             }
 
             val result = when (userRole) {
-                "TEACHER" -> weekScheduleRepository.getWeekScheduleByTeacher(userId.toLong())
-                "STUDENT" -> studentScheduleRepository.getWeekScheduleByStudent(userId.toLong())
+                "TEACHER" -> weekScheduleRepository.getWeekScheduleByTeacher(userId.toLong(), userRole)
+                "STUDENT" -> studentScheduleRepository.getWeekScheduleByStudent(userId.toLong(), userRole)
                 else -> Result.failure(RuntimeException("Rol desconocido"))
             }
 

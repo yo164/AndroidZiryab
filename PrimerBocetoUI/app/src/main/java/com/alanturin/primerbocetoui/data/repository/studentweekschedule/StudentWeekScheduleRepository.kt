@@ -4,6 +4,8 @@ import com.alanturin.primerbocetoui.domain.model.HorarioItem
 
 interface StudentWeekScheduleRepository {
 
-    suspend fun getWeekScheduleByStudent(idStudent: Long): Result<List<HorarioItem>>
+    suspend fun deleteAll()
+
+    suspend fun getWeekScheduleByStudent(idStudent: Long, role: String): Result<List<HorarioItem>>
 
 }

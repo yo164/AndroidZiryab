@@ -3,19 +3,25 @@ package com.alanturin.primerbocetoui.data.repository.assistance
 import com.alanturin.primerbocetoui.data.remote.model.AssistanceBulkRequestRemote
 import com.alanturin.primerbocetoui.data.remote.model.AssistanceBulkResponseRemote
 import com.alanturin.primerbocetoui.data.remote.model.AssistanceStudentItemRemote
+import com.alanturin.primerbocetoui.data.remote.model.AssistanceStudentResponseRemote
 import com.alanturin.primerbocetoui.data.remote.model.AssistancesBySessionResponseRemote
 import com.alanturin.primerbocetoui.data.remote.model.JustifyAssistanceRemoteResponse
 import com.alanturin.primerbocetoui.data.remote.model.PatchAssistanceRemoteRequest
+import com.alanturin.primerbocetoui.domain.model.AssistanceItem
 
 interface AssistanceRepository {
 
+    suspend fun getAll(): Result<List<AssistanceItem>>
+
+    suspend fun deleteAll()
+
     suspend fun getPendingJustifications(idTeacher: Int): Result<List<AssistanceStudentItemRemote>>
 
-    suspend fun getAssistancesBySessionId(id: Int):Result<AssistancesBySessionResponseRemote>
+    suspend fun getAssistancesBySessionId(id: Int):Result<List<AssistanceItem>>
 
     suspend fun createBulk(request: AssistanceBulkRequestRemote): Result<AssistanceBulkResponseRemote>
 
-    suspend fun getByStudentId(idStudent: Int): Result<List<AssistanceStudentItemRemote>>
+    suspend fun getByStudentId(idStudent: Int): Result<List<AssistanceItem>>
 
     suspend fun justifyAssistancebyId(id: Int): Result<JustifyAssistanceRemoteResponse>
 

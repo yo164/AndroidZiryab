@@ -10,8 +10,10 @@ import com.alanturin.primerbocetoui.data.local.entity.HorarioEntity
 @Dao
 interface HorarioDao {
 
-    @Query("SELECT * FROM horario")
-    suspend fun getAll(): List<HorarioEntity>
+    @Query("SELECT * FROM horario WHERE idUser = :idUser AND role = :role")
+    suspend fun getByUserAndRole(idUser: Int, role: String): List<HorarioEntity>
+
+
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -5,7 +5,7 @@ data class AssistanceBulkRequestRemote(
 )
 data class AssistancesBySessionResponseRemote(
     val success: Boolean,
-    val data: List<AssistanceData>
+    val data: List<AssistanceItemRemote>
 )
 data class AssistanceItemRequestRemote(
     val idSession: Int,
@@ -23,15 +23,26 @@ data class AssistanceBulkResponseRemote(
 
 data class JustifyAssistanceRemoteResponse(
     val success: Boolean,
-    val data: AssistanceData
+    val data: AssistanceItemRemote
 )
 
-data class AssistanceData(
+data class AssistanceItemRemote(
     val id: Int,
-    val idSession: Int,
     val idStudentEnrollment: Int,
     val status: String,
-    val createdAt: String
+    val createdAt: String,
+    val studentEnrollment: AssistanceStudentEnrollmentRemote,
+    val session: AssistanceSessionNestedRemote
+)
+
+data class AssistanceSessionNestedRemote(
+    val id: Int,
+    val date: String
+
+)
+
+data class AssistanceStudentEnrollmentRemote(
+    val idStudent: Int
 )
 
 data class PatchAssistanceRemoteRequest(

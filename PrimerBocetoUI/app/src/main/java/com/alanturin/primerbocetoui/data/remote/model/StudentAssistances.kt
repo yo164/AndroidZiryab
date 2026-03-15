@@ -6,6 +6,7 @@ data class AssistanceStudentResponseRemote(
     val count: Int
 )
 
+
 data class AssistanceStudentItemRemote(
     val id: Int,
     val status: String,
@@ -18,10 +19,12 @@ data class StudentEnrollmentRemote(
 )
 
 data class StudentRemote(
+    val id: Int,
     val name: String
 )
 
 data class AssistanceSessionRemote(
+    val id: Int,
     val date: String,
     val schedule: AssistanceScheduleRemote
 )

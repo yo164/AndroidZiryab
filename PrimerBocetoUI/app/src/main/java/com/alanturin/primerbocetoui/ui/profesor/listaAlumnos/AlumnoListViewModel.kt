@@ -3,13 +3,14 @@ package com.alanturin.primerbocetoui.ui.profesor.listaAlumnos
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alanturin.primerbocetoui.data.remote.model.AssistanceBulkRequestRemote
-import com.alanturin.primerbocetoui.data.remote.model.AssistanceData
 import com.alanturin.primerbocetoui.data.remote.model.AssistanceItemRequestRemote
 import com.alanturin.primerbocetoui.data.remote.model.EnrollmentItemRemote
 import com.alanturin.primerbocetoui.data.repository.EnrollmentRepository
 import com.alanturin.primerbocetoui.data.repository.assistance.AssistanceRepository
+import com.alanturin.primerbocetoui.domain.model.AssistanceItem
 
 import com.alanturin.primerbocetoui.ui.session.AssignmentSessionService
+import com.alanturin.primerbocetoui.ui.session.SessionViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class AlumnoListViewModel @Inject constructor(
     private val repository: EnrollmentRepository,
     private val assignmentSessionService: AssignmentSessionService,
-    private val assistanceRepository: AssistanceRepository
+    private val assistanceRepository: AssistanceRepository,
+    private val sessionViewModel: SessionViewModel
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
@@ -60,7 +62,7 @@ class AlumnoListViewModel @Inject constructor(
     fun enviarAsistencias() {
         android.util.Log.d("ZIRYAB", "Preparando datos para enviar asistencias...")
         val idSession = assignmentSessionService.currentClassSession.value
-
+        val idUser = sessionViewModel.userId.value ?: 0
         if (idSession == null || idSession == 0) {
             android.util.Log.d("ZIRYAB", "No hay sesión de clase activa")
             return
@@ -71,10 +73,10 @@ class AlumnoListViewModel @Inject constructor(
             val getResult = assistanceRepository.getAssistancesBySessionId(idSession)
 
             getResult.onSuccess { listaExistente ->
-                if (listaExistente.data.isEmpty()) {
+                if (listaExistente.isEmpty()) {
                     enviarBulk(idSession)
                 } else {
-                    patchAsistencias(listaExistente.data)
+                    patchAsistencias(listaExistente)
                 }
             }.onFailure {
                 android.util.Log.d("ZIRYAB", "Error al verificar asistencias: ${it.message}")
@@ -115,11 +117,11 @@ class AlumnoListViewModel @Inject constructor(
             val getResult = assistanceRepository.getAssistancesBySessionId(idSession)
 
             getResult.onSuccess { listaExistente ->
-                if (listaExistente.data.isNotEmpty()) {
+                if (listaExistente.isNotEmpty()) {
                     // pintar botones con los estados que vienen del backend
-                    listaExistente.data.forEach { asistencia ->
-                        _asistencias.value = _asistencias.value +
-                                (asistencia.idStudentEnrollment to AssistanceStatus.valueOf(asistencia.status))
+                    listaExistente.forEach { asistencia ->
+                        _asistencias.value = (_asistencias.value +
+                                (asistencia.idStudentEnrollment to AssistanceStatus.valueOf(asistencia.status))) as Map<Int, AssistanceStatus>
                     }
                 }
             }.onFailure {
@@ -128,7 +130,7 @@ class AlumnoListViewModel @Inject constructor(
         }
     }
 
-    private fun patchAsistencias(listaExistente: List<AssistanceData>) {
+    private fun patchAsistencias(listaExistente: List<AssistanceItem>) {
         viewModelScope.launch {
             listaExistente.forEach { asistenciaExistente ->
                 val nuevoStatus = _asistencias.value[asistenciaExistente.idStudentEnrollment]

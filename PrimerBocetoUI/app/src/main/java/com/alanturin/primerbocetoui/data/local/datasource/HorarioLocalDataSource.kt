@@ -10,7 +10,7 @@ class HorarioLocalDataSource @Inject constructor(
     private val dao: HorarioDao
 ) {
 
-    suspend fun getAll(): List<HorarioEntity> = dao.getAll()
+    suspend fun getByUserAndRole(idUser: Int, role: String): List<HorarioEntity> = dao.getByUserAndRole(idUser, role)
 
     suspend fun insertAll(horarios: List<HorarioEntity>) = dao.insertAll(horarios)
 

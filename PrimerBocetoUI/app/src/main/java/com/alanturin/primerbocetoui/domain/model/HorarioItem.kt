@@ -9,24 +9,30 @@ data class HorarioItem(
     val startTime: String,
     val finishTime: String,
     val subjectName: String,
-    val groupName: String
+    val groupName: String,
+    val idUser: Int,
+    val role: String
 )
 
 
-fun WeekScheduleItemRemote.toHorarioItem() = HorarioItem(
+fun WeekScheduleItemRemote.toHorarioItem(role: String, idUser: Int) = HorarioItem(
     id = this.id.toLong(),
     weekDay = this.weekDay,
     startTime = this.startTime,
     finishTime = this.finishTime,
     subjectName = this.teacherAssignment.subject.name,
-    groupName = this.teacherAssignment.group.name
+    groupName = this.teacherAssignment.group.name,
+    idUser = idUser,
+    role = role
 )
 
-fun StudentScheduleItemRemote.toHorarioItem() = HorarioItem(
+fun StudentScheduleItemRemote.toHorarioItem(role: String, idUser: Int) = HorarioItem(
     id = this.id.toLong(),
     weekDay = this.weekDay,
     startTime = this.startTime,
     finishTime = this.finishTime,
     subjectName = this.teacherAssignment.subject.name,
-    groupName = this.teacherAssignment.group.name
+    groupName = this.teacherAssignment.group.name,
+    idUser = idUser,
+    role = role
 )

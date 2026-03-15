@@ -13,8 +13,13 @@ data class HorarioEntity(
     val startTime: String,
     val finishTime: String,
     val subjectName: String,
-    val groupName: String
+    val groupName: String,
+    val idUser: Int,
+    val role: String // "TEACHER" o "STUDENT"
+
 )
+
+
 
 
 fun HorarioEntity.toDomain() = HorarioItem(
@@ -23,7 +28,10 @@ fun HorarioEntity.toDomain() = HorarioItem(
     startTime = this.startTime,
     finishTime = this.finishTime,
     subjectName = this.subjectName,
-    groupName = this.groupName
+    groupName = this.groupName,
+    idUser = this.idUser,
+    role = this.role
+
 )
 
 fun HorarioItem.toEntity() = HorarioEntity(
@@ -32,5 +40,7 @@ fun HorarioItem.toEntity() = HorarioEntity(
     startTime = this.startTime,
     finishTime = this.finishTime,
     subjectName = this.subjectName,
-    groupName = this.groupName
+    groupName = this.groupName,
+    idUser = this.idUser,
+    role = this.role
 )
