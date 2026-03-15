@@ -13,12 +13,13 @@ data class AlumnoAsignaturaListRemote(
 data class ItemRemote(
     val subject: SubjectRemote,
     val group: GroupRemote,
-    val schoolYear: String
+    val schoolYear: String,
 )
 
 data class SubjectRemote(
     val id: Long,
     val name: String,
+    val grade: String,
     val idCourse: Long,
     val course: CourseRemote
 )
@@ -40,7 +41,7 @@ fun ItemRemote.toDomain(): Asignatura {
         idSubject = this.subject.id.toInt(),
         idGroup = this.group.id.toInt(),
         nombre = this.subject.name,
-        grade = "",
-        curso = "${this.subject.course.name} - ${this.group.name}"
+        grade = this.subject.grade,
+        curso = "${this.subject.grade} de ${this.subject.course.name} - ${this.group.name}"
     )
 }

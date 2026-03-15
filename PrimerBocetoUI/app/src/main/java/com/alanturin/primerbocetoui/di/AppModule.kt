@@ -15,12 +15,13 @@ import com.alanturin.primerbocetoui.data.local.AppDatabase
 import com.alanturin.primerbocetoui.data.local.dao.AssistanceDao
 import com.alanturin.primerbocetoui.data.local.dao.GroupDao
 import com.alanturin.primerbocetoui.data.local.dao.HorarioDao
+import com.alanturin.primerbocetoui.data.local.dao.SubjectDao
 import com.alanturin.primerbocetoui.data.local.dao.TeacherDao
 import com.alanturin.primerbocetoui.data.remote.ClasesProfesorRemoteDataSource
 import com.alanturin.primerbocetoui.data.repository.ClasesProfesorRepository
 import com.alanturin.primerbocetoui.data.repository.ClasesProfesorRepositoryImpl
-import com.alanturin.primerbocetoui.data.remote.ClasesAlumnoApi
-import com.alanturin.primerbocetoui.data.remote.ClasesAlumnoRemoteDataSource
+import com.alanturin.primerbocetoui.data.remote.clasesalumno.ClasesAlumnoApi
+import com.alanturin.primerbocetoui.data.remote.clasesalumno.ClasesAlumnoRemoteDataSource
 import com.alanturin.primerbocetoui.domain.repository.ClasesAlumnoRepository
 import com.alanturin.primerbocetoui.data.repository.ClasesAlumnoRepositoryImpl
 import com.alanturin.primerbocetoui.data.remote.CalendarApi
@@ -34,6 +35,7 @@ import com.alanturin.primerbocetoui.data.remote.assistance.AssistanceApi
 import com.alanturin.primerbocetoui.data.remote.assistance.forstudents.AssistanceForStudentsApi
 import com.alanturin.primerbocetoui.data.remote.assistance.forstudents.AssistanceForStudentsRemoteDataSource
 import com.alanturin.primerbocetoui.data.remote.assistance.forstudents.AssistanceForStudentsRemoteDataSourceImpl
+import com.alanturin.primerbocetoui.data.remote.clasesalumno.ClasesAlumnoRemoteDataSourceImpl
 import com.alanturin.primerbocetoui.data.remote.studenttask.StudentTaskApi
 import com.alanturin.primerbocetoui.data.remote.studenttask.StudentTaskRemoteDataSource
 import com.alanturin.primerbocetoui.data.remote.studenttask.StudentTaskRemoteDataSourceImpl
@@ -146,6 +148,17 @@ abstract class AppModule {
     abstract fun bindTeacherRepository(impl: TeacherRepositoryImpl): TeacherRepository
 
 
+
+    @Binds
+    @Singleton
+    abstract fun bindClasesAlumnoRemoteDataSource(
+        impl: ClasesAlumnoRemoteDataSourceImpl
+    ): ClasesAlumnoRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindClasesAlumnoRepository(impl: ClasesAlumnoRepositoryImpl): ClasesAlumnoRepository
+
     companion object {
 
         @Provides
@@ -154,20 +167,6 @@ abstract class AppModule {
             return retrofit.create(ClasesAlumnoApi::class.java)
         }
 
-        @Provides
-        @Singleton
-        fun provideClasesAlumnoRemoteDataSource(api: ClasesAlumnoApi): ClasesAlumnoRemoteDataSource {
-            return ClasesAlumnoRemoteDataSource(api)
-        }
-
-        @Provides
-        @Singleton
-        fun provideClasesAlumnoRepository(
-            dataSource: ClasesAlumnoRemoteDataSource
-        ): ClasesAlumnoRepository {
-
-            return ClasesAlumnoRepositoryImpl(dataSource)
-        }
 
         @Provides
         @Singleton
@@ -230,6 +229,12 @@ abstract class AppModule {
         @Singleton
         fun provideAssistanceDao(database: AppDatabase): AssistanceDao {
             return database.assistanceDao()
+        }
+
+        @Provides
+        @Singleton
+        fun provideSubjectDao(database: AppDatabase): SubjectDao {
+            return database.subjectDao()
         }
 
         /**
