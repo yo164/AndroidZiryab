@@ -1,6 +1,6 @@
 package com.alanturin.primerbocetoui.di
 
-import com.alanturin.primerbocetoui.data.remote.ClasesProfesorApi
+import com.alanturin.primerbocetoui.data.remote.clasesprofesor.ClasesProfesorApi
 import com.alanturin.primerbocetoui.ui.session.SessionViewModel
 import dagger.Module
 import dagger.Provides

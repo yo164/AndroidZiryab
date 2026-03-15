@@ -17,7 +17,7 @@ import com.alanturin.primerbocetoui.data.local.dao.GroupDao
 import com.alanturin.primerbocetoui.data.local.dao.HorarioDao
 import com.alanturin.primerbocetoui.data.local.dao.SubjectDao
 import com.alanturin.primerbocetoui.data.local.dao.TeacherDao
-import com.alanturin.primerbocetoui.data.remote.ClasesProfesorRemoteDataSource
+import com.alanturin.primerbocetoui.data.remote.clasesprofesor.ClasesProfesorRemoteDataSource
 import com.alanturin.primerbocetoui.data.repository.ClasesProfesorRepository
 import com.alanturin.primerbocetoui.data.repository.ClasesProfesorRepositoryImpl
 import com.alanturin.primerbocetoui.data.remote.clasesalumno.ClasesAlumnoApi

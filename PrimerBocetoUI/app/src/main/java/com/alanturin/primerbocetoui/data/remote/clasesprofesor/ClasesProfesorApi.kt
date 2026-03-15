@@ -1,4 +1,4 @@
-package com.alanturin.primerbocetoui.data.remote
+package com.alanturin.primerbocetoui.data.remote.clasesprofesor
 
 import com.alanturin.primerbocetoui.data.remote.model.AsignaturaListRemote
 import retrofit2.Response
