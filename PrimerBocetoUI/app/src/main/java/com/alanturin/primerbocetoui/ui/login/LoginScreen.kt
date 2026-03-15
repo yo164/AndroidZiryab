@@ -17,6 +17,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import com.alanturin.primerbocetoui.R
 
 @Composable
@@ -47,6 +51,16 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        Image(
+            painter = painterResource(id = R.drawable.logo_ziryab),
+            contentDescription = stringResource(id = R.string.app_name),
+            modifier = Modifier
+                .size(100.dp)
+                .clip(CircleShape)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = "ZIRYAB",
