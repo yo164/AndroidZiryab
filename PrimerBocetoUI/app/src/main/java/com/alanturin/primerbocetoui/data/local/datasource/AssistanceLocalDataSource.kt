@@ -12,7 +12,7 @@ class AssistanceLocalDataSource @Inject constructor(
 
     suspend fun getByStudentId(idStudent: Int): List<AssistanceEntity> = dao.getByStudentId(idStudent)
 
-    suspend fun getPendingJustifications(): List<AssistanceEntity> = dao.getPendingJustifications()
+    suspend fun getPendingJustifications(idTeacher: Int): List<AssistanceEntity> = dao.getPendingJustifications(idTeacher)
 
     suspend fun insertAll(assistances: List<AssistanceEntity>) = dao.insertAll(assistances)
 

@@ -45,14 +45,13 @@ class LoginViewModel @Inject constructor(
             val result = authRepository.login(email, pass)
 
             if (result.isSuccess) {
-                // CAMBIADO: antes getOrNull() devolvía un String con el rol
-                // ahora devuelve LoginData completo con id, role, email...
                 val loginData = result.getOrNull()
                 if (loginData != null) {
-                    // NUEVO: guardamos id y rol en SessionViewModel para que
-                    // ClasesProfesorViewModel y otras pantallas puedan acceder al id del usuario
                     sessionViewModel.saveSession(loginData.id, loginData.role, loginData.token)
                     launch { initialDataController.cargarDatosIniciales() }
+                    if (loginData.role == "TEACHER"){
+                        launch { initialDataController.programarWorker(loginData.id) }
+                    }
                 }
                 _loginSuccess.value = true
             } else {

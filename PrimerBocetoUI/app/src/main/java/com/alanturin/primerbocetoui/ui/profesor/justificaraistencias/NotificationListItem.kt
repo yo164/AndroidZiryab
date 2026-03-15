@@ -15,11 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.alanturin.primerbocetoui.data.remote.model.AssistanceStudentItemRemote
+import com.alanturin.primerbocetoui.domain.model.AssistanceItem
 
 @Composable
 fun NotificationListItem(
-    asistencia: AssistanceStudentItemRemote,
+    asistencia: AssistanceItem,
     onClick: () -> Unit
 ) {
     val statusColor = when (asistencia.status) {
@@ -45,19 +45,19 @@ fun NotificationListItem(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = asistencia.studentEnrollment.student.name,
+                    text = asistencia.idStudent.toString(),
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
-                    text = asistencia.session.schedule.teacherAssignment.subject.name,
+                    text = asistencia.subjectName.toString(),
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = asistencia.session.date,
+                    text = asistencia.date.toString(),
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    text = asistencia.session.schedule.startTime,
+                    text = asistencia.startTime.toString(),
                     style = MaterialTheme.typography.bodySmall
                 )
             }

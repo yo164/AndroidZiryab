@@ -37,8 +37,24 @@ data class AssistanceItemRemote(
 
 data class AssistanceSessionNestedRemote(
     val id: Int,
-    val date: String
+    val date: String,
+    val schedule: ScheduleNestedRemote
 
+)
+
+data class ScheduleNestedRemote(
+    val startTime: String,
+    val teacherAssignment: AssignmentNestedRemote
+)
+
+data class AssignmentNestedRemote(
+    val idTeacher: Int,
+
+    val subject: SubjectNestedRemote
+)
+
+data class SubjectNestedRemote(
+    val name: String
 )
 
 data class AssistanceStudentEnrollmentRemote(

@@ -10,6 +10,8 @@ data class AssistanceEntity(
     val idStudent: Int,
     val idSession: Int?,
     val idStudentEnrollment: Int?,
+    val idTeacher: Int?,
+
     val status: String,
     val subjectName: String?,
     val date: String?,
@@ -22,6 +24,7 @@ fun AssistanceEntity.toDomain() = AssistanceItem(
     idStudent = this.idStudent,
     idSession = this.idSession,
     idStudentEnrollment = this.idStudentEnrollment,
+    idTeacher = this.idTeacher,
     status = this.status,
     subjectName = this.subjectName,
     date = this.date,
@@ -29,11 +32,12 @@ fun AssistanceEntity.toDomain() = AssistanceItem(
     uri = this.uri
 )
 
-fun AssistanceItem.toEntity() = AssistanceEntity(
+fun AssistanceItem.toEntity(idTeacher: Int?) = AssistanceEntity(
     id = this.id,
     idStudent = this.idStudent,
     idSession = this.idSession,
     idStudentEnrollment = this.idStudentEnrollment,
+    idTeacher = this.idTeacher,
     status = this.status,
     subjectName = this.subjectName,
     date = this.date,

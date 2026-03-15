@@ -15,10 +15,10 @@ interface AssistanceDao {
     @Query("SELECT * FROM assistance WHERE idStudent = :idStudent")
     suspend fun getByStudentId(idStudent: Int): List<AssistanceEntity>
 
-    @Query("SELECT * FROM assistance WHERE (status = 'MISSING' OR status = 'LAG') AND uri IS NOT NULL")
-    suspend fun getPendingJustifications(): List<AssistanceEntity>
+    @Query("SELECT * FROM assistance WHERE (status = 'MISSING' OR status = 'LAG') AND uri IS NOT NULL AND idTeacher = :idTeacher")
+    suspend fun getPendingJustifications(idTeacher: Int): List<AssistanceEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(assistances: List<AssistanceEntity>)
 
     @Query("UPDATE assistance SET status = :status WHERE id = :id")

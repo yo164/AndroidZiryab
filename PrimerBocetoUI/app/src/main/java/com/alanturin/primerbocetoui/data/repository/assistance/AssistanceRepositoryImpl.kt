@@ -7,7 +7,6 @@ import com.alanturin.primerbocetoui.data.remote.assistance.AssistanceRemoteDataS
 import com.alanturin.primerbocetoui.data.remote.assistance.forstudents.AssistanceForStudentsRemoteDataSource
 import com.alanturin.primerbocetoui.data.remote.model.AssistanceBulkRequestRemote
 import com.alanturin.primerbocetoui.data.remote.model.AssistanceBulkResponseRemote
-import com.alanturin.primerbocetoui.data.remote.model.AssistanceStudentItemRemote
 import com.alanturin.primerbocetoui.data.remote.model.JustifyAssistanceRemoteResponse
 import com.alanturin.primerbocetoui.data.remote.model.PatchAssistanceRemoteRequest
 import com.alanturin.primerbocetoui.domain.model.AssistanceItem
@@ -19,13 +18,13 @@ class AssistanceRepositoryImpl @Inject constructor(
     private val forStudentsRemote: AssistanceForStudentsRemoteDataSource,
     private val localDataSource: AssistanceLocalDataSource
 ) : AssistanceRepository {
-    override suspend fun getAll(): Result<List<AssistanceItem>> {
+    override suspend fun getAll(userId: Int): Result<List<AssistanceItem>> {
         return remoteDataSource.getAll().map { lista ->
             android.util.Log.d("ZIRYAB", "Asistencias recibidas: ${lista.size}")
             lista.forEach { android.util.Log.d("ZIRYAB", "Asistencia: id=${it.id} idStudent=${it.studentEnrollment.idStudent} idSession=${it.session.id}") }
 
             val items = lista.map { it.toAssistanceItem() }
-            localDataSource.insertAll(items.map { it.toEntity() })
+            localDataSource.insertAll(items.map { it.toEntity(userId) })
             items
         }
     }
@@ -34,14 +33,14 @@ class AssistanceRepositoryImpl @Inject constructor(
         return localDataSource.deleteAll()
     }
 
-    override suspend fun getPendingJustifications(idTeacher: Int): Result<List<AssistanceStudentItemRemote>> {
+    override suspend fun getPendingJustifications(idTeacher: Int): Result<List<AssistanceItem>> {
         val remoteResult = remoteDataSource.getPendingJustifications(idTeacher)
 
         return if (remoteResult.isSuccess) {
-            remoteResult
+            remoteResult.mapCatching { lista -> lista.map { it.toAssistanceItem(0) } }
         } else {
-            // TODO: aqui ira la llamada a local datasource (Room)
-            Result.failure(remoteResult.exceptionOrNull() ?: RuntimeException("Error desconocido"))
+            val local = localDataSource.getPendingJustifications(idTeacher)
+            Result.success(local.map { it.toDomain() })
         }
     }
 
@@ -75,7 +74,7 @@ class AssistanceRepositoryImpl @Inject constructor(
         android.util.Log.d("ZIRYAB", "Asistencias alumno desde REMOTE")
         return forStudentsRemote.getByStudentId(idStudent).map { lista ->
             val items = lista.map { it.toAssistanceItem(idStudent) }
-            localDataSource.insertAll(items.map { it.toEntity() })
+            localDataSource.insertAll(items.map { it.toEntity(null) })
             items
         }
 

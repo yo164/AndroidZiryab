@@ -8,6 +8,7 @@ data class AssistanceItem(
     val idStudent: Int,
     val idSession: Int?,
     val idStudentEnrollment: Int?,
+    val idTeacher: Int?,
     val status: String,
     val subjectName: String?,
     val date: String?,
@@ -19,6 +20,7 @@ fun AssistanceStudentItemRemote.toAssistanceItem(idStudent: Int) = AssistanceIte
     idStudent = idStudent,
     idSession = null,
     idStudentEnrollment = null,
+    idTeacher = null,
     status = this.status,
     subjectName = this.session.schedule.teacherAssignment.subject.name,
     date = this.session.date,
@@ -31,9 +33,10 @@ fun AssistanceItemRemote.toAssistanceItem() = AssistanceItem(
     idStudent = this.studentEnrollment.idStudent,
     idSession = this.session.id,
     idStudentEnrollment = this.idStudentEnrollment,
+    idTeacher = this.session.schedule.teacherAssignment.idTeacher,
     status = this.status,
-    subjectName = null,
+    subjectName = this.session.schedule.teacherAssignment.subject.name,
     date = this.session.date,
-    startTime = null,
+    startTime = this.session.schedule.startTime,
     uri = null
 )

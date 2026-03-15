@@ -3,8 +3,8 @@ package com.alanturin.primerbocetoui.ui.profesor.justificaraistencias
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alanturin.primerbocetoui.data.remote.model.AssistanceStudentItemRemote
 import com.alanturin.primerbocetoui.data.repository.assistance.AssistanceRepository
+import com.alanturin.primerbocetoui.domain.model.AssistanceItem
 import com.alanturin.primerbocetoui.ui.session.SessionViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,7 +49,7 @@ class NotificationListViewModel @Inject constructor(
     sealed class UiState {
         object Loading : UiState()
         object Empty : UiState()
-        data class Success(val notificaciones: List<AssistanceStudentItemRemote>) : UiState()
+        data class Success(val notificaciones: List<AssistanceItem>) : UiState()
         data class Error(val message: String) : UiState()
     }
 }
