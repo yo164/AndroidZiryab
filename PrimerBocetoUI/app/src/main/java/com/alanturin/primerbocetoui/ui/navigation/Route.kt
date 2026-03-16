@@ -15,6 +15,7 @@ import com.alanturin.primerbocetoui.ui.login.LoginScreen
 import kotlinx.serialization.Serializable
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.alanturin.primerbocetoui.ui.alumno.TemarioAlumno.TemarioAlumnoScreen
+import com.alanturin.primerbocetoui.R
 import com.alanturin.primerbocetoui.ui.fichausuario.FichaUsuarioScreen
 import com.alanturin.primerbocetoui.ui.fichausuario.justificar.JustificarFaltaScreen
 import com.alanturin.primerbocetoui.ui.group.GroupScreen

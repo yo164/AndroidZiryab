@@ -2,34 +2,25 @@ package com.alanturin.primerbocetoui.ui.profesor
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.alanturin.primerbocetoui.R
 import com.alanturin.primerbocetoui.domain.model.Asignatura
 
 @Composable
@@ -37,50 +28,95 @@ fun ClasesProfesorScreen(
     onGestionar: () -> Unit,
     viewModel: ClasesProfesorViewModel = hiltViewModel()
 ) {
+    val state by viewModel.uiState.collectAsState()
+
     LaunchedEffect(true) {
         viewModel.cargarClases()
     }
 
-    val state by viewModel.uiState.collectAsState()
+    Scaffold(
+        containerColor = Color(0xFFF8FAFC)
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(16.dp)
+        ) {
+            Column(modifier = Modifier.fillMaxSize()) {
+                Spacer(modifier = Modifier.height(60.dp))
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .background(Color(0xFFF8FAFC)) // bg-slate-50
-    ) {
-        // Título H1
-        Text(
-            text = "Asignaturas",
-            style = MaterialTheme.typography.headlineLarge,
-            color = Color(0xFF7C3AED), // violet-600 approx
-            modifier = Modifier.padding(bottom = 24.dp)
-        )
+                val isLoading = state is ClasesProfesorViewModel.UiState.Loading
+                val asignaturas = if (state is ClasesProfesorViewModel.UiState.Success) (state as ClasesProfesorViewModel.UiState.Success).asignaturas else emptyList()
+                val error = if (state is ClasesProfesorViewModel.UiState.Error) (state as ClasesProfesorViewModel.UiState.Error).message else null
 
-        when (val ui = state) {
-            is ClasesProfesorViewModel.UiState.Loading -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(color = Color(0xFF8B5CF6)) // violet-500
-                }
-            }
-            is ClasesProfesorViewModel.UiState.Error -> {
-                Text(text = ui.message, color = Color.Red)
-            }
-            is ClasesProfesorViewModel.UiState.Empty -> {
-                Text(text = "No tienes asignaturas asignadas.")
-            }
-            is ClasesProfesorViewModel.UiState.Success -> {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 24.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    items(ui.asignaturas) { asignatura ->
-                        AsignaturaCard(
-                            asignatura = asignatura,
-                            onGestionar = {
-                                viewModel.seleccionarAsignatura(asignatura)
-                                onGestionar()
-                            }
+                    Text(
+                        text = stringResource(id = R.string.profesor_clases_title),
+                        style = MaterialTheme.typography.headlineMedium.copy(
+                            fontWeight = FontWeight.ExtraBold,
+                            brush = Brush.horizontalGradient(
+                                colors = listOf(Color(0xFF7C3AED), Color(0xFF4F46E5))
+                            )
                         )
+                    )
+
+                    IconButton(
+                        onClick = { viewModel.cargarClases() },
+                        enabled = !isLoading
+                    ) {
+                        if (isLoading && asignaturas.isEmpty()) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(24.dp),
+                                strokeWidth = 2.dp,
+                                color = Color(0xFF7C3AED)
+                            )
+                        } else {
+                            Icon(
+                                imageVector = Icons.Default.Refresh,
+                                contentDescription = "Recargar",
+                                tint = Color(0xFF7C3AED)
+                            )
+                        }
+                    }
+                }
+
+                if (isLoading && asignaturas.isEmpty()) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator(color = Color(0xFF7C3AED))
+                    }
+                } else if (error != null && asignaturas.isEmpty()) {
+                    Card(
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFFFEF2F2)),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = error,
+                            color = Color.Red,
+                            modifier = Modifier.padding(16.dp)
+                        )
+                    }
+                } else {
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        contentPadding = PaddingValues(bottom = 16.dp)
+                    ) {
+                        itemsIndexed(asignaturas) { index, asignatura ->
+                            AsignaturaCard(
+                                asignatura = asignatura,
+                                index = index,
+                                onGestionar = {
+                                    viewModel.seleccionarAsignatura(asignatura)
+                                    onGestionar()
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -89,68 +125,130 @@ fun ClasesProfesorScreen(
 }
 
 @Composable
-fun AsignaturaCard(asignatura: Asignatura, onGestionar: () -> Unit) {
-    // Replicando tu tarjeta de Angular con gradiente y sombra
+fun AsignaturaCard(
+    asignatura: Asignatura,
+    index: Int,
+    onGestionar: () -> Unit
+) {
+    val themes = listOf(
+        listOf(Color(0xFFDBEAFE), Color(0xFFEFF6FF)), // Blue
+        listOf(Color(0xFFF3E8FF), Color(0xFFFAF5FF)), // Purple
+        listOf(Color(0xFFD1FAE5), Color(0xFFECFDF5)), // Emerald
+        listOf(Color(0xFFFFE4E6), Color(0xFFFFF1F2)), // Rose
+        listOf(Color(0xFFFEF3C7), Color(0xFFFFFBEB)), // Amber
+        listOf(Color(0xFFCFFAFE), Color(0xFFECFEFF))  // Cyan
+    )
+
+    val borderColors = listOf(
+        Color(0xFFBFDBFE), Color(0xFFD8B4FE), Color(0xFF6EE7B7),
+        Color(0xFFFDA4AF), Color(0xFFFDE68A), Color(0xFF67E8F9)
+    )
+
+    val textColors = listOf(
+        Color(0xFF2563EB), Color(0xFF9333EA), Color(0xFF059669),
+        Color(0xFFE11D48), Color(0xFFD97706), Color(0xFF0891B2)
+    )
+
+    val currentThemeIndex = index % themes.size
+    val gradientColors = themes[currentThemeIndex]
+    val borderColor = borderColors[currentThemeIndex]
+    val textColor = textColors[currentThemeIndex]
+
     Card(
+        shape = RoundedCornerShape(24.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .height(180.dp)
-            .clickable { /* Acción goToTemario */ },
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+            .padding(vertical = 4.dp)
+            .clickable { onGestionar() },
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
-        // Simulación de los temas de colores que tenías en Angular
-        // Aquí uso uno fijo por simplicidad, pero podrías rotarlos
-        val gradient = Brush.linearGradient(
-            colors = listOf(Color(0xFFDBEAFE), Color(0xFFEFF6FF)) // blue-100 to blue-50
-        )
-
-        Column(
+        Box(
             modifier = Modifier
-                .fillMaxSize()
-                .background(gradient)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            // Nombre Asignatura
-            Text(
-                text = asignatura.nombre,
-                style = MaterialTheme.typography.titleLarge,
-                color = Color(0xFF1F2937) // gray-800
-            )
-
-            HorizontalDivider(color = Color(0xFF93C5FD)) // border-blue-300
-
-            // Grado/Curso
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(
-                    text = "GRADO/CURSO",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = Color.Gray
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = gradientColors
+                    )
                 )
-                Surface(
-                    shape = MaterialTheme.shapes.extraLarge,
-                    color = Color.White.copy(alpha = 0.5f),
-                    modifier = Modifier.padding(top = 4.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(24.dp)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = asignatura.nombre,
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = (-0.5).sp
+                    ),
+                    color = Color(0xFF1F2937),
+                    textAlign = TextAlign.Center
+                )
+
+                HorizontalDivider(
+                    modifier = Modifier
+                        .padding(vertical = 16.dp)
+                        .fillMaxWidth(0.8f),
+                    thickness = 2.dp,
+                    color = borderColor.copy(alpha = 0.6f)
+                )
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = asignatura.curso,
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
-                        style = MaterialTheme.typography.bodyMedium
+                        text = stringResource(id = R.string.profesor_clases_grade),
+                        style = MaterialTheme.typography.labelSmall.copy(
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 1.sp
+                        ),
+                        color = Color(0xFF6B7280),
+                        modifier = Modifier.padding(bottom = 6.dp)
+                    )
+
+                    Surface(
+                        shape = RoundedCornerShape(50),
+                        color = Color.White.copy(alpha = 0.6f),
+                        shadowElevation = 0.dp,
+                        border = null
+                    ) {
+                        Text(
+                            text = asignatura.curso,
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontWeight = FontWeight.Medium
+                            ),
+                            color = Color(0xFF374151),
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Button(
+                    onClick = { onGestionar() },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = textColor
+                    ),
+                    shape = RoundedCornerShape(16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
+                    elevation = ButtonDefaults.buttonElevation(
+                        defaultElevation = 2.dp,
+                        pressedElevation = 0.dp
+                    )
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.profesor_clases_manage),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        )
                     )
                 }
-            }
-
-            // Botón Gestionar
-            Button(
-                onClick = {
-                    onGestionar()
-                },
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3B82F6)) // blue-500
-            ) {
-                Text("Gestionar")
             }
         }
     }

@@ -12,7 +12,16 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
+import com.alanturin.primerbocetoui.R
 
 @Composable
 fun LoginScreen(
@@ -38,14 +47,40 @@ fun LoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(24.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
+        Image(
+            painter = painterResource(id = R.drawable.logo_ziryab),
+            contentDescription = stringResource(id = R.string.app_name),
+            modifier = Modifier
+                .size(100.dp)
+                .clip(CircleShape)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         Text(
-            text = "Iniciar sesión",
-            style = MaterialTheme.typography.headlineMedium
+            text = "ZIRYAB",
+            style = MaterialTheme.typography.displayLarge.copy(
+                fontWeight = FontWeight.Black,
+                letterSpacing = (-2).sp,
+                brush = Brush.horizontalGradient(
+                    colors = listOf(Color(0xFF7C3AED), Color(0xFF4F46E5))
+                )
+            )
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = stringResource(id = R.string.login_title),
+            style = MaterialTheme.typography.titleMedium.copy(
+                color = Color.Gray,
+                fontWeight = FontWeight.Medium
+            )
         )
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -53,7 +88,7 @@ fun LoginScreen(
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("Email") },
+            label = { Text(stringResource(id = R.string.login_email_label)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             modifier = Modifier.fillMaxWidth(),
@@ -65,12 +100,12 @@ fun LoginScreen(
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Contraseña") },
+            label = { Text(stringResource(id = R.string.login_password_label)) },
             singleLine = true,
             visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
                 Text(
-                    text = if (showPassword) "Ocultar" else "Mostrar",
+                    text = if (showPassword) stringResource(id = R.string.login_hide_password) else stringResource(id = R.string.login_show_password),
                     modifier = Modifier
                         .clickable { showPassword = !showPassword }
                         .padding(8.dp),
@@ -121,7 +156,7 @@ fun LoginScreen(
                     strokeWidth = 2.dp
                 )
             } else {
-                Text("Ingresar")
+                Text(stringResource(id = R.string.login_button_enter))
             }
         }
     }

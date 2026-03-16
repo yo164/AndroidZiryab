@@ -22,6 +22,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.res.stringResource
+import com.alanturin.primerbocetoui.R
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
 import com.kizitonwose.calendar.core.CalendarDay
@@ -103,7 +105,7 @@ fun CalendarContent(events: Map<LocalDate, List<CalendarEvent>>) {
             for (dayOfWeek in daysOfWeek) {
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale("es", "ES")).uppercase(),
+                    text = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault()).uppercase(),
                     textAlign = TextAlign.Center,
                     color = Color.Gray,
                     fontSize = 12.sp,
@@ -136,7 +138,7 @@ fun CalendarContent(events: Map<LocalDate, List<CalendarEvent>>) {
         
         // Lista de eventos del día seleccionado
         Text(
-            text = "Eventos del día",
+            text = stringResource(id = R.string.calendario_events_title),
             modifier = Modifier.padding(horizontal = 16.dp),
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
@@ -151,7 +153,7 @@ fun CalendarContent(events: Map<LocalDate, List<CalendarEvent>>) {
             
             if (dailyEvents.isEmpty()) {
                 item {
-                    Text("No hay eventos", color = Color.Gray)
+                    Text(stringResource(id = R.string.calendario_no_events), color = Color.Gray)
                 }
             } else {
                 items(dailyEvents) { event ->
@@ -228,18 +230,18 @@ fun MonthHeader(
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(onClick = onPreviousClick) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Anterior")
+            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(id = R.string.calendario_cd_prev))
         }
         
         Text(
-            text = yearMonth.month.getDisplayName(TextStyle.FULL, Locale("es", "ES")).capitalize() + " " + yearMonth.year,
+            text = yearMonth.month.getDisplayName(TextStyle.FULL, Locale.getDefault()).capitalize() + " " + yearMonth.year,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF1F2937)
         )
         
         IconButton(onClick = onNextClick) {
-            Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "Siguiente")
+            Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = stringResource(id = R.string.calendario_cd_next))
         }
     }
 }
@@ -263,5 +265,5 @@ fun EventItem(event: CalendarEvent) {
 
 // Extension to capitalize first letter
 fun String.capitalize(): String {
-    return this.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale("es", "ES")) else it.toString() }
+    return this.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
 }

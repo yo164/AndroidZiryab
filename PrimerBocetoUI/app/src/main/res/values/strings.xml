@@ -19,4 +19,59 @@
     <string name="cd_horario">Icono de reloj para horario</string>
     <string name="cd_calendario">Icono de calendario</string>
     <string name="cd_tablon">Icono de notificaciones</string>
+    <!-- Login -->
+    <string name="login_title">Iniciar sesión</string>
+    <string name="login_email_label">Email</string>
+    <string name="login_password_label">Contraseña</string>
+    <string name="login_show_password">Mostrar</string>
+    <string name="login_hide_password">Ocultar</string>
+    <string name="login_button_enter">Ingresar</string>
+    <string name="error_email_empty">El email no puede estar vacío</string>
+    <string name="error_password_empty">La contraseña no puede estar vacía</string>
+    <string name="error_login_default">Error al iniciar sesión</string>
+    <string name="error_firebase_null">Error en Firebase Auth: Usuario nulo</string>
+    <string name="error_server">Error en servidor Ziryab: %1$s</string>
+
+    <!-- Menus & Shared -->
+    <string name="menu_user_name_default">U</string>
+    <string name="menu_logout">Cerrar sesión</string>
+    <string name="menu_default_name">alumno</string>
+    <string name="menu_title_ziryab">Ziryab</string>
+    <string name="menu_default_email">prueba@prueba.com</string>
+    <string name="bottom_nav_clases">Asignaturas</string>
+    <string name="bottom_nav_gestion">Gestión</string>
+
+    <!-- Navigation Route -->
+    <string name="nav_role_student">STUDENT</string>
+    <string name="nav_title_ziryab">Ziryab</string>
+    <string name="nav_username_alumno">Alumno</string>
+
+    <!-- Profesor Clases -->
+    <string name="profesor_clases_title">Asignaturas</string>
+    <string name="profesor_clases_empty">No tienes asignaturas asignadas.</string>
+    <string name="profesor_clases_grade">GRADO/CURSO</string>
+    <string name="profesor_clases_manage">Gestionar</string>
+    <string name="error_loading_subjects">Error al cargar asignaturas</string>
+
+    <!-- Calendario -->
+    <string name="calendario_events_title">Eventos del día</string>
+    <string name="calendario_no_events">No hay eventos</string>
+    <string name="calendario_cd_prev">Anterior</string>
+    <string name="calendario_cd_next">Siguiente</string>
+    <string name="error_loading_events">Error al cargar eventos</string>
+
+    <!-- Alumno Temario -->
+    <string name="alumno_temario_cd_back">Volver</string>
+    <string name="alumno_temario_cd_add">Añadir</string>
+
+    <!-- Alumno Clases -->
+    <string name="alumno_clases_title">Mis Asignaturas</string>
+    <string name="alumno_clases_cd_reload">Recargar</string>
+    <string name="alumno_clases_grade">GRADO/CURSO</string>
+    <string name="alumno_clases_access">Acceder</string>
+    <string name="error_unknown">Error desconocido</string>
+    <string name="error_update">Error al actualizar: %1$s</string>
+
+    <!-- Asistencia -->
+    <string name="asistencia_profesor_name">Nombre Profesor</string>
 </resources>
