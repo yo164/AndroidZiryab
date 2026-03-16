@@ -46,6 +46,15 @@ android {
 dependencies {
     implementation("com.google.accompanist:accompanist-permissions:0.34.0")
 
+    //workmanager
+    //val work_version = "2.11.1"
+    // Kotlin + coroutines
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.hilt.common)
+    implementation(libs.androidx.hilt.work)
+    ksp(libs.androidx.hilt.compiler)
+
+
     val cameraxVersion = "1.3.1"
     implementation("androidx.camera:camera-core:$cameraxVersion")
     implementation("androidx.camera:camera-camera2:$cameraxVersion")

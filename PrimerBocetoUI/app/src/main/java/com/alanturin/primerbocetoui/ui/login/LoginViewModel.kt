@@ -2,6 +2,7 @@ package com.alanturin.primerbocetoui.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alanturin.primerbocetoui.data.initialdata.InitialDataController
 import com.alanturin.primerbocetoui.domain.repository.AuthRepository
 import com.alanturin.primerbocetoui.ui.session.SessionViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val sessionViewModel: SessionViewModel
+    private val sessionViewModel: SessionViewModel,
+    private val initialDataController: InitialDataController
 ) : ViewModel() {
 
     private val _isLoading = MutableStateFlow(false)
@@ -43,14 +45,13 @@ class LoginViewModel @Inject constructor(
             val result = authRepository.login(email, pass)
 
             if (result.isSuccess) {
-                // CAMBIADO: antes getOrNull() devolvía un String con el rol
-                // ahora devuelve LoginData completo con id, role, email...
                 val loginData = result.getOrNull()
                 if (loginData != null) {
-                    // NUEVO: guardamos id y rol en SessionViewModel para que
-                    // ClasesProfesorViewModel y otras pantallas puedan acceder al id del usuario
                     sessionViewModel.saveSession(loginData.id, loginData.role, loginData.token)
-
+                    launch { initialDataController.cargarDatosIniciales() }
+                    if (loginData.role == "TEACHER"){
+                        launch { initialDataController.programarWorker(loginData.id) }
+                    }
                 }
                 _loginSuccess.value = true
             } else {
@@ -61,6 +62,9 @@ class LoginViewModel @Inject constructor(
     }
 
     fun logout(){
+        viewModelScope.launch {
+            initialDataController.limpiarDatos()
+        }
         sessionViewModel.clearSession()
     }
 }

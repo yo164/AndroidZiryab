@@ -24,10 +24,12 @@ import com.alanturin.primerbocetoui.ui.camera.CameraScreen
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import androidx.compose.runtime.collectAsState
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun JustificarFaltaScreen(
+    id: Int,
     subjectName: String,
     date: String,
     startTime: String,

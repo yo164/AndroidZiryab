@@ -1,6 +1,7 @@
 package com.alanturin.primerbocetoui.data.remote.assistance.forstudents
 
 import com.alanturin.primerbocetoui.data.remote.model.AssistanceStudentItemRemote
+import com.alanturin.primerbocetoui.data.remote.model.AssistanceStudentResponseRemote
 import javax.inject.Inject
 
 class AssistanceForStudentsRemoteDataSourceImpl @Inject constructor(

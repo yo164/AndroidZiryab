@@ -12,12 +12,16 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 import com.alanturin.primerbocetoui.data.ClasesProfesorDataSource
 import com.alanturin.primerbocetoui.data.local.AppDatabase
+import com.alanturin.primerbocetoui.data.local.dao.AssistanceDao
 import com.alanturin.primerbocetoui.data.local.dao.GroupDao
-import com.alanturin.primerbocetoui.data.remote.ClasesProfesorRemoteDataSource
+import com.alanturin.primerbocetoui.data.local.dao.HorarioDao
+import com.alanturin.primerbocetoui.data.local.dao.SubjectDao
+import com.alanturin.primerbocetoui.data.local.dao.TeacherDao
+import com.alanturin.primerbocetoui.data.remote.clasesprofesor.ClasesProfesorRemoteDataSource
 import com.alanturin.primerbocetoui.data.repository.ClasesProfesorRepository
 import com.alanturin.primerbocetoui.data.repository.ClasesProfesorRepositoryImpl
-import com.alanturin.primerbocetoui.data.remote.ClasesAlumnoApi
-import com.alanturin.primerbocetoui.data.remote.ClasesAlumnoRemoteDataSource
+import com.alanturin.primerbocetoui.data.remote.clasesalumno.ClasesAlumnoApi
+import com.alanturin.primerbocetoui.data.remote.clasesalumno.ClasesAlumnoRemoteDataSource
 import com.alanturin.primerbocetoui.domain.repository.ClasesAlumnoRepository
 import com.alanturin.primerbocetoui.data.repository.ClasesAlumnoRepositoryImpl
 import com.alanturin.primerbocetoui.data.remote.CalendarApi
@@ -31,6 +35,16 @@ import com.alanturin.primerbocetoui.data.remote.assistance.AssistanceApi
 import com.alanturin.primerbocetoui.data.remote.assistance.forstudents.AssistanceForStudentsApi
 import com.alanturin.primerbocetoui.data.remote.assistance.forstudents.AssistanceForStudentsRemoteDataSource
 import com.alanturin.primerbocetoui.data.remote.assistance.forstudents.AssistanceForStudentsRemoteDataSourceImpl
+import com.alanturin.primerbocetoui.data.remote.clasesalumno.ClasesAlumnoRemoteDataSourceImpl
+import com.alanturin.primerbocetoui.data.remote.studenttask.StudentTaskApi
+import com.alanturin.primerbocetoui.data.remote.studenttask.StudentTaskRemoteDataSource
+import com.alanturin.primerbocetoui.data.remote.studenttask.StudentTaskRemoteDataSourceImpl
+import com.alanturin.primerbocetoui.data.remote.task.TaskApi
+import com.alanturin.primerbocetoui.data.remote.task.TaskRemoteDataSource
+import com.alanturin.primerbocetoui.data.remote.task.TaskRemoteDataSourceImpl
+import com.alanturin.primerbocetoui.data.remote.teacher.TeacherApi
+import com.alanturin.primerbocetoui.data.remote.teacher.TeacherRemoteDataSource
+import com.alanturin.primerbocetoui.data.remote.teacher.TeacherRemoteDataSourceImpl
 import com.alanturin.primerbocetoui.data.repository.CalendarRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.EnrollmentRepository
 import com.alanturin.primerbocetoui.data.repository.EnrollmentRepositoryImpl
@@ -42,8 +56,14 @@ import com.alanturin.primerbocetoui.data.repository.assistance.AssistanceReposit
 import com.alanturin.primerbocetoui.data.repository.assistance.AssistanceRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.classsessions.ClassSessionsRepository
 import com.alanturin.primerbocetoui.data.repository.classsessions.ClassSessionsRepositoryImpl
+import com.alanturin.primerbocetoui.data.repository.studenttask.StudentTaskRepository
+import com.alanturin.primerbocetoui.data.repository.studenttask.StudentTaskRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.studentweekschedule.StudentWeekScheduleRepository
 import com.alanturin.primerbocetoui.data.repository.studentweekschedule.StudentWeekScheduleRepositoryImpl
+import com.alanturin.primerbocetoui.data.repository.task.TaskRepository
+import com.alanturin.primerbocetoui.data.repository.task.TaskRepositoryImpl
+import com.alanturin.primerbocetoui.data.repository.teacher.TeacherRepository
+import com.alanturin.primerbocetoui.data.repository.teacher.TeacherRepositoryImpl
 import com.alanturin.primerbocetoui.domain.repository.CalendarRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 
@@ -103,6 +123,41 @@ abstract class AppModule {
         impl: AssistanceForStudentsRemoteDataSourceImpl
     ): AssistanceForStudentsRemoteDataSource
 
+    @Binds
+    @Singleton
+    abstract fun bindTaskRemoteDataSource(impl: TaskRemoteDataSourceImpl): TaskRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindTaskRepository(impl: TaskRepositoryImpl): TaskRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindStudentTaskRemoteDataSource(impl: StudentTaskRemoteDataSourceImpl): StudentTaskRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindStudentTaskRepository(impl: StudentTaskRepositoryImpl): StudentTaskRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindTeacherRemoteDataSource(impl: TeacherRemoteDataSourceImpl): TeacherRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindTeacherRepository(impl: TeacherRepositoryImpl): TeacherRepository
+
+
+
+    @Binds
+    @Singleton
+    abstract fun bindClasesAlumnoRemoteDataSource(
+        impl: ClasesAlumnoRemoteDataSourceImpl
+    ): ClasesAlumnoRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindClasesAlumnoRepository(impl: ClasesAlumnoRepositoryImpl): ClasesAlumnoRepository
 
     companion object {
 
@@ -112,20 +167,6 @@ abstract class AppModule {
             return retrofit.create(ClasesAlumnoApi::class.java)
         }
 
-        @Provides
-        @Singleton
-        fun provideClasesAlumnoRemoteDataSource(api: ClasesAlumnoApi): ClasesAlumnoRemoteDataSource {
-            return ClasesAlumnoRemoteDataSource(api)
-        }
-
-        @Provides
-        @Singleton
-        fun provideClasesAlumnoRepository(
-            dataSource: ClasesAlumnoRemoteDataSource
-        ): ClasesAlumnoRepository {
-
-            return ClasesAlumnoRepositoryImpl(dataSource)
-        }
 
         @Provides
         @Singleton
@@ -151,6 +192,9 @@ abstract class AppModule {
             return GroupRemoteDataSource(api)
         }
 
+        /**
+         * aqu las de room
+         */
         @Provides
         @Singleton
         fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
@@ -158,7 +202,9 @@ abstract class AppModule {
                 context,
                 AppDatabase::class.java,
                 "ziryab_db"
-            ).build()
+            )
+                .fallbackToDestructiveMigration()
+                .build()
         }
 
         @Provides
@@ -167,6 +213,33 @@ abstract class AppModule {
             return database.groupDao()
         }
 
+        @Provides
+        @Singleton
+        fun provideHorarioDao(database: AppDatabase): HorarioDao {
+            return database.horarioDao()
+        }
+
+        @Provides
+        @Singleton
+        fun provideTeacherDao(database: AppDatabase): TeacherDao {
+            return database.teacherDao()
+        }
+
+        @Provides
+        @Singleton
+        fun provideAssistanceDao(database: AppDatabase): AssistanceDao {
+            return database.assistanceDao()
+        }
+
+        @Provides
+        @Singleton
+        fun provideSubjectDao(database: AppDatabase): SubjectDao {
+            return database.subjectDao()
+        }
+
+        /**
+         * aqui más de remote
+         */
         @Provides
         @Singleton
         fun provideEnrollmentApi(retrofit: Retrofit): EnrollmentApi = retrofit.create(EnrollmentApi::class.java)
@@ -193,6 +266,21 @@ abstract class AppModule {
         @Singleton
         fun provideAssistanceForStudentsApi(retrofit: Retrofit): AssistanceForStudentsApi =
             retrofit.create(AssistanceForStudentsApi::class.java)
+
+        @Provides
+        @Singleton
+        fun provideTaskApi(retrofit: Retrofit): TaskApi =
+            retrofit.create(TaskApi::class.java)
+
+        @Provides
+        @Singleton
+        fun provideStudentTaskApi(retrofit: Retrofit): StudentTaskApi =
+            retrofit.create(StudentTaskApi::class.java)
+
+        @Provides
+        @Singleton
+        fun provideTeacherApi(retrofit: Retrofit): TeacherApi =
+            retrofit.create(TeacherApi::class.java)
     }
 
     @Binds

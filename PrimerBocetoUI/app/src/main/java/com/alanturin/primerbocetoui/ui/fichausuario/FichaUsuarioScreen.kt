@@ -18,7 +18,7 @@ import com.alanturin.primerbocetoui.ui.alumno.ficha.FichaUsuarioViewModel
 fun FichaUsuarioScreen(
     modifier: Modifier = Modifier,
     viewModel: FichaUsuarioViewModel = hiltViewModel(),
-    onJustificarClick: (String, String, String, String) -> Unit
+    onJustificarClick: (Int, String, String, String, String) -> Unit
 ) {
     LaunchedEffect(Unit) { viewModel.cargarFaltas() }
 
@@ -29,9 +29,7 @@ fun FichaUsuarioScreen(
 
         // pruebsas de camara
         Button(
-            onClick = {
-                onJustificarClick("CLASE DE PRUEBA", "15/03/2026", "12:00", "TEST")
-            },
+            onClick = { onJustificarClick(1,"Clase de Prueba", "2025-03-12", "08:00", "MISSING") },
             modifier = Modifier.padding(vertical = 8.dp).fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray)
         ) {
@@ -53,9 +51,10 @@ fun FichaUsuarioScreen(
                             asistencia = falta,
                             onClick = {
                                 onJustificarClick(
-                                    falta.session.schedule.teacherAssignment.subject.name,
-                                    falta.session.date,
-                                    falta.session.schedule.startTime,
+                                    falta.id,
+                                    falta.subjectName!!,
+                                    falta.date!!,
+                                    falta.startTime!!,
                                     falta.status
                                 )
                             }
@@ -63,7 +62,11 @@ fun FichaUsuarioScreen(
                     }
                 }
             }
+            is FichaUsuarioViewModel.UiState.TeacherSuccess -> {
+                TarjetaProfesor(teacher = ui.teacher)
+            }
             is FichaUsuarioViewModel.UiState.Error -> Text("Error: ${ui.message}", color = Color.Red)
+
             else -> {}
         }
     }

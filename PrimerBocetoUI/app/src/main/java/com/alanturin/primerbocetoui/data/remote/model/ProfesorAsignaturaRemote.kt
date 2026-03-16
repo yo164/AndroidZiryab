@@ -40,6 +40,6 @@ fun AsignaturaItemRemote.toExternal(): Asignatura {
         idGroup = this.group.id,
         nombre = this.subject.name,
         grade = this.subject.grade,
-        curso = "${this.subject.course.name} - ${this.group.name}"
+        curso = "${this.subject.grade} de ${this.subject.course.name} - ${this.group.name}"
     )
 }

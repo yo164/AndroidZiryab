@@ -1,6 +1,6 @@
 package com.alanturin.primerbocetoui.di
 
-import com.alanturin.primerbocetoui.data.remote.ClasesProfesorApi
+import com.alanturin.primerbocetoui.data.remote.clasesprofesor.ClasesProfesorApi
 import com.alanturin.primerbocetoui.ui.session.SessionViewModel
 import dagger.Module
 import dagger.Provides
@@ -39,7 +39,7 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://192.168.18.145:3000")
+            .baseUrl("http://10.0.2.2:3000")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

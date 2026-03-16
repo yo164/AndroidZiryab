@@ -16,11 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.alanturin.primerbocetoui.data.remote.model.AssistanceStudentItemRemote
+import com.alanturin.primerbocetoui.domain.model.AssistanceItem
 
 @Composable
 fun FaltaCard(
-    asistencia: AssistanceStudentItemRemote,
+    asistencia: AssistanceItem,
     onClick: () -> Unit
 ) {
     val isJustified = asistencia.status == "JUSTIFY"
@@ -47,15 +47,15 @@ fun FaltaCard(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = asistencia.session.schedule.teacherAssignment.subject.name,
+                    text = asistencia.subjectName!!,
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = asistencia.session.date,
+                    text = asistencia.date!!,
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    text = asistencia.session.schedule.startTime,
+                    text = asistencia.startTime!!,
                     style = MaterialTheme.typography.bodySmall
                 )
             }

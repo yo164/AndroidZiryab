@@ -6,13 +6,25 @@ data class AssistanceStudentResponseRemote(
     val count: Int
 )
 
+
 data class AssistanceStudentItemRemote(
     val id: Int,
     val status: String,
-    val session: AssistanceSessionRemote
+    val session: AssistanceSessionRemote,
+    val studentEnrollment: StudentEnrollmentRemote
+)
+
+data class StudentEnrollmentRemote(
+    val student: StudentRemote
+)
+
+data class StudentRemote(
+    val id: Int,
+    val name: String
 )
 
 data class AssistanceSessionRemote(
+    val id: Int,
     val date: String,
     val schedule: AssistanceScheduleRemote
 )
