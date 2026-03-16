@@ -22,9 +22,9 @@ fun AssistanceStudentItemRemote.toAssistanceItem(idStudent: Int) = AssistanceIte
     idStudentEnrollment = null,
     idTeacher = null,
     status = this.status,
-    subjectName = this.session.schedule.teacherAssignment.subject.name,
+    subjectName = this.session.schedule?.teacherAssignment?.subject?.name,
     date = this.session.date,
-    startTime = this.session.schedule.startTime,
+    startTime = this.session.schedule?.startTime,
     uri = null
 )
 
@@ -33,10 +33,10 @@ fun AssistanceItemRemote.toAssistanceItem() = AssistanceItem(
     idStudent = this.studentEnrollment.idStudent,
     idSession = this.session.id,
     idStudentEnrollment = this.idStudentEnrollment,
-    idTeacher = this.session.schedule.teacherAssignment.idTeacher,
+    idTeacher = this.session.schedule?.teacherAssignment?.idTeacher,
     status = this.status,
-    subjectName = this.session.schedule.teacherAssignment.subject.name,
+    subjectName = this.session.schedule?.teacherAssignment?.subject?.name,
     date = this.session.date,
-    startTime = this.session.schedule.startTime,
+    startTime = this.session.schedule?.startTime,
     uri = null
 )
