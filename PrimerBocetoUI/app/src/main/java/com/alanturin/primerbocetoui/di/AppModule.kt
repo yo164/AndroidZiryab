@@ -15,6 +15,7 @@ import com.alanturin.primerbocetoui.data.local.AppDatabase
 import com.alanturin.primerbocetoui.data.local.dao.AssistanceDao
 import com.alanturin.primerbocetoui.data.local.dao.GroupDao
 import com.alanturin.primerbocetoui.data.local.dao.HorarioDao
+import com.alanturin.primerbocetoui.data.local.dao.NotificationDao
 import com.alanturin.primerbocetoui.data.local.dao.SubjectDao
 import com.alanturin.primerbocetoui.data.local.dao.TeacherDao
 import com.alanturin.primerbocetoui.data.remote.clasesprofesor.ClasesProfesorRemoteDataSource
@@ -56,6 +57,8 @@ import com.alanturin.primerbocetoui.data.repository.assistance.AssistanceReposit
 import com.alanturin.primerbocetoui.data.repository.assistance.AssistanceRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.classsessions.ClassSessionsRepository
 import com.alanturin.primerbocetoui.data.repository.classsessions.ClassSessionsRepositoryImpl
+import com.alanturin.primerbocetoui.data.repository.notifications.NotificationsRepository
+import com.alanturin.primerbocetoui.data.repository.notifications.NotificationsRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.studenttask.StudentTaskRepository
 import com.alanturin.primerbocetoui.data.repository.studenttask.StudentTaskRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.studentweekschedule.StudentWeekScheduleRepository
@@ -147,7 +150,9 @@ abstract class AppModule {
     @Singleton
     abstract fun bindTeacherRepository(impl: TeacherRepositoryImpl): TeacherRepository
 
-
+    @Binds
+    @Singleton
+    abstract fun bindNotificationsRepository(impl: NotificationsRepositoryImpl): NotificationsRepository
 
     @Binds
     @Singleton
@@ -237,6 +242,11 @@ abstract class AppModule {
             return database.subjectDao()
         }
 
+        @Provides
+        @Singleton
+        fun provideNotificationDao(database: AppDatabase): NotificationDao {
+            return database.notificationDao()
+        }
         /**
          * aqui más de remote
          */

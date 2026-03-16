@@ -39,7 +39,6 @@ data class AssistanceSessionNestedRemote(
     val id: Int,
     val date: String,
     val schedule: ScheduleNestedRemote
-
 )
 
 data class ScheduleNestedRemote(

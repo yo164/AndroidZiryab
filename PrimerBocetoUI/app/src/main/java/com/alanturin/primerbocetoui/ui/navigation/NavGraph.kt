@@ -104,7 +104,7 @@ fun NavGraph() {
                         2L -> navController.navigateToHorario()
                         3L -> navController.navigateToCalendario()
                         4L -> navController.navigateToTablon()
-                        5L -> navController.navigateToGroups()
+                        5L -> navController.navigateToNotificaciones()
                     }
                 }
             )

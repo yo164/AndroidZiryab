@@ -21,6 +21,7 @@ import com.alanturin.primerbocetoui.ui.group.GroupScreen
 import com.alanturin.primerbocetoui.ui.horario.HorarioScreen
 import com.alanturin.primerbocetoui.ui.profesor.ClasesProfesorScreen
 import com.alanturin.primerbocetoui.ui.profesor.gestionclases.GestionClasesScreen
+import com.alanturin.primerbocetoui.ui.profesor.justificaraistencias.NotificationListScreen
 import com.alanturin.primerbocetoui.ui.profesor.listaAlumnos.AlumnoListScreen
 import com.alanturin.primerbocetoui.ui.profesor.tasks.TaskScreen
 
@@ -39,6 +40,13 @@ sealed class Route {
     @Serializable data object GestionClases : Route()
     @Serializable data object Task : Route()
     @Serializable data object AlumnoList: Route()
+
+    @Serializable
+    data object Notificaciones : Route()
+
+
+    @Serializable
+    data object JustificarScreen : Route()
     @Serializable
     data class JustificarFalta(
         val id: Int,
@@ -71,6 +79,9 @@ fun NavController.navigateToClasesProfesor() {
 }
 
 fun NavController.navigateToGestionClases() = this.navigate(Route.GestionClases)
+
+fun NavController.navigateToNotificaciones() = this.navigate(Route.Notificaciones)
+
 
 /**
  * Destinos del NavGraph
@@ -186,6 +197,15 @@ fun NavGraphBuilder.taskDestination(modifier: Modifier = Modifier) {
 
 fun NavGraphBuilder.alumnoListDestination(modifier: Modifier = Modifier) {
     composable<Route.AlumnoList> { AlumnoListScreen(modifier = modifier) }
+}
+
+fun NavGraphBuilder.notificacionesDestination(
+    modifier: Modifier = Modifier,
+    onNotificationClick: () -> Unit
+) {
+    composable<Route.Notificaciones> {
+        NotificationListScreen(onNotificationClick = onNotificationClick)
+    }
 }
 
 sealed class BottomNavItem(val route: Route, val icon: ImageVector, val label: String) {

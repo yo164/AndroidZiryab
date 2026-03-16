@@ -5,12 +5,14 @@ import androidx.room.RoomDatabase
 import com.alanturin.primerbocetoui.data.local.dao.AssistanceDao
 import com.alanturin.primerbocetoui.data.local.dao.GroupDao
 import com.alanturin.primerbocetoui.data.local.dao.HorarioDao
+import com.alanturin.primerbocetoui.data.local.dao.NotificationDao
 import com.alanturin.primerbocetoui.data.local.dao.SubjectDao
 import com.alanturin.primerbocetoui.data.local.dao.TeacherDao
 import com.alanturin.primerbocetoui.data.local.entity.GroupEntity
 import com.alanturin.primerbocetoui.data.local.entity.HorarioEntity
 import com.alanturin.primerbocetoui.data.local.entity.TeacherEntity
 import com.alanturin.primerbocetoui.data.local.entity.AssistanceEntity
+import com.alanturin.primerbocetoui.data.local.entity.NotificationEntity
 import com.alanturin.primerbocetoui.data.local.entity.SubjectEntity
 import com.alanturin.primerbocetoui.model.Subject
 
@@ -20,8 +22,9 @@ import com.alanturin.primerbocetoui.model.Subject
         HorarioEntity::class,
         TeacherEntity::class,
         AssistanceEntity::class,
-        SubjectEntity::class],
-    version = 12,
+        SubjectEntity::class,
+        NotificationEntity::class],
+    version = 13,
     exportSchema = false)
 
 abstract class AppDatabase : RoomDatabase() {
@@ -34,4 +37,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun assistanceDao(): AssistanceDao
 
     abstract fun subjectDao(): SubjectDao
+
+    abstract fun notificationDao(): NotificationDao
 }

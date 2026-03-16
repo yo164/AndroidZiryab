@@ -20,7 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun NotificationListScreen(
     viewModel: NotificationListViewModel = hiltViewModel(),
-    onNotificationClick: (Int) -> Unit
+    onNotificationClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -47,8 +47,11 @@ fun NotificationListScreen(
                 }
                 items(lista) { asistencia ->
                     NotificationListItem(
-                        asistencia = asistencia,
-                        onClick = { onNotificationClick(asistencia.id) }
+                        datosAsistencia = asistencia,
+                        onClick = {
+                            viewModel.seleccionarNotificacion(asistencia)
+                            onNotificationClick()
+                        }
                     )
                 }
             }

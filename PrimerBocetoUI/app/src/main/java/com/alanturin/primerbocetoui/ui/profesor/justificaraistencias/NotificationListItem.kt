@@ -16,13 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.alanturin.primerbocetoui.domain.model.AssistanceItem
+import com.alanturin.primerbocetoui.domain.model.NotificationItem
 
 @Composable
 fun NotificationListItem(
-    asistencia: AssistanceItem,
+    datosAsistencia: NotificationItem,
     onClick: () -> Unit
 ) {
-    val statusColor = when (asistencia.status) {
+    val statusColor = when (datosAsistencia.status) {
         "MISSING" -> Color.Red
         "LAG" -> Color(0xFFFFA500)
         "JUSTIFY" -> Color(0xFF4CAF50)
@@ -45,24 +46,24 @@ fun NotificationListItem(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = asistencia.idStudent.toString(),
+                    text = datosAsistencia.idStudent.toString(),
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
-                    text = asistencia.subjectName.toString(),
+                    text = datosAsistencia.subjectName.toString(),
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = asistencia.date.toString(),
+                    text = datosAsistencia.date.toString(),
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    text = asistencia.startTime.toString(),
+                    text = datosAsistencia.startTime.toString(),
                     style = MaterialTheme.typography.bodySmall
                 )
             }
             Text(
-                text = asistencia.status,
+                text = datosAsistencia.status,
                 color = statusColor,
                 style = MaterialTheme.typography.bodyMedium
             )

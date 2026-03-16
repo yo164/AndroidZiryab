@@ -19,18 +19,11 @@ import com.alanturin.primerbocetoui.domain.model.NotificationItem
     indices = [Index(value = ["idAssistance"])]
 )data class NotificationEntity (
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val idAssistanceEntity: Int,
+    val id: Int = 0,
+    val idAssistance: Int,
     val status: String,
     val createdAt: String,
     val updatedAt: String?
 )
 
-fun NotificationEntity.toDomain() = NotificationItem(
-    id = this.id,
-    idAssistance = this.idAssistanceEntity,
-    status = this.status,
-    createdAt = this.createdAt,
-    updatedAt = this.updatedAt
-)
 

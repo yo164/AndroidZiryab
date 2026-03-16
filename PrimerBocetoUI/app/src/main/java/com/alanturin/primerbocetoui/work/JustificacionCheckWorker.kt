@@ -28,6 +28,7 @@ class JustificationCheckWorker @AssistedInject constructor(
                 lista.forEach { asistencia ->
                     android.util.Log.d("ZIRYAB", "Justificación pendiente id: ${asistencia.id}")
                     notificationHelper.showJustificationNotification(asistencia.id)
+                    notificationHelper.registerNotification(asistencia.id)
                 }
             }
             Result.success()

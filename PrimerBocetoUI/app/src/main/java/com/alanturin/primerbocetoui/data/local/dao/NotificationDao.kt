@@ -4,16 +4,20 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.alanturin.primerbocetoui.data.local.entity.NotificationEntity
+import com.alanturin.primerbocetoui.data.local.entity.NotificationWithAssistance
+import com.alanturin.primerbocetoui.domain.model.NotificationInsertEntity
 
 @Dao
 interface NotificationDao {
 
+    @Transaction
     @Query("SELECT * FROM notification")
-    suspend fun getAll(): List<NotificationEntity>
+    suspend fun getAll(): List<NotificationWithAssistance>
 
     @Query("SELECT * FROM notification WHERE id = :id")
-    suspend fun getById(id: Int): NotificationEntity?
+    suspend fun getById(id: Int): NotificationWithAssistance?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(notification: NotificationEntity)
