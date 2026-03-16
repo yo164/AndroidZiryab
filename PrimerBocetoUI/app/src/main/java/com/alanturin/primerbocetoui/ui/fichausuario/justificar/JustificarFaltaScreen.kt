@@ -143,7 +143,7 @@ fun JustificarFaltaScreen(
                 }
 
                 Button(
-                    onClick = { viewModel.enviarJustificacion(subjectName, date) },
+                    onClick = { viewModel.enviarJustificacion(id, subjectName, date) },
                     modifier = Modifier.fillMaxWidth().height(56.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF10B981))
                 ) {
