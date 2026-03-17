@@ -22,8 +22,8 @@ interface NotificationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(notification: NotificationEntity)
 
-    @Query("UPDATE notification SET status = :status, updatedAt = :updatedAt WHERE id = :id")
-    suspend fun updateStatus(id: Int, status: String, updatedAt: String)
+    @Query("UPDATE notification SET status = :status, updatedAt = :updatedAt WHERE idAssistance = :idAssistance")
+    suspend fun updateStatusByAssistanceId(idAssistance: Int, status: String, updatedAt: String)
 
     @Query("DELETE FROM notification")
     suspend fun deleteAll()

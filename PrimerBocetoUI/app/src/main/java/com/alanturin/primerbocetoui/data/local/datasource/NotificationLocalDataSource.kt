@@ -14,7 +14,7 @@ class NotificationLocalDataSource @Inject constructor(
 
     suspend fun insert(notification: NotificationEntity) = dao.insert(notification)
 
-    suspend fun updateStatus(id: Int, status: String, updatedAt: String) = dao.updateStatus(id, status, updatedAt)
+    suspend fun updateStatus(id: Int, status: String, updatedAt: String) = dao.updateStatusByAssistanceId(id, status, updatedAt)
 
     suspend fun deleteAll() = dao.deleteAll()
 }

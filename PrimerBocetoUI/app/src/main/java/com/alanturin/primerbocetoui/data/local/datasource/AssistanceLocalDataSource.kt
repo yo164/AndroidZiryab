@@ -18,6 +18,8 @@ class AssistanceLocalDataSource @Inject constructor(
 
     suspend fun updateStatus(id: Int, status: String) = dao.updateStatus(id, status)
 
+    suspend fun justifyAssistancebyId(id: Int) = dao.justifyAssistance(id)
+
     suspend fun updateUri(id: Int, uri: String) = dao.updateUri(id, uri)
 
     suspend fun getById(id: Int): AssistanceEntity? = dao.getById(id)

@@ -24,6 +24,9 @@ interface AssistanceDao {
     @Query("UPDATE assistance SET status = :status WHERE id = :id")
     suspend fun updateStatus(id: Int, status: String)
 
+    @Query("UPDATE assistance SET status = 'JUSTIFY' WHERE id = :id")
+    suspend fun justifyAssistance(id: Int): Int
+
     @Query("UPDATE assistance SET uri = :uri WHERE id = :id")
     suspend fun updateUri(id: Int, uri: String): Int
 
