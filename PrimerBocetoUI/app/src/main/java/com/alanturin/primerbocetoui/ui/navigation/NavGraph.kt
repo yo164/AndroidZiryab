@@ -143,6 +143,13 @@ fun NavGraph() {
 
             alumnoListDestination(modifier = contentModifier)
 
+            notificacionesDestination(
+                modifier = contentModifier,
+                onNotificationClick = {
+                    navController.navigate(Route.JustificarScreen)
+                }
+            )
+
 
         }
     }
