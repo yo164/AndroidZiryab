@@ -200,7 +200,7 @@ fun NavGraphBuilder.gestionClasesDestination(
 }
 
 fun NavGraphBuilder.taskDestination(modifier: Modifier = Modifier) {
-    composable<Route.Task> { TaskScreen() }
+    composable<Route.Task> { TaskScreen(viewModel = hiltViewModel()) }
 }
 
 fun NavGraphBuilder.alumnoListDestination(modifier: Modifier = Modifier) {
