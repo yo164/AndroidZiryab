@@ -19,7 +19,7 @@ interface AssistanceRepository {
 
     suspend fun getByStudentId(idStudent: Int): Result<List<AssistanceItem>>
 
-    suspend fun justifyAssistancebyId(id: Int): Result<JustifyAssistanceRemoteResponse>
+    suspend fun justifyAssistancebyId(id: Int): Result<AssistanceItem>
 
     suspend fun patchAssistancebyId(id: Int, status: String): Result<JustifyAssistanceRemoteResponse>
 

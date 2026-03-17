@@ -43,15 +43,10 @@ fun JustificarScreen(
                 .weight(1f)
         )
         Button(
-            onClick = {},
+            onClick = { viewModel.justificar() },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
-                .pointerInput(Unit) {
-                    detectTapGestures(
-                        onLongPress = { viewModel.justificar() }
-                    )
-                },
+                .padding(16.dp),
             colors = ButtonDefaults.buttonColors(containerColor = buttonColor)
         ) {
             Text(if (justified) stringResource(R.string.justificar_validated) else stringResource(R.string.justificar_hold))

@@ -16,7 +16,7 @@ import com.alanturin.primerbocetoui.domain.model.NotificationItem
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index(value = ["idAssistance"])]
+    indices = [Index(value = ["idAssistance"], unique = true)]
 )data class NotificationEntity (
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,

@@ -80,14 +80,31 @@ class AssistanceRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun justifyAssistancebyId(id: Int): Result<JustifyAssistanceRemoteResponse> {
-        return remoteDataSource.justifyAssistanceStatusbyId(id)
+    override suspend fun justifyAssistancebyId(id: Int): Result<AssistanceItem> {
+        val affectedRows = localDataSource.justifyAssistancebyId(id )
+        remoteDataSource.justifyAssistanceStatusbyId(id)
+        return if (affectedRows > 0) {
+            val updated = localDataSource.getById(id)
+            if (updated != null) Result.success(updated.toDomain())
+            else Result.failure(RuntimeException("Error al recuperar asistencia"))
+        } else {
+            Result.failure(RuntimeException("Asistencia no encontrada"))
+        }
+
+
     }
 
     override suspend fun patchAssistancebyId(id: Int, status: String): Result<JustifyAssistanceRemoteResponse> {
-        return remoteDataSource.patchAssistanceStatusbyId(id, request = PatchAssistanceRemoteRequest(status = status))
+
+        return remoteDataSource.patchAssistanceStatusbyId(id,
+            PatchAssistanceRemoteRequest(status)).also { result ->
+            result.onSuccess { localDataSource.updateStatus(id, result.toString()) }
+        }
     }
 
+
+
+//justificationRequest
     override suspend fun justifyRequest(
         id: Int,
         uri: String
