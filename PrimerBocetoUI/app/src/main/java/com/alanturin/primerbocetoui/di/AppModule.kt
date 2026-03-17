@@ -147,8 +147,6 @@ abstract class AppModule {
     @Singleton
     abstract fun bindTeacherRepository(impl: TeacherRepositoryImpl): TeacherRepository
 
-
-
     @Binds
     @Singleton
     abstract fun bindClasesAlumnoRemoteDataSource(

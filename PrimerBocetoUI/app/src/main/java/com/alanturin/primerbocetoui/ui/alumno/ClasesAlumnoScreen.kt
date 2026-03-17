@@ -25,7 +25,7 @@ import com.alanturin.primerbocetoui.domain.model.Asignatura
 fun ClasesAlumnoScreen(
     modifier: Modifier = Modifier,
     viewModel: ClasesAlumnoViewModel = hiltViewModel(),
-    onAsignaturaClick: (Long, String) -> Unit
+    onAsignaturaClick: (Int, String) -> Unit
 ) {
     val asignaturas by viewModel.asignaturas.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
@@ -34,7 +34,6 @@ fun ClasesAlumnoScreen(
     LaunchedEffect(true) {
         viewModel.cargarClases()
     }
-
     Scaffold(
         containerColor = Color(0xFFF8FAFC)
     ) { paddingValues ->
@@ -62,7 +61,6 @@ fun ClasesAlumnoScreen(
                             )
                         )
                     )
-
                     IconButton(
                         onClick = { viewModel.recargarClases(2L) },
                         enabled = !isLoading
@@ -82,7 +80,6 @@ fun ClasesAlumnoScreen(
                         }
                     }
                 }
-
                 if (isLoading && asignaturas.isEmpty()) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator(color = Color(0xFF7C3AED))
@@ -99,7 +96,7 @@ fun ClasesAlumnoScreen(
                         )
                     }
                 } else {
-                    // LISTA DE ASIGNATURAS
+                    // list asignatura --> corregido
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(16.dp),
                         contentPadding = PaddingValues(bottom = 16.dp)
@@ -108,7 +105,9 @@ fun ClasesAlumnoScreen(
                             AsignaturaCard(
                                 asignatura = asignatura,
                                 index = index,
-                                onClick = onAsignaturaClick
+                                onClick = { id, nombre ->
+                                    onAsignaturaClick(id.toInt(), nombre)
+                                }
                             )
                         }
                     }
@@ -117,7 +116,6 @@ fun ClasesAlumnoScreen(
         }
     }
 }
-
 @Composable
 fun AsignaturaCard(
     asignatura: Asignatura,
@@ -132,22 +130,18 @@ fun AsignaturaCard(
         listOf(Color(0xFFFEF3C7), Color(0xFFFFFBEB)), // Amber
         listOf(Color(0xFFCFFAFE), Color(0xFFECFEFF))  // Cyan
     )
-
     val borderColors = listOf(
         Color(0xFFBFDBFE), Color(0xFFD8B4FE), Color(0xFF6EE7B7),
         Color(0xFFFDA4AF), Color(0xFFFDE68A), Color(0xFF67E8F9)
     )
-
     val textColors = listOf(
         Color(0xFF2563EB), Color(0xFF9333EA), Color(0xFF059669),
         Color(0xFFE11D48), Color(0xFFD97706), Color(0xFF0891B2)
     )
-
     val currentThemeIndex = index % themes.size
     val gradientColors = themes[currentThemeIndex]
     val borderColor = borderColors[currentThemeIndex]
     val textColor = textColors[currentThemeIndex]
-
     Card(
         shape = RoundedCornerShape(24.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
@@ -180,7 +174,6 @@ fun AsignaturaCard(
                     color = Color(0xFF1F2937),
                     textAlign = TextAlign.Center
                 )
-
                 HorizontalDivider(
                     modifier = Modifier
                         .padding(vertical = 16.dp)
@@ -188,7 +181,6 @@ fun AsignaturaCard(
                     thickness = 2.dp,
                     color = borderColor.copy(alpha = 0.6f)
                 )
-
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
@@ -202,7 +194,6 @@ fun AsignaturaCard(
                         color = Color(0xFF6B7280),
                         modifier = Modifier.padding(bottom = 6.dp)
                     )
-
                     Surface(
                         shape = RoundedCornerShape(50),
                         color = Color.White.copy(alpha = 0.6f),
@@ -219,9 +210,7 @@ fun AsignaturaCard(
                         )
                     }
                 }
-
                 Spacer(modifier = Modifier.height(24.dp))
-
                 Button(
                     onClick = { onClick(asignatura.id, asignatura.nombre) },
                     colors = ButtonDefaults.buttonColors(

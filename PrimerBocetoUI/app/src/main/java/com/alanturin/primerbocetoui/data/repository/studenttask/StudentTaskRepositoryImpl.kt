@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class StudentTaskRepositoryImpl @Inject constructor(
     private val remoteDataSource: StudentTaskRemoteDataSource
-): StudentTaskRepository {
+) : StudentTaskRepository {
     override suspend fun getByStudentEnrollment(idStudentEnrollment: Int): Result<List<StudentTaskItemRemote>> {
         return remoteDataSource.getByStudentEnrollment(idStudentEnrollment)
     }
