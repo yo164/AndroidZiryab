@@ -159,7 +159,10 @@ fun NavGraph() {
                 }
             )
 
-            justificarScreenDestination(modifier = contentModifier)
+            justificarScreenDestination(
+                modifier = contentModifier,
+                onNavigateBack = { navController.popBackStack() }
+            )
 
 
 

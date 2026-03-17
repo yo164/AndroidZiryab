@@ -16,8 +16,8 @@ interface NotificationDao {
     @Query("SELECT * FROM notification")
     suspend fun getAll(): List<NotificationWithAssistance>
 
-    @Query("SELECT * FROM notification WHERE id = :id")
-    suspend fun getById(id: Int): NotificationWithAssistance?
+    @Query("SELECT * FROM notification WHERE idTeacher = :idTeacher AND status = 'PENDING'")
+    suspend fun getById(idTeacher: Int): NotificationWithAssistance?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(notification: NotificationEntity)

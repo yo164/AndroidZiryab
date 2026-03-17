@@ -216,9 +216,9 @@ fun NavGraphBuilder.notificacionesDestination(
     }
 }
 
-fun NavGraphBuilder.justificarScreenDestination(modifier: Modifier = Modifier) {
+fun NavGraphBuilder.justificarScreenDestination(modifier: Modifier = Modifier, onNavigateBack: () -> Unit) {
     composable<Route.JustificarScreen> {
-        JustificarScreen()
+        JustificarScreen(onNavigateBack = onNavigateBack)
     }
 }
 sealed class BottomNavItem(val route: Route, val icon: ImageVector, val label: String) {

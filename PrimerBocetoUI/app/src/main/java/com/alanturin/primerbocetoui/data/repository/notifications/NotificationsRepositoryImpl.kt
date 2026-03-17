@@ -15,8 +15,8 @@ class NotificationsRepositoryImpl @Inject constructor(
         return Result.success(localDataSource.getAll().map { it.toDomain() })
     }
 
-    override suspend fun getNotificationById(id: Int): Result<NotificationItem?> {
-        return Result.success(localDataSource.getById(id)?.toDomain())
+    override suspend fun getNotificationById(idTeacher: Int): Result<NotificationItem?> {
+        return Result.success(localDataSource.getById(idTeacher)?.toDomain())
     }
 
 
