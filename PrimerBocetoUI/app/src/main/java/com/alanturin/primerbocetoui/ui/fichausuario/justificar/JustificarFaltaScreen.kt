@@ -35,10 +35,8 @@ fun JustificarFaltaScreen(
     val uiState by viewModel.uiState.collectAsState()
     var showCamera by remember { mutableStateOf(false) }
 
-    // Estado para gestionar los permisos de la cámara
     val cameraPermissionState = rememberPermissionState(android.Manifest.permission.CAMERA)
 
-    // Lanzador para seleccionar archivos del dispositivo
     val filePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->

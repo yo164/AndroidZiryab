@@ -41,12 +41,13 @@ class InitialDataController @Inject constructor(
 
             if (userRole == "TEACHER"){
                 launch { weekScheduleRepository.getWeekScheduleByTeacher(userId.toLong(), userRole) }
-                launch { assistanceRepository.getAll(userId) }
+                launch { assistanceRepository.getAll() }
                 launch { teacherRepository.getTeacherById(userId) }//falta implementar delete all
 
             }else{
                 launch { studentWeekScheduleRepository.getWeekScheduleByStudent(userId.toLong(), userRole) }
-                launch { assistanceRepository.getByStudentId(userId) }
+                //launch { assistanceRepository.getByStudentId(userId) }
+                launch { assistanceRepository.getAll() }
                 launch { clasesAlumnoRepository.getClases(userId.toLong()) }
 
 

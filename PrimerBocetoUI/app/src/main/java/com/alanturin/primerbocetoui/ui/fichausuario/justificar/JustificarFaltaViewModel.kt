@@ -1,19 +1,23 @@
 package com.alanturin.primerbocetoui.ui.fichausuario.justificar
 
+import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alanturin.primerbocetoui.data.repository.assistance.AssistanceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class JustificarFaltaViewModel @Inject constructor(
-    private val assistanceRepository: AssistanceRepository
+    private val assistanceRepository: AssistanceRepository,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Idle)
@@ -28,9 +32,16 @@ class JustificarFaltaViewModel @Inject constructor(
     }
 
     fun onPhotoTaken(uri: Uri) {
-        selectedFileUri = uri
+        val picturesDir = File(context.getExternalFilesDir(android.os.Environment.DIRECTORY_PICTURES), "justificantes")
+        if (!picturesDir.exists()) picturesDir.mkdirs()
+
+        val file = File(picturesDir, "${System.currentTimeMillis()}.jpg")
+
+        File(uri.path!!).copyTo(file, overwrite = true)
+
+        selectedFileUri = Uri.fromFile(file)
         android.util.Log.d("ZIRYAB", "Foto de la cámara: $uri")
-        _uiState.value = UiState.FileSelected(uri)
+        _uiState.value = UiState.FileSelected(selectedFileUri!!)
     }
 
     fun enviarJustificacion(id: Int,subject: String, date: String) {

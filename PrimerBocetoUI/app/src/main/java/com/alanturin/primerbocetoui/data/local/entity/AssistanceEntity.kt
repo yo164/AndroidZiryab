@@ -32,7 +32,7 @@ fun AssistanceEntity.toDomain() = AssistanceItem(
     uri = this.uri
 )
 
-fun AssistanceItem.toEntity(idTeacher: Int?) = AssistanceEntity(
+fun AssistanceItem.toEntity() = AssistanceEntity(
     id = this.id,
     idStudent = this.idStudent,
     idSession = this.idSession,

@@ -12,7 +12,7 @@ interface AssistanceDao {
     @Query("SELECT * FROM assistance WHERE idSession = :idSession")
     suspend fun getBySessionId(idSession: Int): List<AssistanceEntity>
 
-    @Query("SELECT * FROM assistance WHERE idStudent = :idStudent")
+    @Query("SELECT * FROM assistance WHERE idStudent = :idStudent AND status IN ('LAG','MISSING','JUSTIFY')")
     suspend fun getByStudentId(idStudent: Int): List<AssistanceEntity>
 
     @Query("SELECT * FROM assistance WHERE (status = 'MISSING' OR status = 'LAG') AND uri IS NOT NULL AND idTeacher = :idTeacher")

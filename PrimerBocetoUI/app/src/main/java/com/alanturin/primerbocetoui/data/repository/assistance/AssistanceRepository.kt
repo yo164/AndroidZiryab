@@ -7,7 +7,7 @@ import com.alanturin.primerbocetoui.domain.model.AssistanceItem
 
 interface AssistanceRepository {
 
-    suspend fun getAll(userId: Int): Result<List<AssistanceItem>>
+    suspend fun getAll(): Result<List<AssistanceItem>>
 
     suspend fun deleteAll()
 
