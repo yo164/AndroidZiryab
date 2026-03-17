@@ -22,6 +22,7 @@ import com.alanturin.primerbocetoui.ui.horario.HorarioScreen
 import com.alanturin.primerbocetoui.ui.profesor.ClasesProfesorScreen
 import com.alanturin.primerbocetoui.ui.profesor.gestionclases.GestionClasesScreen
 import com.alanturin.primerbocetoui.ui.profesor.justificaraistencias.NotificationListScreen
+import com.alanturin.primerbocetoui.ui.profesor.justificaraistencias.confirmajustificacion.JustificarScreen
 import com.alanturin.primerbocetoui.ui.profesor.listaAlumnos.AlumnoListScreen
 import com.alanturin.primerbocetoui.ui.profesor.tasks.TaskScreen
 
@@ -208,6 +209,11 @@ fun NavGraphBuilder.notificacionesDestination(
     }
 }
 
+fun NavGraphBuilder.justificarScreenDestination(modifier: Modifier = Modifier) {
+    composable<Route.JustificarScreen> {
+        JustificarScreen()
+    }
+}
 sealed class BottomNavItem(val route: Route, val icon: ImageVector, val label: String) {
     data object Clases : BottomNavItem(Route.ClasesAlumno, Icons.Default.Home, "Clases")
     data object Gestion : BottomNavItem(Route.Gestion, Icons.Default.List, "Gestión")

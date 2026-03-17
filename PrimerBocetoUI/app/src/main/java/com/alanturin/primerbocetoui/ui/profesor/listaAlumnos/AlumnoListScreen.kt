@@ -32,6 +32,7 @@ fun AlumnoListScreen(
     }
 
     val state by viewModel.uiState.collectAsState()
+    val asistencias by viewModel.asistencias.collectAsState()
 
     Column(
         modifier = modifier
@@ -56,10 +57,15 @@ fun AlumnoListScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(ui.alumnos) { enrollment ->
+
+                        val status = asistencias[enrollment.id]
+
                         AlumnoCard(
                             nombre = enrollment.student.name,
                             surname = enrollment.student.surname,
                             ndSurname = enrollment.student.ndSurname,
+                            status = status,
+
                             {
                                     status ->
                                 viewModel.actualizarAsistencia(enrollment.id, status)

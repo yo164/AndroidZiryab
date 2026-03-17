@@ -29,6 +29,7 @@ class AlumnoListViewModel @Inject constructor(
     val uiState: StateFlow<UiState> = _uiState
 
     private val _asistencias = MutableStateFlow<Map<Int, AssistanceStatus>>(emptyMap())
+    val asistencias: StateFlow<Map<Int, AssistanceStatus>> = _asistencias
 
     fun actualizarAsistencia(enrollmentId: Int, status: AssistanceStatus) {
         _asistencias.value = _asistencias.value + (enrollmentId to status)
@@ -118,10 +119,9 @@ class AlumnoListViewModel @Inject constructor(
 
             getResult.onSuccess { listaExistente ->
                 if (listaExistente.isNotEmpty()) {
-                    // pintar botones con los estados que vienen del backend
                     listaExistente.forEach { asistencia ->
                         _asistencias.value = (_asistencias.value +
-                                (asistencia.idStudentEnrollment to AssistanceStatus.valueOf(asistencia.status))) as Map<Int, AssistanceStatus>
+                                (asistencia.idStudentEnrollment to AssistanceStatus.valueOf(asistencia.status)))
                     }
                 }
             }.onFailure {

@@ -15,6 +15,7 @@ data class AssistanceStudentItemRemote(
 )
 
 data class StudentEnrollmentRemote(
+    val id: Int,
     val student: StudentRemote
 )
 

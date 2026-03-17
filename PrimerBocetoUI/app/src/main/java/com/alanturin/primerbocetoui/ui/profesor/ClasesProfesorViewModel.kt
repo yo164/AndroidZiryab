@@ -24,7 +24,6 @@ class ClasesProfesorViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
     val uiState: StateFlow<UiState> = _uiState
 
-    // Simulamos el ngOnInit de Angular
     fun cargarClases() {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
@@ -77,7 +76,6 @@ class ClasesProfesorViewModel @Inject constructor(
         }
     }
 
-    // Estados de la vista (Loading, Error, Success) como en tu HTML @if
     sealed class UiState {
         object Loading : UiState()
         object Empty : UiState()

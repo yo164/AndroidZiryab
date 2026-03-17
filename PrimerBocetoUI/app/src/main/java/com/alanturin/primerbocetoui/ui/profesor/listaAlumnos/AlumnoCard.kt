@@ -28,11 +28,12 @@ fun AlumnoCard(
     nombre: String,
     surname: String,
     ndSurname: String?,
+    status: AssistanceStatus?,
+
     onAsistenciaChange: (AssistanceStatus) -> Unit
 
 ) {
     val apellidos = if (ndSurname != null) "$surname $ndSurname" else surname
-    var asistencia by remember { mutableStateOf<AssistanceStatus?>(null) }
 
     Card(
         modifier = Modifier
@@ -56,11 +57,10 @@ fun AlumnoCard(
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 Button(
                     onClick = {
-                        asistencia = AssistanceStatus.MISSING
                         onAsistenciaChange(AssistanceStatus.MISSING)
                               },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (asistencia == AssistanceStatus.MISSING) Color.Red else Color.LightGray
+                        containerColor = if (status == AssistanceStatus.MISSING) Color.Red else Color.LightGray
                     )
                 ) {
                     Text("F", fontSize = 16.sp)
@@ -68,11 +68,10 @@ fun AlumnoCard(
 
                 Button(
                     onClick = {
-                        asistencia = AssistanceStatus.LAG
                         onAsistenciaChange(AssistanceStatus.LAG)
                               },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (asistencia == AssistanceStatus.LAG) Color(0xFFFFA500) else Color.LightGray
+                        containerColor = if (status == AssistanceStatus.LAG) Color(0xFFFFA500) else Color.LightGray
                     )
                 ) {
                     Text("R", fontSize = 16.sp)
@@ -80,11 +79,10 @@ fun AlumnoCard(
 
                 Button(
                     onClick = {
-                        asistencia = AssistanceStatus.PRESENT
                         onAsistenciaChange(AssistanceStatus.PRESENT)
                               },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (asistencia == AssistanceStatus.PRESENT) Color(0xFF4CAF50) else Color.LightGray
+                        containerColor = if (status == AssistanceStatus.PRESENT) Color(0xFF4CAF50) else Color.LightGray
                     )
                 ) {
                     Text("A", fontSize = 16.sp)
@@ -94,13 +92,3 @@ fun AlumnoCard(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun AlumnoCardPreview() {
-    AlumnoCard(
-        nombre = "Juan",
-        surname = "Pérez",
-        ndSurname = "García",
-        onAsistenciaChange =  {}
-    )
-}

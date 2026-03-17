@@ -22,7 +22,7 @@ import coil.compose.AsyncImage
 import com.alanturin.primerbocetoui.ui.navigation.Route
 
 @Composable
-fun Route.JustificarScreen(
+fun JustificarScreen(
     viewModel: JustificarViewModel = hiltViewModel()
 ) {
     val uri by viewModel.uri.collectAsState()
