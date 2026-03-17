@@ -54,13 +54,12 @@ dependencies {
     implementation(libs.androidx.hilt.work)
     ksp(libs.androidx.hilt.compiler)
 
-
-    val cameraxVersion = "1.3.1"
-    implementation("androidx.camera:camera-core:$cameraxVersion")
-    implementation("androidx.camera:camera-camera2:$cameraxVersion")
-    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
-    implementation("androidx.camera:camera-view:$cameraxVersion")
-    implementation("androidx.camera:camera-extensions:$cameraxVersion")
+    //camera
+    implementation("androidx.camera:camera-compose:1.4.0-beta02")
+    implementation("androidx.camera:camera-core:1.4.0-beta02")
+    implementation("androidx.camera:camera-camera2:1.4.0-beta02")
+    implementation("androidx.camera:camera-lifecycle:1.4.0-beta02")
+    implementation("androidx.camera:camera-view:1.4.0-beta02")
     //View MOdel
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
@@ -99,6 +98,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
 
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.8.1")
     implementation("androidx.compose.material:material-icons-extended:1.7.6")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
