@@ -23,7 +23,8 @@ import com.alanturin.primerbocetoui.ui.navigation.Route
 
 @Composable
 fun JustificarScreen(
-    viewModel: JustificarViewModel = hiltViewModel()
+    viewModel: JustificarViewModel = hiltViewModel(),
+    onNavigateBack: () -> Unit
 ) {
     val uri by viewModel.uri.collectAsState()
     val justified by viewModel.justified.collectAsState()
@@ -41,7 +42,10 @@ fun JustificarScreen(
                 .weight(1f)
         )
         Button(
-            onClick = { viewModel.justificar() },
+            onClick = {
+                viewModel.justificar()
+                onNavigateBack()
+                      },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),

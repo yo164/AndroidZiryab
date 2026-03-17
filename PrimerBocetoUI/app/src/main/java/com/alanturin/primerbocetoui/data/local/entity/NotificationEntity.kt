@@ -21,6 +21,7 @@ import com.alanturin.primerbocetoui.domain.model.NotificationItem
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val idAssistance: Int,
+    val idTeacher: Int,
     val status: String,
     val createdAt: String,
     val updatedAt: String?

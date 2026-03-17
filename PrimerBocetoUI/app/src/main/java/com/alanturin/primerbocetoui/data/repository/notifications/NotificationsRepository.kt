@@ -8,7 +8,7 @@ interface NotificationsRepository {
 
     suspend fun getAllNotifications(): Result<List<NotificationItem>>
 
-    suspend fun getNotificationById(id: Int): Result<NotificationItem?>
+    suspend fun getNotificationById(idTeacher: Int): Result<NotificationItem?>
 
     suspend fun insert(notification: NotificationInsertEntity)
 

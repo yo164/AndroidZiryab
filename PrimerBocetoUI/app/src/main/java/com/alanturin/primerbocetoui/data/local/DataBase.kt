@@ -24,7 +24,7 @@ import com.alanturin.primerbocetoui.model.Subject
         AssistanceEntity::class,
         SubjectEntity::class,
         NotificationEntity::class],
-    version = 18,
+    version = 19,
     exportSchema = false)
 
 abstract class AppDatabase : RoomDatabase() {

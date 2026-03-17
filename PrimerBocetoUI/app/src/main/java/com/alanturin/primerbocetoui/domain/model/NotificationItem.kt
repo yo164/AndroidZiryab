@@ -22,6 +22,7 @@ data class NotificationItem(
 data class NotificationInsertEntity(
     val id: Int,
     val idAssistance: Int,
+    val idTeacher: Int,
     val status: String,
     val createdAt: String,
     val updatedAt: String?,
@@ -29,6 +30,7 @@ data class NotificationInsertEntity(
 fun NotificationInsertEntity.toEntity() = NotificationEntity(
     idAssistance = this.idAssistance,
     status = this.status,
+    idTeacher = this.idTeacher,
     createdAt = this.createdAt,
     updatedAt = this.updatedAt
 )

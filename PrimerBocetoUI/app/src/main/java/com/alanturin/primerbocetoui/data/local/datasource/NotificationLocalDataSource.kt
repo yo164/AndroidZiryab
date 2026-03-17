@@ -10,7 +10,7 @@ class NotificationLocalDataSource @Inject constructor(
 ) {
     suspend fun getAll(): List<NotificationWithAssistance> = dao.getAll()
 
-    suspend fun getById(id: Int): NotificationWithAssistance? = dao.getById(id)
+    suspend fun getById(idTeacher: Int): NotificationWithAssistance? = dao.getById(idTeacher)
 
     suspend fun insert(notification: NotificationEntity) = dao.insert(notification)
 
