@@ -6,12 +6,8 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface StudentTaskApi {
-    @GET("api/student-tasks/student-enrollment/{idStudentEnrollment}")
+    @GET("api/student-tasks/student/{idStudentEnrollment}")
     suspend fun getByStudentEnrollment(
         @Path("idStudentEnrollment") idStudentEnrollment: Int
     ): Response<StudentTaskListResponseRemote>
-
-    /**
-     * @PUT
-     */
 }

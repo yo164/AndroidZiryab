@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.alanturin.primerbocetoui.R
 
 @HiltViewModel
 class ClasesAlumnoViewModel @Inject constructor(

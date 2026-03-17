@@ -19,4 +19,59 @@
     <string name="cd_horario">Clock icon for schedule</string>
     <string name="cd_calendario">Calendar icon</string>
     <string name="cd_tablon">Notifications icon</string>
+    <!-- Login -->
+    <string name="login_title">Log in</string>
+    <string name="login_email_label">Email</string>
+    <string name="login_password_label">Password</string>
+    <string name="login_show_password">Show</string>
+    <string name="login_hide_password">Hide</string>
+    <string name="login_button_enter">Enter</string>
+    <string name="error_email_empty">Email cannot be empty</string>
+    <string name="error_password_empty">Password cannot be empty</string>
+    <string name="error_login_default">Log in error</string>
+    <string name="error_firebase_null">Firebase Auth Error: Null user</string>
+    <string name="error_server">Ziryab server error: %1$s</string>
+
+    <!-- Menus & Shared -->
+    <string name="menu_user_name_default">U</string>
+    <string name="menu_logout">Log out</string>
+    <string name="menu_default_name">student</string>
+    <string name="menu_title_ziryab">Ziryab</string>
+    <string name="menu_default_email">test@test.com</string>
+    <string name="bottom_nav_clases">Subjects</string>
+    <string name="bottom_nav_gestion">Management</string>
+
+    <!-- Navigation Route -->
+    <string name="nav_role_student">STUDENT</string>
+    <string name="nav_title_ziryab">Ziryab</string>
+    <string name="nav_username_alumno">Student</string>
+
+    <!-- Profesor Clases -->
+    <string name="profesor_clases_title">Subjects</string>
+    <string name="profesor_clases_empty">You have no assigned subjects.</string>
+    <string name="profesor_clases_grade">GRADE/COURSE</string>
+    <string name="profesor_clases_manage">Manage</string>
+    <string name="error_loading_subjects">Error loading subjects</string>
+
+    <!-- Calendario -->
+    <string name="calendario_events_title">Events of the day</string>
+    <string name="calendario_no_events">No events</string>
+    <string name="calendario_cd_prev">Previous</string>
+    <string name="calendario_cd_next">Next</string>
+    <string name="error_loading_events">Error loading events</string>
+
+    <!-- Alumno Temario -->
+    <string name="alumno_temario_cd_back">Back</string>
+    <string name="alumno_temario_cd_add">Add</string>
+
+    <!-- Alumno Clases -->
+    <string name="alumno_clases_title">My Subjects</string>
+    <string name="alumno_clases_cd_reload">Reload</string>
+    <string name="alumno_clases_grade">GRADE/COURSE</string>
+    <string name="alumno_clases_access">Access</string>
+    <string name="error_unknown">Unknown error</string>
+    <string name="error_update">Update error: %1$s</string>
+
+    <!-- Asistencia -->
+    <string name="asistencia_profesor_name">Teacher Name</string>
 </resources>

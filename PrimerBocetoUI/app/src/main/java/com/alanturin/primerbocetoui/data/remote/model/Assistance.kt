@@ -43,13 +43,12 @@ data class AssistanceSessionNestedRemote(
 
 data class ScheduleNestedRemote(
     val startTime: String,
-    val teacherAssignment: AssignmentNestedRemote
+    val teacherAssignment: AssignmentNestedRemote?
 )
 
 data class AssignmentNestedRemote(
     val idTeacher: Int,
-
-    val subject: SubjectNestedRemote
+    val subject: SubjectNestedRemote?
 )
 
 data class SubjectNestedRemote(

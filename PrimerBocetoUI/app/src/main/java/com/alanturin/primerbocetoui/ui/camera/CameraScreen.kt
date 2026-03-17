@@ -1,13 +1,18 @@
 package com.alanturin.primerbocetoui.ui.camera
 
-import android.net.Uri
-import androidx.camera.core.*
-import androidx.camera.view.PreviewView
+import android.Manifest
+import androidx.camera.compose.CameraXViewfinder
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FlipCameraAndroid
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -15,35 +20,72 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import java.io.File
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun CameraScreen(onPhotoTaken: (Uri) -> Unit, onBack: () -> Unit) {
+fun CameraScreen(
+    viewModel: CameraViewModel,
+    onPhotoTaken: () -> Unit,
+    onBack: () -> Unit
+) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val previewView = remember { PreviewView(context) }
-    val imageCapture = remember { ImageCapture.Builder().build() }
+    val permissionState = rememberPermissionState(Manifest.permission.CAMERA)
+    val surfaceRequest by viewModel.surfaceRequest.collectAsStateWithLifecycle()
+    val cameraSelector by viewModel.cameraSelector.collectAsStateWithLifecycle()
+    val captureMessage by viewModel.captureMessage.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        val cameraProvider = androidx.camera.lifecycle.ProcessCameraProvider.getInstance(context).get()
-        val preview = Preview.Builder().build().also { it.surfaceProvider = previewView.surfaceProvider }
-        cameraProvider.unbindAll()
-        cameraProvider.bindToLifecycle(lifecycleOwner, CameraSelector.DEFAULT_BACK_CAMERA, preview, imageCapture)
+    LaunchedEffect(captureMessage) {
+        if (captureMessage == "Foto guardada en galería") {
+            onPhotoTaken()
+        }
     }
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        AndroidView(factory = { previewView }, modifier = Modifier.fillMaxSize())
-        Button(
-            onClick = {
-                val file = File(context.externalCacheDir, "${System.currentTimeMillis()}.jpg")
-                imageCapture.takePicture(
-                    ImageCapture.OutputFileOptions.Builder(file).build(),
-                    ContextCompat.getMainExecutor(context),
-                    object : ImageCapture.OnImageSavedCallback {
-                        override fun onImageSaved(output: ImageCapture.OutputFileResults) { onPhotoTaken(Uri.fromFile(file)) }
-                        override fun onError(exc: ImageCaptureException) {}
-                    }
+    if (permissionState.status.isGranted) {
+        LaunchedEffect(cameraSelector) {
+            viewModel.bindToCamera(context, lifecycleOwner)
+        }
+        Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
+            surfaceRequest?.let {
+                CameraXViewfinder(
+                    surfaceRequest = it,
+                    modifier = Modifier.fillMaxSize()
                 )
-            },
-            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 32.dp)
-        ) { Text("Hacer Foto") }
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 48.dp),
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(
+                        onClick = { viewModel.cambiarCamara() },
+                        modifier = Modifier.background(Color.Black.copy(alpha = 0.5f), CircleShape)
+                    ) {
+                        Icon(Icons.Default.FlipCameraAndroid, contentDescription = "Girar", tint = Color.White)
+                    }
+                    Button(
+                        onClick = { viewModel.tomarFoto(context) },
+                        shape = CircleShape,
+                        modifier = Modifier
+                            .size(80.dp)
+                            .border(4.dp, Color.White, CircleShape),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(60.dp)
+                                .background(Color.White, CircleShape)
+                        )
+                    }
+                    Spacer(modifier = Modifier.size(48.dp))
+                }
+            }
+        }
+    } else {
+        LaunchedEffect(Unit) { permissionState.launchPermissionRequest() }
     }
 }

@@ -31,7 +31,8 @@ sealed class Route {
     @Serializable data object Login : Route()
     @Serializable data object ClasesAlumno : Route()
     @Serializable data object Gestion : Route()
-    @Serializable data class Temario(val id: Long, val nombre: String) : Route()
+    @Serializable data class Temario(val enrollmentId: Int, val nombre: String) : Route()
+
     @Serializable data object FichaUsuario : Route()
     @Serializable data object Horario : Route()
     @Serializable data object Calendario : Route()
@@ -66,7 +67,9 @@ fun NavController.navigateToClasesAlumno() {
 }
 
 fun NavController.navigateToGestion() = this.navigate(Route.Gestion)
-fun NavController.navigateToTemario(id: Long, nombre: String) = this.navigate(Route.Temario(id, nombre))
+
+fun NavController.navigateToTemario(enrollmentId: Int, nombre: String) = this.navigate(Route.Temario(enrollmentId, nombre))
+
 fun NavController.navigateToFichaUsuario() = this.navigate(Route.FichaUsuario)
 fun NavController.navigateToHorario() = this.navigate(Route.Horario)
 fun NavController.navigateToCalendario() = this.navigate(Route.Calendario)
@@ -102,7 +105,7 @@ fun NavGraphBuilder.loginDestination(
 
 fun NavGraphBuilder.clasesAlumnoDestination(
     modifier: Modifier = Modifier,
-    onAsignaturaClick: (Long, String) -> Unit
+    onAsignaturaClick: (Int, String) -> Unit
 ) {
     composable<Route.ClasesAlumno> {
         ClasesAlumnoScreen(viewModel = hiltViewModel(), onAsignaturaClick = onAsignaturaClick)
@@ -120,7 +123,7 @@ fun NavGraphBuilder.gestionDestination(
 
 fun NavGraphBuilder.fichaUsuarioDestination(
     modifier: Modifier = Modifier,
-    navController: NavController //
+    navController: NavController
 ) {
     composable<Route.FichaUsuario> {
         FichaUsuarioScreen(
@@ -158,7 +161,11 @@ fun NavGraphBuilder.justificarFaltaDestination(
 fun NavGraphBuilder.temarioDestination(onBack: () -> Unit) {
     composable<Route.Temario> { backStackEntry ->
         val route: Route.Temario = backStackEntry.toRoute()
-        TemarioAlumnoScreen(asignaturaId = route.id, asignaturaNombre = route.nombre, userRole = "STUDENT", onBack = onBack)
+        TemarioAlumnoScreen(
+            enrollmentId = route.enrollmentId,
+            asignaturaNombre = route.nombre,
+            onBack = onBack
+        )
     }
 }
 

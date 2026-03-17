@@ -10,7 +10,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.alanturin.primerbocetoui.domain.model.UserSession
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -43,6 +46,13 @@ class LoginViewModel @Inject constructor(
             _error.value = null
             
             val result = authRepository.login(email, pass)
+            
+            result.onSuccess { loginData ->
+                UserSession.studentId = loginData.id.toLong()
+                _loginSuccess.value = true
+            }.onFailure { exception ->
+                _error.value = exception.message ?: "Error desconocido al iniciar sesión"
+            }
 
             if (result.isSuccess) {
                 val loginData = result.getOrNull()

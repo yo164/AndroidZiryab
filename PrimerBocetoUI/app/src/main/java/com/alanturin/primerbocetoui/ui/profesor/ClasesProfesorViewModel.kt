@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alanturin.primerbocetoui.domain.model.Asignatura
 import com.alanturin.primerbocetoui.data.repository.ClasesProfesorRepository
+import com.alanturin.primerbocetoui.R
 import com.alanturin.primerbocetoui.data.repository.classsessions.ClassSessionsRepository
 import com.alanturin.primerbocetoui.ui.session.AssignmentSessionService
 import com.alanturin.primerbocetoui.ui.session.SessionViewModel

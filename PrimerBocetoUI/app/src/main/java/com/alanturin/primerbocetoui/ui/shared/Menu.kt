@@ -17,22 +17,25 @@ import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.alanturin.primerbocetoui.ui.navigation.Route
 import com.alanturin.primerbocetoui.ui.navigation.navigateToClasesAlumno
+import com.alanturin.primerbocetoui.ui.navigation.navigateToClasesProfesor
 import com.alanturin.primerbocetoui.ui.navigation.navigateToGestion
 import com.alanturin.primerbocetoui.ui.shared.BottomScreen
+import androidx.compose.ui.res.stringResource
+import com.alanturin.primerbocetoui.R
 
 val fondo = Color(0xFF7C3AED).copy(alpha = 0.15f)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppHeader(
     title: String,
-    userName: String="alumno",
-    userEmail: String="prueba@prueba.com",
+    userName: String = stringResource(id = R.string.menu_default_name),
+    userEmail: String = stringResource(id = R.string.menu_default_email),
     onLogout: () -> Unit = {}
 ) {
     TopAppBar(
         title = {
             Text(
-                text = "Ziryab",
+                text = stringResource(id = R.string.menu_title_ziryab),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -55,7 +58,8 @@ fun AppHeader(
 
 @Composable
 fun AppFooter(
-    navController: NavController
+    navController: NavController,
+    userRole: String? = null
 ) {
     val navBackStackEntry = navController.currentBackStackEntryAsState().value
     val currentDestination = navBackStackEntry?.destination
@@ -72,7 +76,10 @@ fun AppFooter(
         items.forEach { screen ->
 
             val isSelected = when (screen) {
-                is BottomScreen.Clases -> currentDestination?.hasRoute<Route.ClasesAlumno>() == true
+                is BottomScreen.Clases -> {
+                    currentDestination?.hasRoute<Route.ClasesAlumno>() == true ||
+                    currentDestination?.hasRoute<Route.ClasesProfesor>() == true
+                }
                 is BottomScreen.Gestion -> currentDestination?.hasRoute<Route.Gestion>() == true
             }
 
@@ -82,13 +89,13 @@ fun AppFooter(
                 icon = {
                     Icon(
                         imageVector = screen.icon,
-                        contentDescription = screen.title,
+                        contentDescription = stringResource(id = screen.titleResId),
                         modifier = Modifier.size(24.dp)
                     )
                 },
                 label = {
                     Text(
-                        text = screen.title,
+                        text = stringResource(id = screen.titleResId),
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontSize = 11.sp,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
@@ -98,7 +105,13 @@ fun AppFooter(
                 selected = isSelected,
                 onClick = {
                     when (screen) {
-                        is BottomScreen.Clases -> navController.navigateToClasesAlumno()
+                        is BottomScreen.Clases -> {
+                            if (userRole == "TEACHER") {
+                                navController.navigateToClasesProfesor()
+                            } else {
+                                navController.navigateToClasesAlumno()
+                            }
+                        }
                         is BottomScreen.Gestion -> navController.navigateToGestion()
                     }
                 },

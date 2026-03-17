@@ -3,6 +3,8 @@ package com.alanturin.primerbocetoui.ui.fichausuario
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,13 +27,14 @@ fun FichaUsuarioScreen(
     Column(modifier = modifier.fillMaxSize().padding(16.dp)) {
         Text("Mis Asistencias", style = MaterialTheme.typography.headlineMedium)
 
-        // BOTÓN DE EMERGENCIA: Para que puedas probar la cámara aunque la lista esté vacía
+        // pruebsas de camara
         Button(
             onClick = { onJustificarClick(1,"Clase de Prueba", "2025-03-12", "08:00", "MISSING") },
             modifier = Modifier.padding(vertical = 8.dp).fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
+            colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray)
         ) {
-            Text("Probar Cámara (Modo Test)")
+            Spacer(Modifier.width(8.dp))
+            Text("PROBAR CAMARA (MODO TEST)")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
