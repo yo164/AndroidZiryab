@@ -14,8 +14,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.alanturin.primerbocetoui.R
 
 @Composable
 fun NotificationListScreen(
@@ -32,7 +34,7 @@ fun NotificationListScreen(
         }
         is NotificationListViewModel.UiState.Empty -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(text = "No hay notificaciones pendientes")
+                Text(text = stringResource(R.string.notif_empty))
             }
         }
         is NotificationListViewModel.UiState.Success -> {
@@ -40,7 +42,7 @@ fun NotificationListScreen(
             LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
                 item {
                     Text(
-                        text = "Notificaciones",
+                        text = stringResource(R.string.notif_title),
                         style = MaterialTheme.typography.headlineMedium,
                         modifier = Modifier.padding(bottom = 12.dp)
                     )

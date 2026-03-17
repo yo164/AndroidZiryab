@@ -74,4 +74,58 @@
 
     <!-- Asistencia -->
     <string name="asistencia_profesor_name">Nombre Profesor</string>
+
+    <!-- TaskScreen -->
+    <string name="task_title">Tareas</string>
+    <string name="task_cd_create">Crear tarea</string>
+    <string name="task_dialog_title">Nueva tarea</string>
+    <string name="task_label_title">Título</string>
+    <string name="task_label_description">Descripción (opcional)</string>
+    <string name="task_label_type">Tipo</string>
+    <string name="task_label_start_date">Fecha inicio (yyyy-MM-dd)</string>
+    <string name="task_label_due_date">Fecha entrega (yyyy-MM-dd)</string>
+    <string name="task_label_school_year">Año escolar</string>
+    <string name="task_button_create">Crear</string>
+    <string name="task_button_cancel">Cancelar</string>
+
+    <!-- GestionClasesScreen -->
+    <string name="gestion_clases_title">Gestionar Clase</string>
+    <string name="gestion_clases_alumnos">Lista de Alumnos</string>
+    <string name="gestion_clases_tasks">Tareas</string>
+
+    <!-- NotificationListScreen -->
+    <string name="notif_empty">No hay notificaciones pendientes</string>
+    <string name="notif_title">Notificaciones</string>
+
+    <!-- JustificarScreen -->
+    <string name="justificar_validated">Justificado</string>
+    <string name="justificar_hold">Mantén para validar</string>
+
+    <!-- AlumnoListScreen -->
+    <string name="alumno_list_empty">No hay alumnos matriculados.</string>
+    <string name="alumno_list_send">Enviar asistencias</string>
+
+    <!-- GroupScreen -->
+    <string name="group_title">Grupos</string>
+    <string name="group_empty">No hay grupos disponibles.</string>
+    <string name="group_capacity">Capacidad: %1$s</string>
+    <string name="group_capacity_undefined">No definida</string>
+
+    <!-- HorarioScreen -->
+    <string name="horario_empty">No hay horario disponible.</string>
+
+    <!-- FichaUsuarioScreen -->
+    <string name="ficha_title">Mis Asistencias</string>
+    <string name="ficha_test_camera">PROBAR CAMARA (MODO TEST)</string>
+    <string name="ficha_no_absences">No tienes faltas registradas en el servidor local.</string>
+
+    <!-- JustificarFaltaScreen -->
+    <string name="justificar_falta_title">Justificar Falta</string>
+    <string name="justificar_falta_subject">Asignatura: %1$s</string>
+    <string name="justificar_falta_date">Fecha: %1$s</string>
+    <string name="justificar_falta_time">Hora: %1$s</string>
+    <string name="justificar_falta_photo">Hacer foto del justificante</string>
+    <string name="justificar_falta_upload">Subir desde el dispositivo</string>
+    <string name="justificar_falta_send">Enviar Justificante</string>
+    <string name="justificar_falta_success">¡Enviado con éxito!</string>
 </resources>

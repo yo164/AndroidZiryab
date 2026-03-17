@@ -7,8 +7,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.alanturin.primerbocetoui.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,7 +33,7 @@ fun TaskScreen(viewModel: TaskViewModel = hiltViewModel()) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = { showDialog = true }) {
-                Icon(Icons.Default.Add, contentDescription = "Crear tarea")
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.task_cd_create))
             }
         }
     ) { padding ->
@@ -42,7 +44,7 @@ fun TaskScreen(viewModel: TaskViewModel = hiltViewModel()) {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "Tareas",
+                text = stringResource(R.string.task_title),
                 style = MaterialTheme.typography.headlineLarge
             )
         }
@@ -80,7 +82,7 @@ private fun CreateTaskDialog(
 
     AlertDialog(
         onDismissRequest = { if (!isLoading) onDismiss() },
-        title = { Text("Nueva tarea") },
+        title = { Text(stringResource(R.string.task_dialog_title)) },
         text = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -89,7 +91,7 @@ private fun CreateTaskDialog(
                 OutlinedTextField(
                     value = title,
                     onValueChange = { title = it },
-                    label = { Text("Título") },
+                    label = { Text(stringResource(R.string.task_label_title)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -97,7 +99,7 @@ private fun CreateTaskDialog(
                 OutlinedTextField(
                     value = description,
                     onValueChange = { description = it },
-                    label = { Text("Descripción (opcional)") },
+                    label = { Text(stringResource(R.string.task_label_description)) },
                     maxLines = 3,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -111,7 +113,7 @@ private fun CreateTaskDialog(
                         value = selectedType,
                         onValueChange = {},
                         readOnly = true,
-                        label = { Text("Tipo") },
+                        label = { Text(stringResource(R.string.task_label_type)) },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -136,7 +138,7 @@ private fun CreateTaskDialog(
                 OutlinedTextField(
                     value = startDate,
                     onValueChange = { startDate = it },
-                    label = { Text("Fecha inicio (yyyy-MM-dd)") },
+                    label = { Text(stringResource(R.string.task_label_start_date)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -144,7 +146,7 @@ private fun CreateTaskDialog(
                 OutlinedTextField(
                     value = dueDate,
                     onValueChange = { dueDate = it },
-                    label = { Text("Fecha entrega (yyyy-MM-dd)") },
+                    label = { Text(stringResource(R.string.task_label_due_date)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -152,7 +154,7 @@ private fun CreateTaskDialog(
                 OutlinedTextField(
                     value = schoolYear,
                     onValueChange = { schoolYear = it },
-                    label = { Text("Año escolar") },
+                    label = { Text(stringResource(R.string.task_label_school_year)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -177,12 +179,12 @@ private fun CreateTaskDialog(
                 },
                 enabled = title.isNotBlank() && startDate.isNotBlank() && dueDate.isNotBlank() && !isLoading
             ) {
-                Text("Crear")
+                Text(stringResource(R.string.task_button_create))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss, enabled = !isLoading) {
-                Text("Cancelar")
+                Text(stringResource(R.string.task_button_cancel))
             }
         }
     )

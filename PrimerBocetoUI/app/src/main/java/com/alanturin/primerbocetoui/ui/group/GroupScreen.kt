@@ -23,8 +23,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.alanturin.primerbocetoui.R
 import com.alanturin.primerbocetoui.data.remote.model.Group
 
 @Composable
@@ -44,7 +46,7 @@ fun GroupScreen(
             .background(Color(0xFFF8FAFC))
     ) {
         Text(
-            text = "Grupos",
+            text = stringResource(R.string.group_title),
             style = MaterialTheme.typography.headlineLarge,
             color = Color(0xFF7C3AED),
             modifier = Modifier.padding(bottom = 24.dp)
@@ -60,7 +62,7 @@ fun GroupScreen(
                 Text(text = ui.message, color = Color.Red)
             }
             is GroupViewModel.UiState.Empty -> {
-                Text(text = "No hay grupos disponibles.")
+                Text(text = stringResource(R.string.group_empty))
             }
             is GroupViewModel.UiState.Success -> {
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -90,7 +92,7 @@ fun GroupCard(group: Group) {
                 color = Color(0xFF1F2937)
             )
             Text(
-                text = "Capacidad: ${group.capacity ?: "No definida"}",
+                text = stringResource(R.string.group_capacity, group.capacity?.toString() ?: stringResource(R.string.group_capacity_undefined)),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Gray
             )

@@ -12,7 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.alanturin.primerbocetoui.R
 
 @Composable
 fun GestionClasesScreen(
@@ -28,7 +30,7 @@ fun GestionClasesScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Gestionar Clase",
+            text = stringResource(R.string.gestion_clases_title),
             style = MaterialTheme.typography.headlineLarge,
             modifier = Modifier.padding(bottom = 32.dp)
         )
@@ -39,14 +41,14 @@ fun GestionClasesScreen(
                 .fillMaxWidth()
                 .padding(bottom = 16.dp)
         ) {
-            Text("Lista de Alumnos")
+            Text(stringResource(R.string.gestion_clases_alumnos))
         }
 
         Button(
             onClick = onNavigateToTasks,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Tasks")
+            Text(stringResource(R.string.gestion_clases_tasks))
         }
     }
 }

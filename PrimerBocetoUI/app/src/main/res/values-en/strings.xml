@@ -74,4 +74,58 @@
 
     <!-- Asistencia -->
     <string name="asistencia_profesor_name">Teacher Name</string>
+
+    <!-- TaskScreen -->
+    <string name="task_title">Tasks</string>
+    <string name="task_cd_create">Create task</string>
+    <string name="task_dialog_title">New task</string>
+    <string name="task_label_title">Title</string>
+    <string name="task_label_description">Description (optional)</string>
+    <string name="task_label_type">Type</string>
+    <string name="task_label_start_date">Start date (yyyy-MM-dd)</string>
+    <string name="task_label_due_date">Due date (yyyy-MM-dd)</string>
+    <string name="task_label_school_year">School year</string>
+    <string name="task_button_create">Create</string>
+    <string name="task_button_cancel">Cancel</string>
+
+    <!-- GestionClasesScreen -->
+    <string name="gestion_clases_title">Manage Class</string>
+    <string name="gestion_clases_alumnos">Student List</string>
+    <string name="gestion_clases_tasks">Tasks</string>
+
+    <!-- NotificationListScreen -->
+    <string name="notif_empty">No pending notifications</string>
+    <string name="notif_title">Notifications</string>
+
+    <!-- JustificarScreen -->
+    <string name="justificar_validated">Justified</string>
+    <string name="justificar_hold">Hold to validate</string>
+
+    <!-- AlumnoListScreen -->
+    <string name="alumno_list_empty">No enrolled students.</string>
+    <string name="alumno_list_send">Send attendance</string>
+
+    <!-- GroupScreen -->
+    <string name="group_title">Groups</string>
+    <string name="group_empty">No groups available.</string>
+    <string name="group_capacity">Capacity: %1$s</string>
+    <string name="group_capacity_undefined">Undefined</string>
+
+    <!-- HorarioScreen -->
+    <string name="horario_empty">No schedule available.</string>
+
+    <!-- FichaUsuarioScreen -->
+    <string name="ficha_title">My Attendance</string>
+    <string name="ficha_test_camera">TEST CAMERA (TEST MODE)</string>
+    <string name="ficha_no_absences">You have no recorded absences on the local server.</string>
+
+    <!-- JustificarFaltaScreen -->
+    <string name="justificar_falta_title">Justify Absence</string>
+    <string name="justificar_falta_subject">Subject: %1$s</string>
+    <string name="justificar_falta_date">Date: %1$s</string>
+    <string name="justificar_falta_time">Time: %1$s</string>
+    <string name="justificar_falta_photo">Take photo of justification</string>
+    <string name="justificar_falta_upload">Upload from device</string>
+    <string name="justificar_falta_send">Send Justification</string>
+    <string name="justificar_falta_success">Sent successfully!</string>
 </resources>

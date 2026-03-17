@@ -10,8 +10,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.alanturin.primerbocetoui.R
 import com.alanturin.primerbocetoui.ui.alumno.ficha.FichaUsuarioViewModel
 
 @Composable
@@ -25,7 +27,7 @@ fun FichaUsuarioScreen(
     val state by viewModel.uiState.collectAsState()
 
     Column(modifier = modifier.fillMaxSize().padding(16.dp)) {
-        Text("Mis Asistencias", style = MaterialTheme.typography.headlineMedium)
+        Text(stringResource(R.string.ficha_title), style = MaterialTheme.typography.headlineMedium)
 
         // pruebsas de camara
         Button(
@@ -34,7 +36,7 @@ fun FichaUsuarioScreen(
             colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray)
         ) {
             Spacer(Modifier.width(8.dp))
-            Text("PROBAR CAMARA (MODO TEST)")
+            Text(stringResource(R.string.ficha_test_camera))
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -42,7 +44,7 @@ fun FichaUsuarioScreen(
         when (val ui = state) {
             is FichaUsuarioViewModel.UiState.Loading -> CircularProgressIndicator()
             is FichaUsuarioViewModel.UiState.Empty -> {
-                Text("No tienes faltas registradas en el servidor local.")
+                Text(stringResource(R.string.ficha_no_absences))
             }
             is FichaUsuarioViewModel.UiState.Success -> {
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {

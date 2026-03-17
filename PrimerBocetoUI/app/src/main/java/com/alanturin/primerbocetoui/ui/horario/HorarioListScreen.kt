@@ -24,8 +24,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.alanturin.primerbocetoui.R
 
 @Composable
 fun HorarioScreen(
@@ -66,7 +68,7 @@ fun HorarioScreen(
                 Text(text = ui.message, color = Color.Red)
             }
             is HorarioListViewModel.UiState.Empty -> {
-                Text(text = "No hay horario disponible.")
+                Text(text = stringResource(R.string.horario_empty))
             }
             is HorarioListViewModel.UiState.Success -> {
                 val horariosFiltrados = ui.horarios.filter { it.weekDay == diaSeleccionado.numero }

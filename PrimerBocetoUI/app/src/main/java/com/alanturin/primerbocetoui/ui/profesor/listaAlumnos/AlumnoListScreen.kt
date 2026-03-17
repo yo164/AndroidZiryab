@@ -19,8 +19,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.alanturin.primerbocetoui.R
 
 @Composable
 fun AlumnoListScreen(
@@ -49,7 +51,7 @@ fun AlumnoListScreen(
                 Text(text = ui.message, color = Color.Red)
             }
             is AlumnoListViewModel.UiState.Empty -> {
-                Text(text = "No hay alumnos matriculados.")
+                Text(text = stringResource(R.string.alumno_list_empty))
             }
             is AlumnoListViewModel.UiState.Success -> {
                 LazyColumn(
@@ -82,7 +84,7 @@ fun AlumnoListScreen(
                 .fillMaxWidth()
                 .padding(top = 16.dp)
         ) {
-            Text("Enviar asistencias")
+            Text(stringResource(R.string.alumno_list_send))
         }
     }
 

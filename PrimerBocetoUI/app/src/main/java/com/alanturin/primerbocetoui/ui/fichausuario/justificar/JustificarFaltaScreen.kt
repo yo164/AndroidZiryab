@@ -17,9 +17,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.alanturin.primerbocetoui.R
 import com.alanturin.primerbocetoui.ui.camera.CameraScreen
 import com.alanturin.primerbocetoui.ui.camera.CameraViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -73,12 +75,12 @@ fun JustificarFaltaScreen(
             modifier = modifier.fillMaxSize().padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text("Justificar Falta", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.justificar_falta_title), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
             Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = Color(0xFFF3F4F6))) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("Asignatura: $subjectName", fontWeight = FontWeight.Bold)
-                    Text("Fecha: $date")
-                    Text("Hora: $startTime")
+                    Text(stringResource(R.string.justificar_falta_subject, subjectName), fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.justificar_falta_date, date))
+                    Text(stringResource(R.string.justificar_falta_time, startTime))
                 }
             }
             Button(
@@ -94,7 +96,7 @@ fun JustificarFaltaScreen(
             ) {
                 Icon(Icons.Default.CameraAlt, null)
                 Spacer(Modifier.width(8.dp))
-                Text("Hacer foto del justificante")
+                Text(stringResource(R.string.justificar_falta_photo))
             }
             OutlinedButton(
                 onClick = { filePickerLauncher.launch("*/*") },
@@ -102,7 +104,7 @@ fun JustificarFaltaScreen(
             ) {
                 Icon(Icons.Default.UploadFile, null)
                 Spacer(Modifier.width(8.dp))
-                Text("Subir desde el dispositivo")
+                Text(stringResource(R.string.justificar_falta_upload))
             }
             if (uiState is JustificarFaltaViewModel.UiState.FileSelected) {
                 val uri = (uiState as JustificarFaltaViewModel.UiState.FileSelected).uri
@@ -117,12 +119,12 @@ fun JustificarFaltaScreen(
                     modifier = Modifier.fillMaxWidth().height(56.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF10B981))
                 ) {
-                    Text("Enviar Justificante")
+                    Text(stringResource(R.string.justificar_falta_send))
                 }
             }
 
             if (uiState is JustificarFaltaViewModel.UiState.Success) {
-                Text("¡Enviado con éxito!", color = Color(0xFF10B981), modifier = Modifier.align(Alignment.CenterHorizontally))
+                Text(stringResource(R.string.justificar_falta_success), color = Color(0xFF10B981), modifier = Modifier.align(Alignment.CenterHorizontally))
             }
         }
     }

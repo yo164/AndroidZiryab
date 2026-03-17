@@ -16,9 +16,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.alanturin.primerbocetoui.R
 import com.alanturin.primerbocetoui.ui.navigation.Route
 
 @Composable
@@ -52,7 +54,7 @@ fun JustificarScreen(
                 },
             colors = ButtonDefaults.buttonColors(containerColor = buttonColor)
         ) {
-            Text(if (justified) "Justificado" else "Mantén para validar")
+            Text(if (justified) stringResource(R.string.justificar_validated) else stringResource(R.string.justificar_hold))
         }
     }
 }
