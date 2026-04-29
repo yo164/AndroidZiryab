@@ -46,6 +46,9 @@ import com.alanturin.primerbocetoui.data.remote.task.TaskRemoteDataSourceImpl
 import com.alanturin.primerbocetoui.data.remote.teacher.TeacherApi
 import com.alanturin.primerbocetoui.data.remote.teacher.TeacherRemoteDataSource
 import com.alanturin.primerbocetoui.data.remote.teacher.TeacherRemoteDataSourceImpl
+import com.alanturin.primerbocetoui.data.remote.user.UserApi
+import com.alanturin.primerbocetoui.data.remote.user.UserRemoteDataSource
+import com.alanturin.primerbocetoui.data.remote.user.UserRemoteDataSourceImpl
 import com.alanturin.primerbocetoui.data.repository.CalendarRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.EnrollmentRepository
 import com.alanturin.primerbocetoui.data.repository.EnrollmentRepositoryImpl
@@ -67,6 +70,8 @@ import com.alanturin.primerbocetoui.data.repository.task.TaskRepository
 import com.alanturin.primerbocetoui.data.repository.task.TaskRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.teacher.TeacherRepository
 import com.alanturin.primerbocetoui.data.repository.teacher.TeacherRepositoryImpl
+import com.alanturin.primerbocetoui.data.repository.user.UserRepository
+import com.alanturin.primerbocetoui.data.repository.user.UserRepositoryImpl
 import com.alanturin.primerbocetoui.domain.repository.CalendarRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 
@@ -149,6 +154,14 @@ abstract class AppModule {
     @Binds
     @Singleton
     abstract fun bindTeacherRepository(impl: TeacherRepositoryImpl): TeacherRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindUserRemoteDataSource(impl: UserRemoteDataSourceImpl): UserRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindUserRepository(impl: UserRepositoryImpl): UserRepository
 
     @Binds
     @Singleton
@@ -291,6 +304,11 @@ abstract class AppModule {
         @Singleton
         fun provideTeacherApi(retrofit: Retrofit): TeacherApi =
             retrofit.create(TeacherApi::class.java)
+
+        @Provides
+        @Singleton
+        fun provideUserApi(retrofit: Retrofit): UserApi =
+            retrofit.create(UserApi::class.java)
     }
 
     @Binds

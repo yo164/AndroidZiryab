@@ -44,9 +44,15 @@ fun FichaUsuarioScreen(
         when (val ui = state) {
             is FichaUsuarioViewModel.UiState.Loading -> CircularProgressIndicator()
             is FichaUsuarioViewModel.UiState.Empty -> {
+                Text(text = ui.profile.name, style = MaterialTheme.typography.titleMedium)
+                Text(text = ui.profile.email, style = MaterialTheme.typography.bodyMedium)
+                Spacer(modifier = Modifier.height(12.dp))
                 Text(stringResource(R.string.ficha_no_absences))
             }
             is FichaUsuarioViewModel.UiState.Success -> {
+                Text(text = ui.profile.name, style = MaterialTheme.typography.titleMedium)
+                Text(text = ui.profile.email, style = MaterialTheme.typography.bodyMedium)
+                Spacer(modifier = Modifier.height(12.dp))
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     items(ui.faltas) { falta ->
                         FaltaCard(
@@ -65,6 +71,9 @@ fun FichaUsuarioScreen(
                 }
             }
             is FichaUsuarioViewModel.UiState.TeacherSuccess -> {
+                Text(text = ui.profile.name, style = MaterialTheme.typography.titleMedium)
+                Text(text = ui.profile.email, style = MaterialTheme.typography.bodyMedium)
+                Spacer(modifier = Modifier.height(12.dp))
                 TarjetaProfesor(teacher = ui.teacher)
             }
             is FichaUsuarioViewModel.UiState.Error -> Text("Error: ${ui.message}", color = Color.Red)
