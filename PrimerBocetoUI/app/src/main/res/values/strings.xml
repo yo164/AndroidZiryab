@@ -128,4 +128,12 @@
     <string name="justificar_falta_upload">Subir desde el dispositivo</string>
     <string name="justificar_falta_send">Enviar Justificante</string>
     <string name="justificar_falta_success">¡Enviado con éxito!</string>
+
+    <!-- EditarFichaScreen -->
+    <string name="editar_ficha_title">Editar perfil</string>
+    <string name="editar_ficha_label_nombre">Nombre</string>
+    <string name="editar_ficha_label_email">Email</string>
+    <string name="editar_ficha_btn_guardar">Guardar</string>
+    <string name="editar_ficha_success">Perfil actualizado</string>
+    <string name="editar_ficha_error">Error al actualizar perfil</string>
 </resources>
