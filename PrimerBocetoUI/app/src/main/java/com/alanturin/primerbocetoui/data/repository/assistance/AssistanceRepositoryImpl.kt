@@ -21,7 +21,7 @@ class AssistanceRepositoryImpl @Inject constructor(
     override suspend fun getAll(): Result<List<AssistanceItem>> {
         return remoteDataSource.getAll().map { lista ->
             android.util.Log.d("ZIRYAB", "Asistencias recibidas: ${lista.size}")
-            lista.forEach { android.util.Log.d("ZIRYAB", "Asistencia: id=${it.id} idStudent=${it.studentEnrollment.idStudent} idSession=${it.session.id}") }
+            lista.forEach { android.util.Log.d("ZIRYAB", "Asistencia: id=${it.id} idStudent=${it.studentEnrollment?.idStudent} idSession=${it.session?.id}") }
 
             val items = lista.map { it.toAssistanceItem() }
             localDataSource.insertAll(items.map { it.toEntity() })

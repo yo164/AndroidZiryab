@@ -58,11 +58,14 @@ fun FichaUsuarioScreen(
                         FaltaCard(
                             asistencia = falta,
                             onClick = {
+                                val subjectName = falta.subjectName ?: "Sin asignatura"
+                                val date = falta.date ?: ""
+                                val startTime = falta.startTime ?: ""
                                 onJustificarClick(
                                     falta.id,
-                                    falta.subjectName!!,
-                                    falta.date!!,
-                                    falta.startTime!!,
+                                    subjectName,
+                                    date,
+                                    startTime,
                                     falta.status
                                 )
                             }

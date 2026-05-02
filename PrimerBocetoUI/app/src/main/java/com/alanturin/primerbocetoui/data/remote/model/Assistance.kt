@@ -31,14 +31,14 @@ data class AssistanceItemRemote(
     val idStudentEnrollment: Int,
     val status: String,
     val createdAt: String,
-    val studentEnrollment: AssistanceStudentEnrollmentRemote,
-    val session: AssistanceSessionNestedRemote
+    val studentEnrollment: AssistanceStudentEnrollmentRemote?,
+    val session: AssistanceSessionNestedRemote?
 )
 
 data class AssistanceSessionNestedRemote(
     val id: Int,
     val date: String,
-    val schedule: ScheduleNestedRemote
+    val schedule: ScheduleNestedRemote?
 )
 
 data class ScheduleNestedRemote(

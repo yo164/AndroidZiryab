@@ -2,7 +2,6 @@ package com.alanturin.primerbocetoui.data.repository
 
 import com.alanturin.primerbocetoui.data.remote.model.LoginData
 import com.alanturin.primerbocetoui.data.remote.model.LoginRequest
-import com.alanturin.primerbocetoui.data.remote.model.LoginResponse
 import com.alanturin.primerbocetoui.domain.repository.AuthRepository
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.tasks.await
@@ -15,24 +14,21 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun login(email: String, pass: String): Result<LoginData> {
         return try {
-            val authResult = auth.signInWithEmailAndPassword(email, pass).await()
-            val user = authResult.user ?: throw Exception("El usuario autenticado en Firebase es null.")
-            val firebaseUID = user.uid
+            val firebaseUser = auth.signInWithEmailAndPassword(email, pass).await().user
+                ?: throw Exception("El usuario autenticado en Firebase es null.")
+            val idToken = firebaseUser.getIdToken(false).await().token
+                ?: throw Exception("No se obtuvo ID token de Firebase.")
 
-            val request = LoginRequest(
-                email = email,
-                password = pass,
-                firebaseUID = firebaseUID
-            )
-
-            val response = api.login(request)
+            val response = api.login(LoginRequest(email, pass, idToken))
 
             if (response.isSuccessful) {
-                val loginData = response.body()?.data ?: throw Exception("Los datos del usuario son nulos en la respuesta")
-                Result.success(loginData)
+                val body = response.body() ?: throw Exception("Respuesta vacía del servidor.")
+                val jwt = body.token ?: throw Exception("El backend no devolvió token JWT.")
+                val payload = body.data
+                Result.success(LoginData(payload.id, payload.email, payload.name, payload.role, payload.firebaseUID, jwt))
             } else {
                 auth.signOut()
-                Result.failure(Exception("Error en Login del backend: ${response.code()}"))
+                Result.failure(Exception("Error ${response.code()} en el login del backend."))
             }
         } catch (e: Exception) {
             Result.failure(e)

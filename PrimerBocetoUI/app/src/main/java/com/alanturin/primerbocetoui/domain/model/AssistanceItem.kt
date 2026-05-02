@@ -15,28 +15,30 @@ data class AssistanceItem(
     val startTime: String?,
     val uri: String?
 )
-fun AssistanceStudentItemRemote.toAssistanceItem(idStudent: Int) = AssistanceItem(
-    id = this.id,
-    idStudent = idStudent,
-    idSession = null,
-    idStudentEnrollment = this.studentEnrollment.id,
-    idTeacher = null,
-    status = this.status,
-    subjectName = this.session.schedule?.teacherAssignment?.subject?.name,
-    date = this.session.date,
-    startTime = this.session.schedule?.startTime,
-    uri = null
-)
+fun AssistanceStudentItemRemote.toAssistanceItem(idStudent: Int): AssistanceItem {
+    return AssistanceItem(
+        id = this.id,
+        idStudent = idStudent,
+        idSession = null,
+        idStudentEnrollment = this.studentEnrollment?.id ?: 0,
+        idTeacher = null,
+        status = this.status,
+        subjectName = this.session?.schedule?.teacherAssignment?.subject?.name,
+        date = this.session?.date,
+        startTime = this.session?.schedule?.startTime,
+        uri = null
+    )
+}
 
 fun AssistanceItemRemote.toAssistanceItem() = AssistanceItem(
     id = this.id,
-    idStudent = this.studentEnrollment.idStudent,
-    idSession = this.session.id,
+    idStudent = this.studentEnrollment?.idStudent ?: 0,
+    idSession = this.session?.id,
     idStudentEnrollment = this.idStudentEnrollment,
-    idTeacher = this.session.schedule?.teacherAssignment?.idTeacher,
+    idTeacher = this.session?.schedule?.teacherAssignment?.idTeacher,
     status = this.status,
-    subjectName = this.session.schedule?.teacherAssignment?.subject?.name,
-    date = this.session.date,
-    startTime = this.session.schedule?.startTime,
+    subjectName = this.session?.schedule?.teacherAssignment?.subject?.name,
+    date = this.session?.date,
+    startTime = this.session?.schedule?.startTime,
     uri = null
 )
