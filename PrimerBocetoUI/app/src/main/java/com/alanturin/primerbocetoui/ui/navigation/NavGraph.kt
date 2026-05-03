@@ -124,7 +124,12 @@ fun NavGraph() {
                 }
             )
 
-            fichaUsuarioDestination(modifier = contentModifier, navController = navController)
+            fichaUsuarioDestination(
+                modifier = contentModifier,
+                navController = navController,
+                onEditarFicha = { navController.navigateToEditarFicha() },
+                onCambiarPassword = { navController.navigateToCambiarPassword() }
+            )
 
             horarioDestination(modifier = contentModifier)
 
@@ -164,8 +169,8 @@ fun NavGraph() {
                 onNavigateBack = { navController.popBackStack() }
             )
 
-
-
+            editarFichaDestination(onBack = { navController.popBackStack() })
+            cambiarPasswordDestination(onBack = { navController.popBackStack() })
         }
     }
 }

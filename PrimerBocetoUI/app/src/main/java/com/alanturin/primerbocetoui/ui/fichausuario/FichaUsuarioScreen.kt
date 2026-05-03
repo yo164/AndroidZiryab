@@ -20,7 +20,9 @@ import com.alanturin.primerbocetoui.ui.alumno.ficha.FichaUsuarioViewModel
 fun FichaUsuarioScreen(
     modifier: Modifier = Modifier,
     viewModel: FichaUsuarioViewModel = hiltViewModel(),
-    onJustificarClick: (Int, String, String, String, String) -> Unit
+    onJustificarClick: (Int, String, String, String, String) -> Unit,
+    onEditarFicha: () -> Unit,
+    onCambiarPassword: () -> Unit
 ) {
     LaunchedEffect(Unit) { viewModel.cargarFaltas() }
 
@@ -37,6 +39,20 @@ fun FichaUsuarioScreen(
         ) {
             Spacer(Modifier.width(8.dp))
             Text(stringResource(R.string.ficha_test_camera))
+        }
+
+        Button(
+            onClick = onEditarFicha,
+            modifier = Modifier.padding(vertical = 4.dp).fillMaxWidth()
+        ) {
+            Text(stringResource(R.string.ficha_btn_editar_perfil))
+        }
+
+        Button(
+            onClick = onCambiarPassword,
+            modifier = Modifier.padding(vertical = 4.dp).fillMaxWidth()
+        ) {
+            Text(stringResource(R.string.ficha_btn_cambiar_password))
         }
 
         Spacer(modifier = Modifier.height(16.dp))
