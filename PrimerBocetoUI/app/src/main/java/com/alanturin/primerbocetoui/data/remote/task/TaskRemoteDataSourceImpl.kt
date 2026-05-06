@@ -25,4 +25,18 @@ class TaskRemoteDataSourceImpl  @Inject constructor(
             Result.failure(e)
         }
     }
+
+    override suspend fun getTaskById(id: Int): Result<TaskItemRemote> {
+        return try {
+            val response = api.getTaskById(id)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(RuntimeException("Body vacío"))
+            } else {
+                Result.failure(RuntimeException("Error: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

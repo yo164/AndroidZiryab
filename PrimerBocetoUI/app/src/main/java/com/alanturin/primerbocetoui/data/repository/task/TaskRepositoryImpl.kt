@@ -13,6 +13,10 @@ class TaskRepositoryImpl @Inject constructor(
         return remoteDataSource.createTask(request)
     }
 
+    override suspend fun getTaskById(id: Int): Result<TaskItemRemote> {
+        return remoteDataSource.getTaskById(id)
+    }
+
     override suspend fun getTasksForSubject(subjectId: Long): Result<List<TaskItemRemote>> {
         return Result.success(emptyList())
     }

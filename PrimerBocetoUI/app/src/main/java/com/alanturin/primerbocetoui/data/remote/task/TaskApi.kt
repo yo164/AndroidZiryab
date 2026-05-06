@@ -19,4 +19,9 @@ interface TaskApi {
     suspend fun getTasksByTeacherAssignment(
         @Path("idTeacherAssignment") idTeacherAssignment: Long
     ): Response<List<TaskItemRemote>>
+
+    @GET("api/tasks/{id}")
+    suspend fun getTaskById(
+        @Path("id") id: Int
+    ): Response<TaskItemRemote>
 }

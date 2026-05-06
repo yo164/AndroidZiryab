@@ -7,4 +7,5 @@ interface TaskRemoteDataSource {
 
     suspend fun createTask(request: CreateTaskRequestRemote): Result<TaskItemRemote>
 
+    suspend fun getTaskById(id: Int): Result<TaskItemRemote>
 }
