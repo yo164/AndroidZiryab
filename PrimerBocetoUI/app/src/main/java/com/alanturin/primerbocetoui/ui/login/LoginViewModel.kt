@@ -10,8 +10,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.alanturin.primerbocetoui.domain.model.UserSession
 
@@ -40,6 +38,10 @@ class LoginViewModel @Inject constructor(
 
     val userId: StateFlow<Int?> = sessionViewModel.userId
 
+    /** Para [AppHeader]: mismo estado que la sesión (evita leer solo Firebase). */
+    val headerEmail: StateFlow<String> = sessionViewModel.userEmail
+    val headerName: StateFlow<String> = sessionViewModel.userName
+
     fun login(email: String, pass: String) {
         viewModelScope.launch {
             _isLoading.value = true
@@ -57,7 +59,13 @@ class LoginViewModel @Inject constructor(
             if (result.isSuccess) {
                 val loginData = result.getOrNull()
                 if (loginData != null) {
-                    sessionViewModel.saveSession(loginData.id, loginData.role, loginData.token)
+                    sessionViewModel.saveSession(
+                        loginData.id,
+                        loginData.role,
+                        loginData.email,
+                        loginData.name,
+                        loginData.token
+                    )
                     launch { initialDataController.cargarDatosIniciales() }
                     if (loginData.role == "TEACHER"){
                         launch { initialDataController.programarWorker(loginData.id) }

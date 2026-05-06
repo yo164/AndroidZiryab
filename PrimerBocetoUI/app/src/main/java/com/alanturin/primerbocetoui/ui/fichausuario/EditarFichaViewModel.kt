@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alanturin.primerbocetoui.data.repository.user.UserRepository
 import com.alanturin.primerbocetoui.domain.model.UserProfile
+import com.alanturin.primerbocetoui.ui.session.SessionViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditarFichaViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val sessionViewModel: SessionViewModel
 ) : ViewModel() {
 
     private val _perfil = MutableStateFlow<UserProfile?>(null)
@@ -36,8 +38,13 @@ class EditarFichaViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = UiState.Loading
             userRepository.updateProfile(name, email)
-                .onSuccess { actualizado ->
-                    _perfil.value = actualizado
+                .onSuccess { resultado ->
+                    _perfil.value = resultado.profile
+                    sessionViewModel.aplicarCambioPerfil(
+                        resultado.profile.email,
+                        resultado.profile.name,
+                        resultado.newJwt
+                    )
                     _uiState.value = UiState.Success
                 }
                 .onFailure { e ->

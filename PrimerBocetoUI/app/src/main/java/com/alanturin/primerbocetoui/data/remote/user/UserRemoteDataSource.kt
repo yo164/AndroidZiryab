@@ -8,7 +8,7 @@ interface UserRemoteDataSource {
 
     suspend fun getProfile(): Result<UserProfileRemote>
 
-    suspend fun updateProfile(request: UpdateProfileRequest): Result<UserProfileRemote>
+    suspend fun updateProfile(request: UpdateProfileRequest): Result<Pair<UserProfileRemote, String?>>
 
     suspend fun changePassword(request: ChangePasswordRequest): Result<Unit>
 }

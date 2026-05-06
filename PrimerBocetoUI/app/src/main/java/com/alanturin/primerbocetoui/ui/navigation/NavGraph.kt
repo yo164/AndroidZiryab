@@ -16,11 +16,9 @@ import androidx.navigation.compose.rememberNavController
 import com.alanturin.primerbocetoui.ui.components.AppFooter
 import com.alanturin.primerbocetoui.ui.components.AppHeader
 import com.alanturin.primerbocetoui.ui.login.LoginViewModel
-import com.alanturin.primerbocetoui.ui.session.SessionViewModel
 import com.google.firebase.auth.FirebaseAuth
 import androidx.compose.ui.res.stringResource
 import com.alanturin.primerbocetoui.R
-import com.alanturin.primerbocetoui.domain.model.UserSession
 
 @Composable
 fun NavGraph() {
@@ -49,10 +47,15 @@ fun NavGraph() {
         modifier = Modifier.fillMaxSize(),
         topBar = {
             if (showBars) {
-                val currentUser = FirebaseAuth.getInstance().currentUser
-                val userName = currentUser?.email?.substringBefore("@") ?: stringResource(id = R.string.nav_username_alumno)
-                val userEmail = currentUser?.email ?: ""
-                
+                val headerEmail by loginViewModel.headerEmail.collectAsState()
+                val headerName by loginViewModel.headerName.collectAsState()
+                val fb = FirebaseAuth.getInstance().currentUser
+                val userEmail = headerEmail.ifBlank { fb?.email.orEmpty() }
+                val userName = headerName.ifBlank {
+                    fb?.email?.substringBefore("@")
+                        ?: stringResource(id = R.string.nav_username_alumno)
+                }
+
                 AppHeader(
                     title = stringResource(id = R.string.nav_title_ziryab),
                     userName = userName,

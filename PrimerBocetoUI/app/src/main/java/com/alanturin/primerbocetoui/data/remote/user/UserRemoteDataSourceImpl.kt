@@ -3,6 +3,7 @@ package com.alanturin.primerbocetoui.data.remote.user
 import com.alanturin.primerbocetoui.data.remote.model.ChangePasswordRequest
 import com.alanturin.primerbocetoui.data.remote.model.UpdateProfileRequest
 import com.alanturin.primerbocetoui.data.remote.model.UserProfileRemote
+import org.json.JSONObject
 import javax.inject.Inject
 
 class UserRemoteDataSourceImpl @Inject constructor(
@@ -20,14 +21,14 @@ class UserRemoteDataSourceImpl @Inject constructor(
                     Result.success(body)
                 }
             } else {
-                Result.failure(RuntimeException("Error: ${response.code()}"))
+                Result.failure(RuntimeException(mensajeErrorApi(response.code(), response.errorBody()?.string())))
             }
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    override suspend fun updateProfile(request: UpdateProfileRequest): Result<UserProfileRemote> {
+    override suspend fun updateProfile(request: UpdateProfileRequest): Result<Pair<UserProfileRemote, String?>> {
         return try {
             val response = api.updateProfile(request)
             if (response.isSuccessful) {
@@ -35,10 +36,10 @@ class UserRemoteDataSourceImpl @Inject constructor(
                 if (body == null) {
                     Result.failure(RuntimeException("Body vacío"))
                 } else {
-                    Result.success(body)
+                    Result.success(Pair(body.user, body.token))
                 }
             } else {
-                Result.failure(RuntimeException("Error: ${response.code()}"))
+                Result.failure(RuntimeException(mensajeErrorApi(response.code(), response.errorBody()?.string())))
             }
         } catch (e: Exception) {
             Result.failure(e)
@@ -51,10 +52,17 @@ class UserRemoteDataSourceImpl @Inject constructor(
             if (response.isSuccessful) {
                 Result.success(Unit)
             } else {
-                Result.failure(RuntimeException("Error: ${response.code()}"))
+                Result.failure(RuntimeException(mensajeErrorApi(response.code(), response.errorBody()?.string())))
             }
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
+}
+
+private fun mensajeErrorApi(codigo: Int, cuerpo: String?): String {
+    val desdeJson = runCatching {
+        cuerpo?.let { JSONObject(it).optString("message") }
+    }.getOrNull().orEmpty()
+    return desdeJson.ifBlank { "Error: $codigo" }
 }
