@@ -24,3 +24,9 @@ data class StudentTaskListResponseRemote(
     val data: List<StudentTaskItemRemote>,
     val count: Int
 )
+
+data class SubmitTaskRequestRemote(
+    val idTask: Int,
+    val idStudentEnrollment: Int,
+    val attachmentUrl: String? = null
+)
