@@ -148,4 +148,17 @@
     <string name="cambiar_password_no_match">Las contraseñas no coinciden</string>
     <string name="cambiar_password_success">Contraseña cambiada correctamente</string>
     <string name="cambiar_password_error">No se ha podido cambiar la contraseña</string>
+
+    <!-- TareaAlumnoDetalleScreen -->
+    <string name="task_detail_title">Detalle de tarea</string>
+    <string name="task_detail_cd_back">Atrás</string>
+    <string name="task_detail_due_date">Fecha de entrega: %1$s</string>
+    <string name="task_detail_no_description">Sin descripción adicional.</string>
+    <string name="task_detail_status_label">Estado: %1$s</string>
+    <string name="task_detail_submit_button">Entregar</string>
+    <string name="task_detail_submitting">Enviando…</string>
+    <string name="task_detail_submitted_label">Ya entregada</string>
+    <string name="task_detail_submitted_success">¡Entrega registrada!</string>
+    <string name="task_detail_error_loading">Error al cargar la tarea</string>
+    <string name="task_detail_retry_button">Reintentar</string>
 </resources>

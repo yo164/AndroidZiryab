@@ -40,14 +40,17 @@ class TareaAlumnoDetalleViewModel @Inject constructor(
     }
 
     fun entregar(taskId: Int, enrollmentId: Int) {
+        val estado = _uiState.value
+        if (estado !is TareaAlumnoDetalleUiState.Success) return
+        val tarea = estado.tarea
         viewModelScope.launch {
-            _uiState.value = TareaAlumnoDetalleUiState.Enviando
+            _uiState.value = TareaAlumnoDetalleUiState.Enviando(tarea)
             val request = SubmitTaskRequestRemote(
                 idTask = taskId,
                 idStudentEnrollment = enrollmentId
             )
             studentTaskRepository.submitTask(request).onSuccess {
-                _uiState.value = TareaAlumnoDetalleUiState.Enviada
+                _uiState.value = TareaAlumnoDetalleUiState.Enviada(tarea)
             }.onFailure { e ->
                 _uiState.value = TareaAlumnoDetalleUiState.Error(e.message ?: "Error al entregar")
             }
@@ -62,6 +65,6 @@ sealed class TareaAlumnoDetalleUiState {
         val tarea: TaskItemRemote,
         val entregaPrevia: StudentTaskItemRemote?
     ) : TareaAlumnoDetalleUiState()
-    object Enviando : TareaAlumnoDetalleUiState()
-    object Enviada : TareaAlumnoDetalleUiState()
+    data class Enviando(val tarea: TaskItemRemote) : TareaAlumnoDetalleUiState()
+    data class Enviada(val tarea: TaskItemRemote) : TareaAlumnoDetalleUiState()
 }

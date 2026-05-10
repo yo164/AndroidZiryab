@@ -130,4 +130,17 @@
     <string name="justificar_falta_upload">Upload from device</string>
     <string name="justificar_falta_send">Send Justification</string>
     <string name="justificar_falta_success">Sent successfully!</string>
+
+    <!-- TareaAlumnoDetalleScreen -->
+    <string name="task_detail_title">Task detail</string>
+    <string name="task_detail_cd_back">Back</string>
+    <string name="task_detail_due_date">Due date: %1$s</string>
+    <string name="task_detail_no_description">No additional description.</string>
+    <string name="task_detail_status_label">Status: %1$s</string>
+    <string name="task_detail_submit_button">Submit</string>
+    <string name="task_detail_submitting">Submitting…</string>
+    <string name="task_detail_submitted_label">Already submitted</string>
+    <string name="task_detail_submitted_success">Submission recorded!</string>
+    <string name="task_detail_error_loading">Error loading task</string>
+    <string name="task_detail_retry_button">Retry</string>
 </resources>
