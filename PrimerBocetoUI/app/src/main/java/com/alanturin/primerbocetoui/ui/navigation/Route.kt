@@ -15,6 +15,7 @@ import com.alanturin.primerbocetoui.ui.login.LoginScreen
 import kotlinx.serialization.Serializable
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.alanturin.primerbocetoui.ui.alumno.TemarioAlumno.TemarioAlumnoScreen
+import com.alanturin.primerbocetoui.ui.about.AboutScreen
 import com.alanturin.primerbocetoui.ui.fichausuario.CambiarPasswordScreen
 import com.alanturin.primerbocetoui.ui.fichausuario.EditarFichaScreen
 import com.alanturin.primerbocetoui.ui.fichausuario.FichaUsuarioScreen
@@ -38,6 +39,7 @@ sealed class Route {
     @Serializable data object FichaUsuario : Route()
     @Serializable data object EditarFicha : Route()
     @Serializable data object CambiarPassword : Route()
+    @Serializable data object About : Route()
     @Serializable data object Horario : Route()
     @Serializable data object Calendario : Route()
     @Serializable data object Tablon : Route()
@@ -77,6 +79,7 @@ fun NavController.navigateToTemario(enrollmentId: Int, nombre: String) = this.na
 fun NavController.navigateToFichaUsuario() = this.navigate(Route.FichaUsuario)
 fun NavController.navigateToEditarFicha() = this.navigate(Route.EditarFicha)
 fun NavController.navigateToCambiarPassword() = this.navigate(Route.CambiarPassword)
+fun NavController.navigateToAbout() = this.navigate(Route.About)
 fun NavController.navigateToHorario() = this.navigate(Route.Horario)
 fun NavController.navigateToCalendario() = this.navigate(Route.Calendario)
 fun NavController.navigateToTablon() = this.navigate(Route.Tablon)
@@ -242,6 +245,12 @@ fun NavGraphBuilder.editarFichaDestination(onBack: () -> Unit) {
 fun NavGraphBuilder.cambiarPasswordDestination(onBack: () -> Unit) {
     composable<Route.CambiarPassword> {
         CambiarPasswordScreen(onBack = onBack)
+    }
+}
+
+fun NavGraphBuilder.aboutDestination(onBack: () -> Unit) {
+    composable<Route.About> {
+        AboutScreen(onBack = onBack)
     }
 }
 

@@ -60,6 +60,9 @@ fun NavGraph() {
                     title = stringResource(id = R.string.nav_title_ziryab),
                     userName = userName,
                     userEmail = userEmail,
+                    onAboutClick = {
+                        navController.navigateToAbout()
+                    },
                     onLogout = {
                         FirebaseAuth.getInstance().signOut()
                         loginViewModel.logout()
@@ -174,6 +177,7 @@ fun NavGraph() {
 
             editarFichaDestination(onBack = { navController.popBackStack() })
             cambiarPasswordDestination(onBack = { navController.popBackStack() })
+            aboutDestination(onBack = { navController.popBackStack() })
         }
     }
 }

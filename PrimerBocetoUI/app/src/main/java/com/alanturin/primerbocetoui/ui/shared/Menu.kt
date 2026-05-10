@@ -30,6 +30,7 @@ fun AppHeader(
     title: String,
     userName: String = stringResource(id = R.string.menu_default_name),
     userEmail: String = stringResource(id = R.string.menu_default_email),
+    onAboutClick: () -> Unit = {},
     onLogout: () -> Unit = {}
 ) {
     TopAppBar(
@@ -44,6 +45,7 @@ fun AppHeader(
             UserMenu(
                 userName = userName,
                 userEmail = userEmail,
+                onAboutClick = onAboutClick,
                 onLogout = onLogout
             )
             Spacer(modifier = Modifier.width(8.dp))

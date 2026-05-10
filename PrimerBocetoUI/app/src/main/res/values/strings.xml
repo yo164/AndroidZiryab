@@ -34,6 +34,7 @@
 
     <!-- Menus & Shared -->
     <string name="menu_user_name_default">U</string>
+    <string name="menu_about">Acerca de Ziryab</string>
     <string name="menu_logout">Cerrar sesión</string>
     <string name="menu_default_name">alumno</string>
     <string name="menu_title_ziryab">Ziryab</string>
@@ -45,6 +46,15 @@
     <string name="nav_role_student">STUDENT</string>
     <string name="nav_title_ziryab">Ziryab</string>
     <string name="nav_username_alumno">Alumno</string>
+
+    <!-- AboutScreen -->
+    <string name="about_title">Acerca de</string>
+    <string name="about_back_cd">Volver</string>
+    <string name="about_project_name">Proyecto Ziryab</string>
+    <string name="about_description">Ziryab es una plataforma educativa para conectar alumnado y profesorado, centralizando clases, tareas, asistencias y comunicaciones de forma sencilla.</string>
+    <string name="about_version_label">Versión de la app</string>
+    <string name="about_credits_title">Créditos</string>
+    <string name="about_credits_body">Desarrollado como parte del Trabajo Fin de Grado (TFG) por el equipo de Ziryab.</string>
 
     <!-- Profesor Clases -->
     <string name="profesor_clases_title">Asignaturas</string>
