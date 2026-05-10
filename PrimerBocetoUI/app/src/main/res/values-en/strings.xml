@@ -144,6 +144,24 @@
     <string name="justificar_falta_send">Send Justification</string>
     <string name="justificar_falta_success">Sent successfully!</string>
 
+    <!-- EditarFichaScreen -->
+    <string name="editar_ficha_title">Edit profile</string>
+    <string name="editar_ficha_label_nombre">Name</string>
+    <string name="editar_ficha_label_email">Email</string>
+    <string name="editar_ficha_btn_guardar">Save</string>
+    <string name="editar_ficha_success">Profile updated</string>
+    <string name="editar_ficha_error">Error updating profile</string>
+
+    <!-- CambiarPasswordScreen -->
+    <string name="cambiar_password_title">Change password</string>
+    <string name="cambiar_password_actual">Current password</string>
+    <string name="cambiar_password_nueva">New password</string>
+    <string name="cambiar_password_confirmar">Confirm new password</string>
+    <string name="cambiar_password_btn">Change</string>
+    <string name="cambiar_password_no_match">Passwords do not match</string>
+    <string name="cambiar_password_success">Password changed successfully</string>
+    <string name="cambiar_password_error">Could not change password</string>
+
     <!-- TareaAlumnoDetalleScreen -->
     <string name="task_detail_title">Task detail</string>
     <string name="task_detail_cd_back">Back</string>
