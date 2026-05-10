@@ -127,7 +127,10 @@
     <!-- FichaUsuarioScreen -->
     <string name="ficha_title">Mis Asistencias</string>
     <string name="ficha_test_camera">PROBAR CAMARA (MODO TEST)</string>
+    <string name="ficha_test_subject_name">Clase de Prueba</string>
     <string name="ficha_no_absences">No tienes faltas registradas en el servidor local.</string>
+    <string name="ficha_no_subject">Sin asignatura</string>
+    <string name="ficha_error_with_message">Error: %1$s</string>
     <string name="ficha_btn_editar_perfil">Editar perfil</string>
     <string name="ficha_btn_cambiar_password">Cambiar contraseña</string>
 

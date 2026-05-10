@@ -127,7 +127,10 @@
     <!-- FichaUsuarioScreen -->
     <string name="ficha_title">My Attendance</string>
     <string name="ficha_test_camera">TEST CAMERA (TEST MODE)</string>
+    <string name="ficha_test_subject_name">Test class</string>
     <string name="ficha_no_absences">You have no recorded absences on the local server.</string>
+    <string name="ficha_no_subject">No subject</string>
+    <string name="ficha_error_with_message">Error: %1$s</string>
     <string name="ficha_btn_editar_perfil">Edit profile</string>
     <string name="ficha_btn_cambiar_password">Change password</string>
 

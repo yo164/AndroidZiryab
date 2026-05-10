@@ -63,7 +63,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "ZIRYAB",
+            text = stringResource(id = R.string.menu_title_ziryab),
             style = MaterialTheme.typography.displayLarge.copy(
                 fontWeight = FontWeight.Black,
                 letterSpacing = (-2).sp,
@@ -138,8 +138,8 @@ fun LoginScreen(
         Button(
             onClick = {
                 when {
-                    email.isBlank() -> localError = "El email no puede estar vacío"
-                    password.isBlank() -> localError = "La contraseña no puede estar vacía"
+                    email.isBlank() -> localError = stringResource(id = R.string.error_email_empty)
+                    password.isBlank() -> localError = stringResource(id = R.string.error_password_empty)
                     else -> {
                         localError = ""
                         viewModel.login(email, password)
