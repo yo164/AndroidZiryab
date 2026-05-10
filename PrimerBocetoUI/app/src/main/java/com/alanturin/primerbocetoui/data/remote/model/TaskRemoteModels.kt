@@ -15,6 +15,11 @@ data class CreateTaskResponseRemote(
     val data: TaskItemRemote
 )
 
+data class TaskResponseRemote(
+    val success: Boolean,
+    val data: TaskItemRemote
+)
+
 data class TaskItemRemote(
     val id: Int,
     val idTeacherAssignment: Int,

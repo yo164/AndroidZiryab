@@ -14,6 +14,7 @@ import com.alanturin.primerbocetoui.ui.gestion.GestionAcademicaScreen
 import com.alanturin.primerbocetoui.ui.login.LoginScreen
 import kotlinx.serialization.Serializable
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.alanturin.primerbocetoui.ui.alumno.TemarioAlumno.TareaAlumnoDetalleScreen
 import com.alanturin.primerbocetoui.ui.alumno.TemarioAlumno.TemarioAlumnoScreen
 import com.alanturin.primerbocetoui.ui.fichausuario.CambiarPasswordScreen
 import com.alanturin.primerbocetoui.ui.fichausuario.EditarFichaScreen
@@ -34,6 +35,7 @@ sealed class Route {
     @Serializable data object ClasesAlumno : Route()
     @Serializable data object Gestion : Route()
     @Serializable data class Temario(val enrollmentId: Int, val nombre: String) : Route()
+    @Serializable data class TareaAlumnoDetalle(val taskId: Int, val enrollmentId: Int) : Route()
 
     @Serializable data object FichaUsuario : Route()
     @Serializable data object EditarFicha : Route()
@@ -73,6 +75,9 @@ fun NavController.navigateToClasesAlumno() {
 fun NavController.navigateToGestion() = this.navigate(Route.Gestion)
 
 fun NavController.navigateToTemario(enrollmentId: Int, nombre: String) = this.navigate(Route.Temario(enrollmentId, nombre))
+
+fun NavController.navigateToTareaAlumnoDetalle(taskId: Int, enrollmentId: Int) =
+    navigate(Route.TareaAlumnoDetalle(taskId, enrollmentId))
 
 fun NavController.navigateToFichaUsuario() = this.navigate(Route.FichaUsuario)
 fun NavController.navigateToEditarFicha() = this.navigate(Route.EditarFicha)
@@ -169,12 +174,27 @@ fun NavGraphBuilder.justificarFaltaDestination(
     }
 }
 
-fun NavGraphBuilder.temarioDestination(onBack: () -> Unit) {
+fun NavGraphBuilder.temarioDestination(
+    onBack: () -> Unit,
+    onTareaClick: (taskId: Int, enrollmentId: Int) -> Unit
+) {
     composable<Route.Temario> { backStackEntry ->
         val route: Route.Temario = backStackEntry.toRoute()
         TemarioAlumnoScreen(
             enrollmentId = route.enrollmentId,
             asignaturaNombre = route.nombre,
+            onBack = onBack,
+            onTareaClick = onTareaClick
+        )
+    }
+}
+
+fun NavGraphBuilder.tareaAlumnoDetalleDestination(onBack: () -> Unit) {
+    composable<Route.TareaAlumnoDetalle> { backStackEntry ->
+        val route = backStackEntry.toRoute<Route.TareaAlumnoDetalle>()
+        TareaAlumnoDetalleScreen(
+            taskId = route.taskId,
+            enrollmentId = route.enrollmentId,
             onBack = onBack
         )
     }

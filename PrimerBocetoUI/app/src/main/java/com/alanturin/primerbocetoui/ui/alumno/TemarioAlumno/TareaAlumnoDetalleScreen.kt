@@ -132,7 +132,8 @@ private fun DetalleContent(
         else -> Color(0xFFF5F5F5)
     }
     val estadoTexto = entregaPrevia?.status ?: "PENDING"
-    val yaEntregada = entregaPrevia != null || enviada
+    val statusYaEntregada = setOf("SUBMITTED", "LATE", "GRADED")
+    val yaEntregada = (entregaPrevia?.status in statusYaEntregada) || enviada
 
     Column(
         modifier = modifier

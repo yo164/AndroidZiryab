@@ -15,20 +15,12 @@ class ClasesAlumnoRepositoryImpl @Inject constructor(
 ) : ClasesAlumnoRepository {
 
     override suspend fun getClases(studentId: Long): Result<List<Asignatura>> {
-        val local = localDataSource.getAll()
-        if (local.isNotEmpty()) {
-            android.util.Log.d("ZIRYAB", "Clases desde LOCAL")
-            return Result.success(local.map { it.toDomain() })
+        val result = remoteDataSource.getClasesAlumno(studentId)
+        result.onSuccess { lista ->
+            localDataSource.deleteAll()
+            localDataSource.insertAll(lista.map { it.toEntity() })
         }
-        android.util.Log.d("ZIRYAB", "Clases desde REMOTE")
-        return remoteDataSource.getClasesAlumno(studentId).also { result ->
-            result.onSuccess { lista ->
-                lista.forEach {
-                    android.util.Log.d("ZIRYAB", "Asignatura: nombre=${it.nombre} grade=${it.grade} curso=${it.curso}")
-                }
-                localDataSource.insertAll(lista.map { it.toEntity() })
-            }
-        }
+        return result
     }
     override suspend fun getAll(): Result<List<Asignatura>> {
         return Result.success(localDataSource.getAll().map { it.toDomain() })

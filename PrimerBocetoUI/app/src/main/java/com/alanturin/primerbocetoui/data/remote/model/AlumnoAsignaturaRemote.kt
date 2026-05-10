@@ -11,6 +11,7 @@ data class AlumnoAsignaturaListRemote(
 )
 
 data class ItemRemote(
+    val id: Long,
     val subject: SubjectRemote,
     val group: GroupRemote,
     val schoolYear: String,
@@ -37,7 +38,7 @@ data class GroupRemote(
 
 fun ItemRemote.toDomain(): Asignatura {
     return Asignatura(
-        id = this.subject.id,
+        id = this.id,
         idSubject = this.subject.id.toInt(),
         idGroup = this.group.id.toInt(),
         nombre = this.subject.name,

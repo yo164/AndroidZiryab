@@ -30,8 +30,12 @@ class TaskRemoteDataSourceImpl  @Inject constructor(
         return try {
             val response = api.getTaskById(id)
             if (response.isSuccessful) {
-                response.body()?.let { Result.success(it) }
-                    ?: Result.failure(RuntimeException("Body vacío"))
+                val body = response.body()
+                if (body == null) {
+                    Result.failure(RuntimeException("Body vacío"))
+                } else {
+                    Result.success(body.data)
+                }
             } else {
                 Result.failure(RuntimeException("Error: ${response.code()}"))
             }

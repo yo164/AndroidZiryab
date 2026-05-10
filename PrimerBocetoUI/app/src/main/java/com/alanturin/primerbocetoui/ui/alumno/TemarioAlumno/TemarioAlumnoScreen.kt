@@ -21,6 +21,7 @@ fun TemarioAlumnoScreen(
     enrollmentId: Int,
     asignaturaNombre: String,
     onBack: () -> Unit,
+    onTareaClick: (taskId: Int, enrollmentId: Int) -> Unit,
     viewModel: TemarioAlumnoViewModel = hiltViewModel()
 ) {
     LaunchedEffect(enrollmentId) {
@@ -65,21 +66,24 @@ fun TemarioAlumnoScreen(
                         titulo = task?.title,
                         descripcion = task?.description,
                         tipo = task?.type,
-                        estado = studentTask.status
+                        estado = studentTask.status,
+                        onClick = { onTareaClick(studentTask.idTask, enrollmentId) }
                     )
                 }
             }
         }
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskCard(index: Int, titulo: String?, descripcion: String?, tipo: String?, estado: String?) {
+fun TaskCard(index: Int, titulo: String?, descripcion: String?, tipo: String?, estado: String?, onClick: () -> Unit) {
     val containerColor = when (tipo) {
         "THEORY" -> Color(0xFFE3F2FD)
         "HOMEWORK" -> Color(0xFFF3E5F5)
         else -> Color(0xFFF5F5F5)
     }
     Card(
+        onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = containerColor),

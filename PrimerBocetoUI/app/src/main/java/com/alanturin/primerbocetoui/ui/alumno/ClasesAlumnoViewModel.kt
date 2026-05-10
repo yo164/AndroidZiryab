@@ -32,9 +32,6 @@ class ClasesAlumnoViewModel @Inject constructor(
     val error: StateFlow<String?> = _error.asStateFlow()
 
     fun cargarClases() {
-        if (_asignaturas.value.isNotEmpty()) {
-            return
-        }
         viewModelScope.launch {
             _isLoading.value = true
             _error.value = null

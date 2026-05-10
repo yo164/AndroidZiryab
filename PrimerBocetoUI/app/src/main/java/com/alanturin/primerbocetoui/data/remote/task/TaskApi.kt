@@ -3,6 +3,7 @@ package com.alanturin.primerbocetoui.data.remote.task
 import com.alanturin.primerbocetoui.data.remote.model.CreateTaskRequestRemote
 import com.alanturin.primerbocetoui.data.remote.model.CreateTaskResponseRemote
 import com.alanturin.primerbocetoui.data.remote.model.TaskItemRemote
+import com.alanturin.primerbocetoui.data.remote.model.TaskResponseRemote
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -23,5 +24,5 @@ interface TaskApi {
     @GET("api/tasks/{id}")
     suspend fun getTaskById(
         @Path("id") id: Int
-    ): Response<TaskItemRemote>
+    ): Response<TaskResponseRemote>
 }

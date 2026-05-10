@@ -122,8 +122,9 @@ fun NavGraph() {
             )
 
             temarioDestination(
-                onBack = {
-                    navController.popBackStack()
+                onBack = { navController.popBackStack() },
+                onTareaClick = { taskId, enrollmentId ->
+                    navController.navigateToTareaAlumnoDetalle(taskId, enrollmentId)
                 }
             )
 
@@ -174,6 +175,7 @@ fun NavGraph() {
 
             editarFichaDestination(onBack = { navController.popBackStack() })
             cambiarPasswordDestination(onBack = { navController.popBackStack() })
+            tareaAlumnoDetalleDestination(onBack = { navController.popBackStack() })
         }
     }
 }
