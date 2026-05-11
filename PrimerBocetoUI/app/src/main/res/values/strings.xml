@@ -7,6 +7,10 @@
     <string name="subtitle_gestion_academica">Administra tu perfil y actividades</string>
     <string name="settings_theme_title">Tema oscuro</string>
     <string name="settings_theme_subtitle">Activa o desactiva el modo oscuro de la aplicación.</string>
+    <string name="settings_language_title">Idioma</string>
+    <string name="settings_language_subtitle">Elige el idioma de la interfaz (español o inglés).</string>
+    <string name="settings_language_spanish">ES</string>
+    <string name="settings_language_english">EN</string>
 
     <!-- Menu Items -->
     <string name="menu_ficha_usuario">Ficha Usuario</string>

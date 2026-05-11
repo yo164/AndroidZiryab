@@ -7,6 +7,10 @@
     <string name="subtitle_gestion_academica">Manage your profile and activities</string>
     <string name="settings_theme_title">Dark theme</string>
     <string name="settings_theme_subtitle">Enable or disable the app dark mode.</string>
+    <string name="settings_language_title">Language</string>
+    <string name="settings_language_subtitle">Choose the interface language (Spanish or English).</string>
+    <string name="settings_language_spanish">ES</string>
+    <string name="settings_language_english">EN</string>
 
     <!-- Menu Items -->
     <string name="menu_ficha_usuario">User Profile</string>

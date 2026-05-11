@@ -72,12 +72,14 @@ import com.alanturin.primerbocetoui.data.repository.studentweekschedule.StudentW
 import com.alanturin.primerbocetoui.data.repository.studentweekschedule.StudentWeekScheduleRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.task.TaskRepository
 import com.alanturin.primerbocetoui.data.repository.task.TaskRepositoryImpl
+import com.alanturin.primerbocetoui.data.repository.locale.LocalePreferencesRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.theme.ThemePreferencesRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.teacher.TeacherRepository
 import com.alanturin.primerbocetoui.data.repository.teacher.TeacherRepositoryImpl
 import com.alanturin.primerbocetoui.data.repository.user.UserRepository
 import com.alanturin.primerbocetoui.data.repository.user.UserRepositoryImpl
 import com.alanturin.primerbocetoui.domain.repository.CalendarRepository
+import com.alanturin.primerbocetoui.domain.repository.LocalePreferencesRepository
 import com.alanturin.primerbocetoui.domain.repository.ThemePreferencesRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 
@@ -188,6 +190,12 @@ abstract class AppModule {
     abstract fun bindThemePreferencesRepository(
         impl: ThemePreferencesRepositoryImpl
     ): ThemePreferencesRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindLocalePreferencesRepository(
+        impl: LocalePreferencesRepositoryImpl
+    ): LocalePreferencesRepository
 
     companion object {
 

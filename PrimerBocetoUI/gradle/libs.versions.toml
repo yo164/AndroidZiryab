@@ -28,6 +28,7 @@ serialization = "1.6.3"
 material3 = "1.4.0"
 runtimeVersion = "1.10.1"
 calendarCompose = "2.6.1"
+appcompat = "1.7.0"
 cameraView = "1.5.3"
 cameraLifecycle = "1.5.3"
 workRuntimeKtx = "2.11.1"
@@ -89,6 +90,7 @@ androidx-camera-view = { group = "androidx.camera", name = "camera-view", versio
 androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraLifecycle" }
 androidx-hilt-common = { group = "androidx.hilt", name = "hilt-common", version.ref = "hiltCommon" }
 androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltWork" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
