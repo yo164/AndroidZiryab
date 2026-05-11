@@ -103,6 +103,14 @@
     <string name="task_label_school_year">Año escolar</string>
     <string name="task_button_create">Crear</string>
     <string name="task_button_cancel">Cancelar</string>
+    <string name="task_section_due">Entrega: %1$s</string>
+    <string name="task_empty_list">No hay tareas para esta asignatura.</string>
+    <string name="task_no_assignment">Selecciona una asignatura con «Gestionar» en la pantalla de clases para ver y crear tareas.</string>
+    <string name="task_retry">Reintentar</string>
+    <string name="task_type_homework">Deberes</string>
+    <string name="task_type_exam">Examen</string>
+    <string name="task_type_project">Proyecto</string>
+    <string name="task_item_dates">Inicio %1$s · Entrega %2$s</string>
 
     <!-- GestionClasesScreen -->
     <string name="gestion_clases_title">Gestionar Clase</string>

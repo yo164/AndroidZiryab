@@ -39,4 +39,17 @@ class TaskRemoteDataSourceImpl  @Inject constructor(
             Result.failure(e)
         }
     }
+
+    override suspend fun getTasksByTeacherAssignment(idTeacherAssignment: Long): Result<List<TaskItemRemote>> {
+        return try {
+            val response = api.getTasksByTeacherAssignment(idTeacherAssignment)
+            if (response.isSuccessful) {
+                Result.success(response.body().orEmpty())
+            } else {
+                Result.failure(RuntimeException("Error: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

@@ -2,7 +2,9 @@ package com.alanturin.primerbocetoui.data.repository.task
 
 import com.alanturin.primerbocetoui.data.remote.model.CreateTaskRequestRemote
 import com.alanturin.primerbocetoui.data.remote.model.TaskItemRemote
+import com.alanturin.primerbocetoui.data.remote.model.toDomain
 import com.alanturin.primerbocetoui.data.remote.task.TaskRemoteDataSource
+import com.alanturin.primerbocetoui.domain.model.TeacherTask
 import javax.inject.Inject
 
 class TaskRepositoryImpl @Inject constructor(
@@ -17,7 +19,9 @@ class TaskRepositoryImpl @Inject constructor(
         return remoteDataSource.getTaskById(id)
     }
 
-    override suspend fun getTasksForSubject(subjectId: Long): Result<List<TaskItemRemote>> {
-        return Result.success(emptyList())
+    override suspend fun getTasksByTeacherAssignment(idTeacherAssignment: Long): Result<List<TeacherTask>> {
+        return remoteDataSource.getTasksByTeacherAssignment(idTeacherAssignment).map { list ->
+            list.map { it.toDomain() }
+        }
     }
 }
