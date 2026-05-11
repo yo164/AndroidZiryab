@@ -5,6 +5,8 @@
     <!-- Headers -->
     <string name="title_gestion_academica">Academic Management</string>
     <string name="subtitle_gestion_academica">Manage your profile and activities</string>
+    <string name="settings_theme_title">Dark theme</string>
+    <string name="settings_theme_subtitle">Enable or disable the app dark mode.</string>
 
     <!-- Menu Items -->
     <string name="menu_ficha_usuario">User Profile</string>

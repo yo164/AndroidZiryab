@@ -123,10 +123,17 @@ fun NavGraphBuilder.clasesAlumnoDestination(
 
 fun NavGraphBuilder.gestionDestination(
     modifier: Modifier = Modifier,
+    isDarkTheme: Boolean,
+    onDarkThemeChange: (Boolean) -> Unit,
     onMenuClick: (Long) -> Unit
 ) {
     composable<Route.Gestion> {
-        GestionAcademicaScreen(modifier = modifier, onMenuClick = onMenuClick)
+        GestionAcademicaScreen(
+            modifier = modifier,
+            isDarkTheme = isDarkTheme,
+            onDarkThemeChange = onDarkThemeChange,
+            onMenuClick = onMenuClick
+        )
     }
 }
 

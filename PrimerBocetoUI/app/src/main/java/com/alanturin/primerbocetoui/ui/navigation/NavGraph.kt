@@ -21,7 +21,10 @@ import androidx.compose.ui.res.stringResource
 import com.alanturin.primerbocetoui.R
 
 @Composable
-fun NavGraph() {
+fun NavGraph(
+    isDarkTheme: Boolean,
+    onDarkThemeChange: (Boolean) -> Unit
+) {
     val navController = rememberNavController()
     val startDestination = Route.Login
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -113,6 +116,8 @@ fun NavGraph() {
 
             gestionDestination(
                 modifier = contentModifier,
+                isDarkTheme = isDarkTheme,
+                onDarkThemeChange = onDarkThemeChange,
                 onMenuClick = { id ->
                     when (id) {
                         1L -> navController.navigateToFichaUsuario()

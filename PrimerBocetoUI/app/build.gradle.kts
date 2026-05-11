@@ -103,6 +103,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
     implementation(libs.transport.runtime)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

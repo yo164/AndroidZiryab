@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.alanturin.primerbocetoui.ui.gestion.GestionAcademicaScreen
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.alanturin.primerbocetoui.ui.navigation.NavGraph
 import com.alanturin.primerbocetoui.ui.theme.PrimerBocetoUITheme
+import com.alanturin.primerbocetoui.ui.theme.ThemeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +23,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            PrimerBocetoUITheme {
+            val themeViewModel: ThemeViewModel = hiltViewModel()
+            val isDarkTheme by themeViewModel.isDarkTheme
+                .collectAsState(initial = false)
+
+            PrimerBocetoUITheme(darkTheme = isDarkTheme) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(modifier = Modifier
                         .fillMaxSize()
@@ -31,7 +38,10 @@ class MainActivity : ComponentActivity() {
 
                         }*/
                         //Llamada a Dashboad del alumno
-                        NavGraph()
+                        NavGraph(
+                            isDarkTheme = isDarkTheme,
+                            onDarkThemeChange = themeViewModel::onDarkThemeChange
+                        )
 
                     }
                 }

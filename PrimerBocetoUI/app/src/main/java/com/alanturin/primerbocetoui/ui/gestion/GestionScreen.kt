@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -30,6 +31,8 @@ import com.alanturin.primerbocetoui.R
 fun GestionAcademicaScreen(
     modifier: Modifier = Modifier,
     viewModel: GestionAcademicaViewModel = hiltViewModel(),
+    isDarkTheme: Boolean,
+    onDarkThemeChange: (Boolean) -> Unit,
     onMenuClick: (Long) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -42,7 +45,7 @@ fun GestionAcademicaScreen(
             GestionLoadingScreen(modifier)
         }
         is GestionUiState.Success -> {
-            GestionList(modifier, uiState, onMenuClick)
+            GestionList(modifier, uiState, isDarkTheme, onDarkThemeChange, onMenuClick)
         }
     }
 }
@@ -65,6 +68,8 @@ private fun GestionLoadingScreen(modifier: Modifier) {
 private fun GestionList(
     modifier: Modifier,
     uiState: GestionUiState,
+    isDarkTheme: Boolean,
+    onDarkThemeChange: (Boolean) -> Unit,
     onMenuClick: (Long) -> Unit
 ) {
     LazyColumn(
@@ -99,6 +104,13 @@ private fun GestionList(
         }
 
         // ITEMS
+        item {
+            ThemeToggleCard(
+                isDarkTheme = isDarkTheme,
+                onDarkThemeChange = onDarkThemeChange
+            )
+        }
+
         items(
             items = (uiState as GestionUiState.Success).options,
             key = { item -> item.id }
@@ -112,6 +124,51 @@ private fun GestionList(
                 onClick = { onMenuClick(option.id) }
             )
         }
+    }
+}
+
+@Composable
+private fun ThemeToggleCard(
+    isDarkTheme: Boolean,
+    onDarkThemeChange: (Boolean) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = Color(0xFFEDE9FE),
+                shape = RoundedCornerShape(16.dp)
+            )
+            .border(
+                width = 2.dp,
+                color = Color(0xFFDDD6FE),
+                shape = RoundedCornerShape(16.dp)
+            )
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(
+                text = stringResource(id = R.string.settings_theme_title),
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                color = Color(0xFF4C1D95)
+            )
+            Text(
+                text = stringResource(id = R.string.settings_theme_subtitle),
+                fontSize = 13.sp,
+                color = Color(0xFF6B7280)
+            )
+        }
+
+        Switch(
+            checked = isDarkTheme,
+            onCheckedChange = onDarkThemeChange
+        )
     }
 }
 
