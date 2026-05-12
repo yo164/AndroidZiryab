@@ -17,6 +17,18 @@ data class CreateTaskResponseRemote(
     val data: TaskItemRemote
 )
 
+data class TaskListRemote(
+    val success: Boolean,
+    val data: List<TaskItemRemote>,
+    val count: Int
+)
+
+data class TaskDetailResponseRemote(
+    val success: Boolean,
+    val data: TaskItemRemote
+)
+
+
 data class TaskItemRemote(
     val id: Int,
     val idTeacherAssignment: Int,

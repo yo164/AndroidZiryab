@@ -1,4 +1,5 @@
 package com.alanturin.primerbocetoui.ui.gestion
+import androidx.compose.foundation.isSystemInDarkTheme
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,6 +15,7 @@ import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -94,7 +96,7 @@ private fun GestionList(
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
-            .background(Color(0xFFFAFAFA)),
+            .background(if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else Color(0xFFFAFAFA)),
         verticalArrangement = Arrangement.spacedBy(14.dp),
         contentPadding = PaddingValues(16.dp)
     ) {
@@ -110,7 +112,7 @@ private fun GestionList(
                     text = stringResource(id = R.string.title_gestion_academica),
                     fontSize = 28.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = Color(0xFF7C3AED)
+                    color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF7C3AED)
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
@@ -244,6 +246,9 @@ private fun LanguageSelectorCard(
                     shape = SegmentedButtonDefaults.itemShape(
                         index = index,
                         count = options.size
+                    ),
+                    colors = SegmentedButtonDefaults.colors(
+                        inactiveContentColor = if (isSystemInDarkTheme()) Color.LightGray else Color(0xFF6B7280)
                     )
                 ) {
                     Text(text = label)

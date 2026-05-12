@@ -1,4 +1,5 @@
 package com.alanturin.primerbocetoui.ui.profesor
+import androidx.compose.foundation.isSystemInDarkTheme
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,7 +36,7 @@ fun ClasesProfesorScreen(
     }
 
     Scaffold(
-        containerColor = Color(0xFFF8FAFC)
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -61,9 +62,7 @@ fun ClasesProfesorScreen(
                         text = stringResource(id = R.string.profesor_clases_title),
                         style = MaterialTheme.typography.headlineMedium.copy(
                             fontWeight = FontWeight.ExtraBold,
-                            brush = Brush.horizontalGradient(
-                                colors = listOf(Color(0xFF7C3AED), Color(0xFF4F46E5))
-                            )
+                            color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF7C3AED)
                         )
                     )
 
@@ -81,7 +80,7 @@ fun ClasesProfesorScreen(
                             Icon(
                                 imageVector = Icons.Default.Refresh,
                                 contentDescription = "Recargar",
-                                tint = Color(0xFF7C3AED)
+                                tint = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF7C3AED)
                             )
                         }
                     }
@@ -89,7 +88,8 @@ fun ClasesProfesorScreen(
 
                 if (isLoading && asignaturas.isEmpty()) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator(color = Color(0xFF7C3AED))
+                        CircularProgressIndicator(color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF7C3AED))
+
                     }
                 } else if (error != null && asignaturas.isEmpty()) {
                     Card(

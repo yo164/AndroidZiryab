@@ -1,4 +1,5 @@
 package com.alanturin.primerbocetoui.ui.alumno
+import androidx.compose.foundation.isSystemInDarkTheme
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -37,7 +38,7 @@ fun ClasesAlumnoScreen(
         viewModel.cargarClases()
     }
     Scaffold(
-        containerColor = Color(0xFFF8FAFC)
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -58,11 +59,10 @@ fun ClasesAlumnoScreen(
                         text = stringResource(id = R.string.alumno_clases_title),
                         style = MaterialTheme.typography.headlineMedium.copy(
                             fontWeight = FontWeight.ExtraBold,
-                            brush = Brush.horizontalGradient(
-                                colors = listOf(Color(0xFF7C3AED), Color(0xFF4F46E5))
-                            )
+                            color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF7C3AED)
                         )
                     )
+
                     IconButton(
                         onClick = { viewModel.recargarClases(2L) },
                         enabled = !isLoading
@@ -77,14 +77,16 @@ fun ClasesAlumnoScreen(
                             Icon(
                                 imageVector = Icons.Default.Refresh,
                                 contentDescription = stringResource(id = R.string.alumno_clases_cd_reload),
-                                tint = Color(0xFF7C3AED)
+                                tint = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF7C3AED)
+
                             )
                         }
                     }
                 }
                 if (isLoading && asignaturas.isEmpty()) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator(color = Color(0xFF7C3AED))
+                        CircularProgressIndicator(color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF7C3AED))
+
                     }
                 } else if (error != null && asignaturas.isEmpty()) {
                     Card(

@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.alanturin.primerbocetoui.R
@@ -22,6 +23,7 @@ fun FichaUsuarioScreen(
     onEditarFicha: () -> Unit,
     onCambiarPassword: () -> Unit
 ) {
+    val context = LocalContext.current
     LaunchedEffect(Unit) { viewModel.cargarFaltas() }
 
     val state by viewModel.uiState.collectAsState()
@@ -34,7 +36,7 @@ fun FichaUsuarioScreen(
             onClick = {
                 onJustificarClick(
                     1,
-                    stringResource(id = R.string.ficha_test_subject_name),
+                    context.getString(R.string.ficha_test_subject_name),
                     "2025-03-12",
                     "08:00",
                     "MISSING"
@@ -80,7 +82,7 @@ fun FichaUsuarioScreen(
                         FaltaCard(
                             asistencia = falta,
                             onClick = {
-                                val subjectName = falta.subjectName ?: stringResource(id = R.string.ficha_no_subject)
+                                val subjectName = falta.subjectName ?: context.getString(R.string.ficha_no_subject)
                                 val date = falta.date ?: ""
                                 val startTime = falta.startTime ?: ""
                                 onJustificarClick(

@@ -1,5 +1,6 @@
 package com.alanturin.primerbocetoui.ui.login
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -21,6 +22,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import com.alanturin.primerbocetoui.R
 
 @Composable
@@ -28,6 +30,7 @@ fun LoginScreen(
     onLoginClick: (email: String, password: String, role: String) -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
     val loginSuccess by viewModel.loginSuccess.collectAsState()
@@ -47,6 +50,7 @@ fun LoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(if (androidx.compose.foundation.isSystemInDarkTheme()) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.background)
             .padding(24.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -67,9 +71,7 @@ fun LoginScreen(
             style = MaterialTheme.typography.displayLarge.copy(
                 fontWeight = FontWeight.Black,
                 letterSpacing = (-2).sp,
-                brush = Brush.horizontalGradient(
-                    colors = listOf(Color(0xFF7C3AED), Color(0xFF4F46E5))
-                )
+                color = if (androidx.compose.foundation.isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF7C3AED)
             )
         )
 
@@ -138,9 +140,10 @@ fun LoginScreen(
         Button(
             onClick = {
                 when {
-                    email.isBlank() -> localError = stringResource(id = R.string.error_email_empty)
-                    password.isBlank() -> localError = stringResource(id = R.string.error_password_empty)
+                    email.isBlank() -> localError = context.getString(R.string.error_email_empty)
+                    password.isBlank() -> localError = context.getString(R.string.error_password_empty)
                     else -> {
+
                         localError = ""
                         viewModel.login(email, password)
                     }
