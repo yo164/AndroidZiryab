@@ -73,7 +73,9 @@ class TaskViewModel @Inject constructor(
         type: String,
         startDate: String,
         dueDate: String,
-        schoolYear: String
+        schoolYear: String,
+        isPublished: Boolean = true,
+        allowLateSubmission: Boolean = false
     ) {
         val idAssignment = assignmentSessionService.currentAssignmentId.value
         if (idAssignment == null) {
@@ -92,7 +94,9 @@ class TaskViewModel @Inject constructor(
                 type = type,
                 startDate = startDate,
                 dueDate = dueDate,
-                schoolYear = schoolYear
+                schoolYear = schoolYear,
+                isPublished = isPublished,
+                allowLateSubmission = allowLateSubmission
             )
 
             val result = repository.createTask(request)

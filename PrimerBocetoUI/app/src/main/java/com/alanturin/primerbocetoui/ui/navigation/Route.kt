@@ -49,6 +49,7 @@ sealed class Route {
     @Serializable data object ClasesProfesor : Route()
     @Serializable data object GestionClases : Route()
     @Serializable data object Task : Route()
+    @Serializable data class EntregasTarea(val taskId: Int) : Route()
     @Serializable data object AlumnoList: Route()
 
     @Serializable
@@ -90,6 +91,7 @@ fun NavController.navigateToCalendario() = this.navigate(Route.Calendario)
 fun NavController.navigateToTablon() = this.navigate(Route.Tablon)
 fun NavController.navigateToGroups() = this.navigate(Route.Groups)
 fun NavController.navigateToTask() = this.navigate(Route.Task)
+fun NavController.navigateToEntregasTarea(taskId: Int) = this.navigate(Route.EntregasTarea(taskId))
 fun NavController.navigateToAlumnoList() = this.navigate(Route.AlumnoList)
 
 fun NavController.navigateToClasesProfesor() {
@@ -240,8 +242,18 @@ fun NavGraphBuilder.gestionClasesDestination(
     }
 }
 
-fun NavGraphBuilder.taskDestination(modifier: Modifier = Modifier) {
-    composable<Route.Task> { TaskScreen(viewModel = hiltViewModel()) }
+fun NavGraphBuilder.taskDestination(modifier: Modifier = Modifier, onTaskClick: (Int) -> Unit) {
+    composable<Route.Task> { TaskScreen(viewModel = hiltViewModel(), onTaskClick = onTaskClick) }
+}
+
+fun NavGraphBuilder.entregasTareaDestination(onBack: () -> Unit) {
+    composable<Route.EntregasTarea> { backStackEntry ->
+        val route = backStackEntry.toRoute<Route.EntregasTarea>()
+        com.alanturin.primerbocetoui.ui.profesor.tasks.entregas.EntregasTareaScreen(
+            taskId = route.taskId,
+            onBack = onBack
+        )
+    }
 }
 
 fun NavGraphBuilder.alumnoListDestination(modifier: Modifier = Modifier) {

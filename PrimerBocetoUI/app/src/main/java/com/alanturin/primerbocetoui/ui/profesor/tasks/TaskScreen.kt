@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,6 +29,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -46,7 +48,7 @@ import com.alanturin.primerbocetoui.domain.model.TeacherTask
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskScreen(viewModel: TaskViewModel = hiltViewModel()) {
+fun TaskScreen(viewModel: TaskViewModel = hiltViewModel(), onTaskClick: (Int) -> Unit) {
     val listUiState by viewModel.listUiState.collectAsStateWithLifecycle()
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val error by viewModel.error.collectAsStateWithLifecycle()
@@ -127,7 +129,7 @@ fun TaskScreen(viewModel: TaskViewModel = hiltViewModel()) {
                                 items = section.tasks,
                                 key = { it.id }
                             ) { task ->
-                                TeacherTaskCard(task = task)
+                                TeacherTaskCard(task = task, onClick = { onTaskClick(task.id) })
                             }
                         }
                     }
@@ -141,8 +143,8 @@ fun TaskScreen(viewModel: TaskViewModel = hiltViewModel()) {
             isLoading = isLoading,
             error = error,
             onDismiss = { showDialog = false },
-            onConfirm = { title, description, type, startDate, dueDate, schoolYear ->
-                viewModel.createTask(title, description, type, startDate, dueDate, schoolYear)
+            onConfirm = { title, description, type, startDate, dueDate, schoolYear, isPublished, allowLateSubmission ->
+                viewModel.createTask(title, description, type, startDate, dueDate, schoolYear, isPublished, allowLateSubmission)
             }
         )
     }
@@ -175,9 +177,12 @@ private fun TaskSectionHeader(dueDateIso: String) {
 }
 
 @Composable
-private fun TeacherTaskCard(task: TeacherTask) {
+private fun TeacherTaskCard(task: TeacherTask, onClick: () -> Unit) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        onClick = onClick,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(
@@ -224,7 +229,7 @@ private fun CreateTaskDialog(
     isLoading: Boolean,
     error: String?,
     onDismiss: () -> Unit,
-    onConfirm: (String, String, String, String, String, String) -> Unit
+    onConfirm: (String, String, String, String, String, String, Boolean, Boolean) -> Unit
 ) {
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
@@ -232,6 +237,8 @@ private fun CreateTaskDialog(
     var startDate by remember { mutableStateOf("") }
     var dueDate by remember { mutableStateOf("") }
     var schoolYear by remember { mutableStateOf("2025-2026") }
+    var isPublished by remember { mutableStateOf(true) }
+    var allowLateSubmission by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
 
     val taskTypes = listOf("EXAM", "HOMEWORK", "PROJECT")
@@ -315,6 +322,24 @@ private fun CreateTaskDialog(
                     modifier = Modifier.fillMaxWidth()
                 )
 
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(stringResource(R.string.task_label_publish))
+                    Switch(checked = isPublished, onCheckedChange = { isPublished = it })
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(stringResource(R.string.task_label_allow_late))
+                    Switch(checked = allowLateSubmission, onCheckedChange = { allowLateSubmission = it })
+                }
+
                 if (isLoading) {
                     LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
                 }
@@ -331,7 +356,7 @@ private fun CreateTaskDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    onConfirm(title, description, selectedType, startDate, dueDate, schoolYear)
+                    onConfirm(title, description, selectedType, startDate, dueDate, schoolYear, isPublished, allowLateSubmission)
                 },
                 enabled = title.isNotBlank() && startDate.isNotBlank() && dueDate.isNotBlank() && !isLoading
             ) {

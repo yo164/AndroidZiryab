@@ -9,7 +9,9 @@ data class CreateTaskRequestRemote(
     val type: String,
     val startDate: String,
     val dueDate: String,
-    val schoolYear: String
+    val schoolYear: String,
+    val isPublished: Boolean = true,
+    val allowLateSubmission: Boolean = false
 )
 
 data class CreateTaskResponseRemote(
@@ -37,6 +39,8 @@ data class TaskItemRemote(
     val startDate: String,
     val dueDate: String,
     val schoolYear: String,
+    val isPublished: Boolean,
+    val allowLateSubmission: Boolean,
     val createdAt: String
 )
 

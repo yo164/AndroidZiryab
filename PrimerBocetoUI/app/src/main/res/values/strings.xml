@@ -101,6 +101,8 @@
     <string name="task_label_start_date">Fecha inicio (yyyy-MM-dd)</string>
     <string name="task_label_due_date">Fecha entrega (yyyy-MM-dd)</string>
     <string name="task_label_school_year">Año escolar</string>
+    <string name="task_label_publish">Publicar inmediatamente</string>
+    <string name="task_label_allow_late">Permitir entrega tardía</string>
     <string name="task_button_create">Crear</string>
     <string name="task_button_cancel">Cancelar</string>
     <string name="task_section_due">Entrega: %1$s</string>
@@ -188,4 +190,8 @@
     <string name="task_detail_submitted_success">¡Entrega registrada!</string>
     <string name="task_detail_error_loading">Error al cargar la tarea</string>
     <string name="task_detail_retry_button">Reintentar</string>
+
+    <!-- EntregasTareaScreen -->
+    <string name="entregas_title">Entregas de Tarea</string>
+    <string name="entregas_no_students">No hay entregas para esta tarea.</string>
 </resources>
