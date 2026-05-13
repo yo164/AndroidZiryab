@@ -9,6 +9,7 @@ import com.alanturin.primerbocetoui.data.repository.WeekScheduleRepository
 import com.alanturin.primerbocetoui.data.repository.assistance.AssistanceRepository
 import com.alanturin.primerbocetoui.data.repository.studentweekschedule.StudentWeekScheduleRepository
 import com.alanturin.primerbocetoui.data.repository.teacher.TeacherRepository
+import com.alanturin.primerbocetoui.data.repository.ClasesProfesorRepository
 import com.alanturin.primerbocetoui.domain.repository.ClasesAlumnoRepository
 import com.alanturin.primerbocetoui.ui.session.SessionViewModel
 import com.alanturin.primerbocetoui.work.JustificationCheckWorker
@@ -26,6 +27,7 @@ class InitialDataController @Inject constructor(
     private val assistanceRepository: AssistanceRepository,
     private val sessionViewModel: SessionViewModel,
     private val teacherRepository: TeacherRepository,
+    private val clasesProfesorRepository: ClasesProfesorRepository,
     private val clasesAlumnoRepository: ClasesAlumnoRepository,
     @ApplicationContext private val context: Context
 
@@ -42,8 +44,8 @@ class InitialDataController @Inject constructor(
             if (userRole == "TEACHER"){
                 launch { weekScheduleRepository.getWeekScheduleByTeacher(userId.toLong(), userRole) }
                 launch { assistanceRepository.getAll() }
-                launch { teacherRepository.getTeacherById(userId) }//falta implementar delete all
-
+                launch { teacherRepository.getTeacherById(userId) }
+                launch { clasesProfesorRepository.readAll(userId.toLong()) }
             }else{
                 launch { studentWeekScheduleRepository.getWeekScheduleByStudent(userId.toLong(), userRole) }
                 //launch { assistanceRepository.getByStudentId(userId) }

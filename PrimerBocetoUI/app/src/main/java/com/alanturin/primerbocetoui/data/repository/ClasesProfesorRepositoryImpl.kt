@@ -14,17 +14,14 @@ class ClasesProfesorRepositoryImpl @Inject constructor(
     private val localDataSource: SubjectLocalDataSource
 ) : ClasesProfesorRepository {
     override suspend fun readAll(profesorId: Long): Result<List<Asignatura>> {
-        val local = localDataSource.getAll()
-        if (local.isNotEmpty()) {
-            android.util.Log.d("ZIRYAB", "Clases profesor desde LOCAL")
-            return Result.success(local.map { it.toDomain() })
-        }
-        android.util.Log.d("ZIRYAB", "Clases profesor desde REMOTE")
+        android.util.Log.d("ZIRYAB", "Clases profesor desde REMOTE (Actualizando cache)")
         return remoteDataSource.readAll(profesorId).also { result ->
             result.onSuccess { lista ->
+                localDataSource.deleteAll()
                 localDataSource.insertAll(lista.map { it.toEntity() })
             }
-        }    }
+        }
+    }
 
     override fun observe(profesorId: Long): Flow<Result<List<Asignatura>>> {
         return remoteDataSource.observe(profesorId)
