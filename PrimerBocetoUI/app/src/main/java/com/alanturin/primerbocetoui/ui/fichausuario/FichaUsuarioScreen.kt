@@ -3,14 +3,13 @@ package com.alanturin.primerbocetoui.ui.fichausuario
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.alanturin.primerbocetoui.R
@@ -24,6 +23,7 @@ fun FichaUsuarioScreen(
     onEditarFicha: () -> Unit,
     onCambiarPassword: () -> Unit
 ) {
+    val context = LocalContext.current
     LaunchedEffect(Unit) { viewModel.cargarFaltas() }
 
     val state by viewModel.uiState.collectAsState()
@@ -33,7 +33,15 @@ fun FichaUsuarioScreen(
 
         // pruebsas de camara
         Button(
-            onClick = { onJustificarClick(1,"Clase de Prueba", "2025-03-12", "08:00", "MISSING") },
+            onClick = {
+                onJustificarClick(
+                    1,
+                    context.getString(R.string.ficha_test_subject_name),
+                    "2025-03-12",
+                    "08:00",
+                    "MISSING"
+                )
+            },
             modifier = Modifier.padding(vertical = 8.dp).fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray)
         ) {
@@ -74,7 +82,7 @@ fun FichaUsuarioScreen(
                         FaltaCard(
                             asistencia = falta,
                             onClick = {
-                                val subjectName = falta.subjectName ?: "Sin asignatura"
+                                val subjectName = falta.subjectName ?: context.getString(R.string.ficha_no_subject)
                                 val date = falta.date ?: ""
                                 val startTime = falta.startTime ?: ""
                                 onJustificarClick(
@@ -95,7 +103,10 @@ fun FichaUsuarioScreen(
                 Spacer(modifier = Modifier.height(12.dp))
                 TarjetaProfesor(teacher = ui.teacher)
             }
-            is FichaUsuarioViewModel.UiState.Error -> Text("Error: ${ui.message}", color = Color.Red)
+            is FichaUsuarioViewModel.UiState.Error -> Text(
+                text = stringResource(id = R.string.ficha_error_with_message, ui.message),
+                color = Color.Red
+            )
 
             else -> {}
         }

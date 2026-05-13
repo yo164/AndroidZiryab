@@ -1,4 +1,5 @@
 package com.alanturin.primerbocetoui.ui.gestion
+import androidx.compose.foundation.isSystemInDarkTheme
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -9,9 +10,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,15 +29,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alanturin.primerbocetoui.R
+import com.alanturin.primerbocetoui.data.local.preferences.LocalePreferencesDataSource
+import com.alanturin.primerbocetoui.ui.locale.AppLocaleViewModel
 
 @Composable
 fun GestionAcademicaScreen(
     modifier: Modifier = Modifier,
     viewModel: GestionAcademicaViewModel = hiltViewModel(),
+    appLocaleViewModel: AppLocaleViewModel = hiltViewModel(),
+    isDarkTheme: Boolean,
+    onDarkThemeChange: (Boolean) -> Unit,
     onMenuClick: (Long) -> Unit
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val appLanguageTag by appLocaleViewModel.languageTag.collectAsStateWithLifecycle(
+        initialValue = LocalePreferencesDataSource.DEFAULT_LANGUAGE_TAG
+    )
 
     when (uiState) {
         is GestionUiState.Initial -> {
@@ -42,7 +56,15 @@ fun GestionAcademicaScreen(
             GestionLoadingScreen(modifier)
         }
         is GestionUiState.Success -> {
-            GestionList(modifier, uiState, onMenuClick)
+            GestionList(
+                modifier,
+                uiState,
+                isDarkTheme,
+                onDarkThemeChange,
+                appLanguageTag,
+                appLocaleViewModel::onLanguageTagSelected,
+                onMenuClick
+            )
         }
     }
 }
@@ -65,12 +87,16 @@ private fun GestionLoadingScreen(modifier: Modifier) {
 private fun GestionList(
     modifier: Modifier,
     uiState: GestionUiState,
+    isDarkTheme: Boolean,
+    onDarkThemeChange: (Boolean) -> Unit,
+    appLanguageTag: String,
+    onAppLanguageTagChange: (String) -> Unit,
     onMenuClick: (Long) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
-            .background(Color(0xFFFAFAFA)),
+            .background(if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else Color(0xFFFAFAFA)),
         verticalArrangement = Arrangement.spacedBy(14.dp),
         contentPadding = PaddingValues(16.dp)
     ) {
@@ -86,7 +112,7 @@ private fun GestionList(
                     text = stringResource(id = R.string.title_gestion_academica),
                     fontSize = 28.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = Color(0xFF7C3AED)
+                    color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF7C3AED)
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
@@ -99,6 +125,20 @@ private fun GestionList(
         }
 
         // ITEMS
+        item {
+            ThemeToggleCard(
+                isDarkTheme = isDarkTheme,
+                onDarkThemeChange = onDarkThemeChange
+            )
+        }
+
+        item {
+            LanguageSelectorCard(
+                selectedLanguageTag = appLanguageTag,
+                onLanguageTagSelected = onAppLanguageTagChange
+            )
+        }
+
         items(
             items = (uiState as GestionUiState.Success).options,
             key = { item -> item.id }
@@ -111,6 +151,109 @@ private fun GestionList(
                 iconColor = option.iconColor,
                 onClick = { onMenuClick(option.id) }
             )
+        }
+    }
+}
+
+@Composable
+private fun ThemeToggleCard(
+    isDarkTheme: Boolean,
+    onDarkThemeChange: (Boolean) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = Color(0xFFEDE9FE),
+                shape = RoundedCornerShape(16.dp)
+            )
+            .border(
+                width = 2.dp,
+                color = Color(0xFFDDD6FE),
+                shape = RoundedCornerShape(16.dp)
+            )
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(
+                text = stringResource(id = R.string.settings_theme_title),
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                color = Color(0xFF4C1D95)
+            )
+            Text(
+                text = stringResource(id = R.string.settings_theme_subtitle),
+                fontSize = 13.sp,
+                color = Color(0xFF6B7280)
+            )
+        }
+
+        Switch(
+            checked = isDarkTheme,
+            onCheckedChange = onDarkThemeChange
+        )
+    }
+}
+
+@Composable
+private fun LanguageSelectorCard(
+    selectedLanguageTag: String,
+    onLanguageTagSelected: (String) -> Unit
+) {
+    val options = listOf(
+        "es" to stringResource(id = R.string.settings_language_spanish),
+        "en" to stringResource(id = R.string.settings_language_english)
+    )
+    val selectedIndex = options.indexOfFirst { it.first == selectedLanguageTag }
+        .let { index -> if (index >= 0) index else 0 }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = Color(0xFFEDE9FE),
+                shape = RoundedCornerShape(16.dp)
+            )
+            .border(
+                width = 2.dp,
+                color = Color(0xFFDDD6FE),
+                shape = RoundedCornerShape(16.dp)
+            )
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Text(
+            text = stringResource(id = R.string.settings_language_title),
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp,
+            color = Color(0xFF4C1D95)
+        )
+        Text(
+            text = stringResource(id = R.string.settings_language_subtitle),
+            fontSize = 13.sp,
+            color = Color(0xFF6B7280)
+        )
+        SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
+            options.forEachIndexed { index, (tag, label) ->
+                SegmentedButton(
+                    selected = index == selectedIndex,
+                    onClick = { onLanguageTagSelected(tag) },
+                    shape = SegmentedButtonDefaults.itemShape(
+                        index = index,
+                        count = options.size
+                    ),
+                    colors = SegmentedButtonDefaults.colors(
+                        inactiveContentColor = if (isSystemInDarkTheme()) Color.LightGray else Color(0xFF6B7280)
+                    )
+                ) {
+                    Text(text = label)
+                }
+            }
         }
     }
 }
@@ -180,8 +323,7 @@ fun GestionCardVertical(
             )
 
             Spacer(modifier = Modifier.weight(1f))
-
-            }
         }
     }
+}
 

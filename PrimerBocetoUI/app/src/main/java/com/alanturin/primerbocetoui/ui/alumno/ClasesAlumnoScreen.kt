@@ -1,4 +1,5 @@
 package com.alanturin.primerbocetoui.ui.alumno
+import androidx.compose.foundation.isSystemInDarkTheme
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,6 +20,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.res.stringResource
+import com.alanturin.primerbocetoui.R
 import com.alanturin.primerbocetoui.domain.model.Asignatura
 
 @Composable
@@ -35,7 +38,7 @@ fun ClasesAlumnoScreen(
         viewModel.cargarClases()
     }
     Scaffold(
-        containerColor = Color(0xFFF8FAFC)
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -53,14 +56,13 @@ fun ClasesAlumnoScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "Mis Asignaturas",
+                        text = stringResource(id = R.string.alumno_clases_title),
                         style = MaterialTheme.typography.headlineMedium.copy(
                             fontWeight = FontWeight.ExtraBold,
-                            brush = Brush.horizontalGradient(
-                                colors = listOf(Color(0xFF7C3AED), Color(0xFF4F46E5))
-                            )
+                            color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF7C3AED)
                         )
                     )
+
                     IconButton(
                         onClick = { viewModel.recargarClases(2L) },
                         enabled = !isLoading
@@ -74,15 +76,17 @@ fun ClasesAlumnoScreen(
                         } else {
                             Icon(
                                 imageVector = Icons.Default.Refresh,
-                                contentDescription = "Recargar",
-                                tint = Color(0xFF7C3AED)
+                                contentDescription = stringResource(id = R.string.alumno_clases_cd_reload),
+                                tint = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF7C3AED)
+
                             )
                         }
                     }
                 }
                 if (isLoading && asignaturas.isEmpty()) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator(color = Color(0xFF7C3AED))
+                        CircularProgressIndicator(color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF7C3AED))
+
                     }
                 } else if (error != null && asignaturas.isEmpty()) {
                     Card(
@@ -90,7 +94,7 @@ fun ClasesAlumnoScreen(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
-                            text = error ?: "Error desconocido",
+                            text = error ?: stringResource(id = R.string.error_unknown),
                             color = Color.Red,
                             modifier = Modifier.padding(16.dp)
                         )
@@ -186,7 +190,7 @@ fun AsignaturaCard(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "GRADO/CURSO",
+                        text = stringResource(id = R.string.alumno_clases_grade),
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 1.sp
@@ -226,7 +230,7 @@ fun AsignaturaCard(
                     )
                 ) {
                     Text(
-                        text = "Acceder",
+                        text = stringResource(id = R.string.alumno_clases_access),
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.Bold
                         )

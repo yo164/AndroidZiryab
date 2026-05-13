@@ -5,6 +5,12 @@
     <!-- Headers -->
     <string name="title_gestion_academica">Gestión Académica</string>
     <string name="subtitle_gestion_academica">Administra tu perfil y actividades</string>
+    <string name="settings_theme_title">Tema oscuro</string>
+    <string name="settings_theme_subtitle">Activa o desactiva el modo oscuro de la aplicación.</string>
+    <string name="settings_language_title">Idioma</string>
+    <string name="settings_language_subtitle">Elige el idioma de la interfaz (español o inglés).</string>
+    <string name="settings_language_spanish">ES</string>
+    <string name="settings_language_english">EN</string>
 
     <!-- Menu Items -->
     <string name="menu_ficha_usuario">Ficha Usuario</string>
@@ -34,6 +40,7 @@
 
     <!-- Menus & Shared -->
     <string name="menu_user_name_default">U</string>
+    <string name="menu_about">Acerca de Ziryab</string>
     <string name="menu_logout">Cerrar sesión</string>
     <string name="menu_default_name">alumno</string>
     <string name="menu_title_ziryab">Ziryab</string>
@@ -45,6 +52,15 @@
     <string name="nav_role_student">STUDENT</string>
     <string name="nav_title_ziryab">Ziryab</string>
     <string name="nav_username_alumno">Alumno</string>
+
+    <!-- AboutScreen -->
+    <string name="about_title">Acerca de</string>
+    <string name="about_back_cd">Volver</string>
+    <string name="about_project_name">Proyecto Ziryab</string>
+    <string name="about_description">Ziryab es una plataforma educativa para conectar alumnado y profesorado, centralizando clases, tareas, asistencias y comunicaciones de forma sencilla.</string>
+    <string name="about_version_label">Versión de la app</string>
+    <string name="about_credits_title">Créditos</string>
+    <string name="about_credits_body">Desarrollado como parte del Trabajo Fin de Grado (TFG) por el equipo de Ziryab.</string>
 
     <!-- Profesor Clases -->
     <string name="profesor_clases_title">Asignaturas</string>
@@ -87,6 +103,14 @@
     <string name="task_label_school_year">Año escolar</string>
     <string name="task_button_create">Crear</string>
     <string name="task_button_cancel">Cancelar</string>
+    <string name="task_section_due">Entrega: %1$s</string>
+    <string name="task_empty_list">No hay tareas para esta asignatura.</string>
+    <string name="task_no_assignment">Selecciona una asignatura con «Gestionar» en la pantalla de clases para ver y crear tareas.</string>
+    <string name="task_retry">Reintentar</string>
+    <string name="task_type_homework">Deberes</string>
+    <string name="task_type_exam">Examen</string>
+    <string name="task_type_project">Proyecto</string>
+    <string name="task_item_dates">Inicio %1$s · Entrega %2$s</string>
 
     <!-- GestionClasesScreen -->
     <string name="gestion_clases_title">Gestionar Clase</string>
@@ -117,7 +141,10 @@
     <!-- FichaUsuarioScreen -->
     <string name="ficha_title">Mis Asistencias</string>
     <string name="ficha_test_camera">PROBAR CAMARA (MODO TEST)</string>
+    <string name="ficha_test_subject_name">Clase de Prueba</string>
     <string name="ficha_no_absences">No tienes faltas registradas en el servidor local.</string>
+    <string name="ficha_no_subject">Sin asignatura</string>
+    <string name="ficha_error_with_message">Error: %1$s</string>
     <string name="ficha_btn_editar_perfil">Editar perfil</string>
     <string name="ficha_btn_cambiar_password">Cambiar contraseña</string>
 

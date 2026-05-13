@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -30,6 +31,7 @@ fun AppHeader(
     title: String,
     userName: String = stringResource(id = R.string.menu_default_name),
     userEmail: String = stringResource(id = R.string.menu_default_email),
+    onAboutClick: () -> Unit = {},
     onLogout: () -> Unit = {}
 ) {
     TopAppBar(
@@ -44,14 +46,15 @@ fun AppHeader(
             UserMenu(
                 userName = userName,
                 userEmail = userEmail,
+                onAboutClick = onAboutClick,
                 onLogout = onLogout
             )
             Spacer(modifier = Modifier.width(8.dp))
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = fondo,
-            titleContentColor = Color(0xFF4C1D95),
-            actionIconContentColor = Color(0xFF4C1D95)
+            containerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.surface else fondo,
+            titleContentColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF4C1D95),
+            actionIconContentColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onSurface else Color(0xFF4C1D95)
         )
     )
 }
@@ -71,7 +74,7 @@ fun AppFooter(
 
     NavigationBar(
         modifier = Modifier.height(65.dp),
-        containerColor = fondo
+        containerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.surface else fondo
     ) {
         items.forEach { screen ->
 
@@ -117,10 +120,10 @@ fun AppFooter(
                 },
                 colors = NavigationBarItemDefaults.colors(
                     indicatorColor = Color.Transparent,
-                    selectedIconColor = Color(0xFF7C3AED),
-                    selectedTextColor = Color(0xFF7C3AED),
-                    unselectedIconColor = Color(0xFF6B7280),
-                    unselectedTextColor = Color(0xFF6B7280)
+                    selectedIconColor = if (isSystemInDarkTheme()) Color.White else Color(0xFF7C3AED),
+                    selectedTextColor = if (isSystemInDarkTheme()) Color.White else Color(0xFF7C3AED),
+                    unselectedIconColor = if (isSystemInDarkTheme()) Color.White.copy(alpha = 0.6f) else Color(0xFF374151),
+                    unselectedTextColor = if (isSystemInDarkTheme()) Color.White.copy(alpha = 0.6f) else Color(0xFF374151)
                 )
             )
         }

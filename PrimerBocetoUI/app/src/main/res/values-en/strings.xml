@@ -5,6 +5,12 @@
     <!-- Headers -->
     <string name="title_gestion_academica">Academic Management</string>
     <string name="subtitle_gestion_academica">Manage your profile and activities</string>
+    <string name="settings_theme_title">Dark theme</string>
+    <string name="settings_theme_subtitle">Enable or disable the app dark mode.</string>
+    <string name="settings_language_title">Language</string>
+    <string name="settings_language_subtitle">Choose the interface language (Spanish or English).</string>
+    <string name="settings_language_spanish">ES</string>
+    <string name="settings_language_english">EN</string>
 
     <!-- Menu Items -->
     <string name="menu_ficha_usuario">User Profile</string>
@@ -34,6 +40,7 @@
 
     <!-- Menus & Shared -->
     <string name="menu_user_name_default">U</string>
+    <string name="menu_about">About Ziryab</string>
     <string name="menu_logout">Log out</string>
     <string name="menu_default_name">student</string>
     <string name="menu_title_ziryab">Ziryab</string>
@@ -45,6 +52,15 @@
     <string name="nav_role_student">STUDENT</string>
     <string name="nav_title_ziryab">Ziryab</string>
     <string name="nav_username_alumno">Student</string>
+
+    <!-- AboutScreen -->
+    <string name="about_title">About</string>
+    <string name="about_back_cd">Back</string>
+    <string name="about_project_name">Ziryab Project</string>
+    <string name="about_description">Ziryab is an educational platform that connects students and teachers, centralizing classes, tasks, attendance, and communications in a simple way.</string>
+    <string name="about_version_label">App version</string>
+    <string name="about_credits_title">Credits</string>
+    <string name="about_credits_body">Developed as part of a final degree project by the Ziryab team.</string>
 
     <!-- Profesor Clases -->
     <string name="profesor_clases_title">Subjects</string>
@@ -87,6 +103,14 @@
     <string name="task_label_school_year">School year</string>
     <string name="task_button_create">Create</string>
     <string name="task_button_cancel">Cancel</string>
+    <string name="task_section_due">Due: %1$s</string>
+    <string name="task_empty_list">No tasks for this subject yet.</string>
+    <string name="task_no_assignment">Pick a subject with «Manage» on the class screen to view and create tasks.</string>
+    <string name="task_retry">Retry</string>
+    <string name="task_type_homework">Homework</string>
+    <string name="task_type_exam">Exam</string>
+    <string name="task_type_project">Project</string>
+    <string name="task_item_dates">Start %1$s · Due %2$s</string>
 
     <!-- GestionClasesScreen -->
     <string name="gestion_clases_title">Manage Class</string>
@@ -117,7 +141,10 @@
     <!-- FichaUsuarioScreen -->
     <string name="ficha_title">My Attendance</string>
     <string name="ficha_test_camera">TEST CAMERA (TEST MODE)</string>
+    <string name="ficha_test_subject_name">Test class</string>
     <string name="ficha_no_absences">You have no recorded absences on the local server.</string>
+    <string name="ficha_no_subject">No subject</string>
+    <string name="ficha_error_with_message">Error: %1$s</string>
     <string name="ficha_btn_editar_perfil">Edit profile</string>
     <string name="ficha_btn_cambiar_password">Change password</string>
 
@@ -130,6 +157,24 @@
     <string name="justificar_falta_upload">Upload from device</string>
     <string name="justificar_falta_send">Send Justification</string>
     <string name="justificar_falta_success">Sent successfully!</string>
+
+    <!-- EditarFichaScreen -->
+    <string name="editar_ficha_title">Edit profile</string>
+    <string name="editar_ficha_label_nombre">Name</string>
+    <string name="editar_ficha_label_email">Email</string>
+    <string name="editar_ficha_btn_guardar">Save</string>
+    <string name="editar_ficha_success">Profile updated</string>
+    <string name="editar_ficha_error">Error updating profile</string>
+
+    <!-- CambiarPasswordScreen -->
+    <string name="cambiar_password_title">Change password</string>
+    <string name="cambiar_password_actual">Current password</string>
+    <string name="cambiar_password_nueva">New password</string>
+    <string name="cambiar_password_confirmar">Confirm new password</string>
+    <string name="cambiar_password_btn">Change</string>
+    <string name="cambiar_password_no_match">Passwords do not match</string>
+    <string name="cambiar_password_success">Password changed successfully</string>
+    <string name="cambiar_password_error">Could not change password</string>
 
     <!-- TareaAlumnoDetalleScreen -->
     <string name="task_detail_title">Task detail</string>

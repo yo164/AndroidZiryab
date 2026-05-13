@@ -1,5 +1,7 @@
 package com.alanturin.primerbocetoui.data.remote.model
 
+import com.alanturin.primerbocetoui.domain.model.TeacherTask
+
 data class CreateTaskRequestRemote(
     val idTeacherAssignment: Int,
     val title: String,
@@ -15,7 +17,13 @@ data class CreateTaskResponseRemote(
     val data: TaskItemRemote
 )
 
-data class TaskResponseRemote(
+data class TaskListRemote(
+    val success: Boolean,
+    val data: List<TaskItemRemote>,
+    val count: Int
+)
+
+data class TaskDetailResponseRemote(
     val success: Boolean,
     val data: TaskItemRemote
 )
@@ -30,4 +38,16 @@ data class TaskItemRemote(
     val dueDate: String,
     val schoolYear: String,
     val createdAt: String
+)
+
+fun TaskItemRemote.toDomain(): TeacherTask = TeacherTask(
+    id = id,
+    idTeacherAssignment = idTeacherAssignment,
+    title = title,
+    description = description,
+    type = type,
+    startDate = startDate,
+    dueDate = dueDate,
+    schoolYear = schoolYear,
+    createdAt = createdAt
 )

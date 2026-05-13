@@ -19,6 +19,7 @@ import com.alanturin.primerbocetoui.R
 fun UserMenu(
     userName: String,
     userEmail: String,
+    onAboutClick: () -> Unit,
     onLogout: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -52,6 +53,16 @@ fun UserMenu(
                 Text(text = userEmail, style = MaterialTheme.typography.bodySmall)
                 Spacer(modifier = Modifier.height(12.dp))
                 HorizontalDivider()
+                Spacer(modifier = Modifier.height(8.dp))
+                TextButton(
+                    onClick = {
+                        expanded = false
+                        onAboutClick()
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(stringResource(id = R.string.menu_about))
+                }
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(
                     onClick = {

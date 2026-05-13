@@ -1,7 +1,7 @@
 package com.alanturin.primerbocetoui.data.remote.task
 
-import com.alanturin.primerbocetoui.data.remote.model.CreateTaskRequestRemote
-import com.alanturin.primerbocetoui.data.remote.model.TaskItemRemote
+import com.alanturin.primerbocetoui.data.remote.model.*
+
 import javax.inject.Inject
 
 class TaskRemoteDataSourceImpl  @Inject constructor(
@@ -30,13 +30,24 @@ class TaskRemoteDataSourceImpl  @Inject constructor(
         return try {
             val response = api.getTaskById(id)
             if (response.isSuccessful) {
-                val body = response.body()
-                if (body == null) {
-                    Result.failure(RuntimeException("Body vacío"))
-                } else {
-                    Result.success(body.data)
-                }
+                response.body()?.data?.let { Result.success(it) }
+                    ?: Result.failure(RuntimeException("Body vacío"))
             } else {
+
+                Result.failure(RuntimeException("Error: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getTasksByTeacherAssignment(idTeacherAssignment: Long): Result<List<TaskItemRemote>> {
+        return try {
+            val response = api.getTasksByTeacherAssignment(idTeacherAssignment)
+            if (response.isSuccessful) {
+                Result.success(response.body()?.data.orEmpty())
+            } else {
+
                 Result.failure(RuntimeException("Error: ${response.code()}"))
             }
         } catch (e: Exception) {

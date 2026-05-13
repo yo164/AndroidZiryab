@@ -1,9 +1,7 @@
 package com.alanturin.primerbocetoui.data.remote.task
 
-import com.alanturin.primerbocetoui.data.remote.model.CreateTaskRequestRemote
-import com.alanturin.primerbocetoui.data.remote.model.CreateTaskResponseRemote
-import com.alanturin.primerbocetoui.data.remote.model.TaskItemRemote
-import com.alanturin.primerbocetoui.data.remote.model.TaskResponseRemote
+import com.alanturin.primerbocetoui.data.remote.model.*
+
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -19,10 +17,11 @@ interface TaskApi {
     @GET("api/tasks/teacher-assignment/{idTeacherAssignment}")
     suspend fun getTasksByTeacherAssignment(
         @Path("idTeacherAssignment") idTeacherAssignment: Long
-    ): Response<List<TaskItemRemote>>
+    ): Response<TaskListRemote>
+
 
     @GET("api/tasks/{id}")
     suspend fun getTaskById(
         @Path("id") id: Int
-    ): Response<TaskResponseRemote>
+    ): Response<TaskDetailResponseRemote>
 }
