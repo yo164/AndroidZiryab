@@ -30,6 +30,13 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Switch
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -240,6 +247,10 @@ private fun CreateTaskDialog(
     var isPublished by remember { mutableStateOf(true) }
     var allowLateSubmission by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
+    
+    val datePickerState = rememberDatePickerState()
+    var showDatePicker by remember { mutableStateOf(false) }
+    var pickingForStart by remember { mutableStateOf(true) }
 
     val taskTypes = listOf("EXAM", "HOMEWORK", "PROJECT")
 
@@ -248,8 +259,10 @@ private fun CreateTaskDialog(
         title = { Text(stringResource(R.string.task_dialog_title)) },
         text = {
             Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 OutlinedTextField(
                     value = title,
@@ -298,21 +311,52 @@ private fun CreateTaskDialog(
                     }
                 }
 
-                OutlinedTextField(
-                    value = startDate,
-                    onValueChange = { startDate = it },
-                    label = { Text(stringResource(R.string.task_label_start_date)) },
-                    singleLine = true,
+                Box(
                     modifier = Modifier.fillMaxWidth()
-                )
+                ) {
+                    OutlinedTextField(
+                        value = startDate,
+                        onValueChange = { },
+                        readOnly = true,
+                        label = { Text(stringResource(R.string.task_label_start_date)) },
+                        supportingText = { Text("Click para seleccionar fecha") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = true
+                    )
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .clickable(enabled = !isLoading) {
+                                pickingForStart = true
+                                showDatePicker = true
+                            }
+                    )
+                }
 
-                OutlinedTextField(
-                    value = dueDate,
-                    onValueChange = { dueDate = it },
-                    label = { Text(stringResource(R.string.task_label_due_date)) },
-                    singleLine = true,
+                Box(
                     modifier = Modifier.fillMaxWidth()
-                )
+                ) {
+                    OutlinedTextField(
+                        value = dueDate,
+                        onValueChange = { },
+                        readOnly = true,
+                        label = { Text(stringResource(R.string.task_label_due_date)) },
+                        supportingText = { Text("Click para seleccionar fecha") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = true
+                    )
+                    // Capa invisible con el clickable encima
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .clickable(enabled = !isLoading) {
+                                pickingForStart = false
+                                showDatePicker = true
+                            }
+                    )
+                }
 
                 OutlinedTextField(
                     value = schoolYear,
@@ -369,4 +413,36 @@ private fun CreateTaskDialog(
             }
         }
     )
+
+    if (showDatePicker) {
+        DatePickerDialog(
+            onDismissRequest = { showDatePicker = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    datePickerState.selectedDateMillis?.let { millis ->
+                        val instant = java.time.Instant.ofEpochMilli(millis)
+                        val date = java.time.LocalDateTime.ofInstant(instant, java.time.ZoneId.of("UTC"))
+                        val formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                        val formatted = date.format(formatter)
+                        
+                        if (pickingForStart) {
+                            startDate = formatted
+                        } else {
+                            dueDate = formatted
+                        }
+                    }
+                    showDatePicker = false
+                }) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDatePicker = false }) {
+                    Text("Cancelar")
+                }
+            }
+        ) {
+            DatePicker(state = datePickerState)
+        }
+    }
 }
