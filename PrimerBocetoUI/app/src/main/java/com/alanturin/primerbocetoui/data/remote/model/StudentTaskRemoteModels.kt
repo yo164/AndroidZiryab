@@ -30,3 +30,8 @@ data class SubmitTaskRequestRemote(
     val idStudentEnrollment: Int,
     val attachmentUrl: String? = null
 )
+
+data class GradeSubmissionRequestRemote(
+    val score: Double,
+    val feedback: String? = null
+)

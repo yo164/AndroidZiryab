@@ -1,5 +1,6 @@
 package com.alanturin.primerbocetoui.data.repository.studenttask
 
+import com.alanturin.primerbocetoui.data.remote.model.GradeSubmissionRequestRemote
 import com.alanturin.primerbocetoui.data.remote.model.StudentTaskItemRemote
 import com.alanturin.primerbocetoui.data.remote.model.SubmitTaskRequestRemote
 import com.alanturin.primerbocetoui.data.remote.studenttask.StudentTaskRemoteDataSource
@@ -18,5 +19,12 @@ class StudentTaskRepositoryImpl @Inject constructor(
 
     override suspend fun getSubmissionsByTask(taskId: Int): Result<List<StudentTaskItemRemote>> {
         return remoteDataSource.getSubmissionsByTask(taskId)
+    }
+
+    override suspend fun gradeSubmission(
+        id: Int,
+        request: GradeSubmissionRequestRemote
+    ): Result<StudentTaskItemRemote> {
+        return remoteDataSource.gradeSubmission(id, request)
     }
 }
