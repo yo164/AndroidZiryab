@@ -188,4 +188,16 @@
     <string name="task_detail_submitted_success">¡Entrega registrada!</string>
     <string name="task_detail_error_loading">Error al cargar la tarea</string>
     <string name="task_detail_retry_button">Reintentar</string>
+
+    <!-- CalificarEntregaScreen -->
+    <string name="grade_title">Calificar entrega</string>
+    <string name="grade_cd_back">Atrás</string>
+    <string name="grade_submission_date">Entregada: %1$s</string>
+    <string name="grade_label_score">Nota (0–10)</string>
+    <string name="grade_label_feedback">Comentario (opcional)</string>
+    <string name="grade_button_save">Guardar nota</string>
+    <string name="grade_saving">Guardando…</string>
+    <string name="grade_error_loading">Error al calificar</string>
+    <string name="grade_retry">Reintentar</string>
+    <string name="grade_invalid_score">Introduce una nota válida (0–10)</string>
 </resources>
