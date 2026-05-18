@@ -2,9 +2,12 @@ package com.alanturin.primerbocetoui.data.repository.studenttask
 
 import com.alanturin.primerbocetoui.data.remote.model.StudentTaskItemRemote
 import com.alanturin.primerbocetoui.data.remote.model.SubmitTaskRequestRemote
+import com.alanturin.primerbocetoui.data.remote.model.UploadFileResponseRemote
 
 interface StudentTaskRepository {
     suspend fun getByStudentEnrollment(idStudentEnrollment: Int): Result<List<StudentTaskItemRemote>>
-    suspend fun submitTask(request: SubmitTaskRequestRemote): Result<StudentTaskItemRemote>
+    suspend fun submitTask(id: Int, request: SubmitTaskRequestRemote): Result<StudentTaskItemRemote>
     suspend fun getSubmissionsByTask(taskId: Int): Result<List<StudentTaskItemRemote>>
+    suspend fun uploadFile(file: okhttp3.MultipartBody.Part): Result<UploadFileResponseRemote>
+    suspend fun unsubmitTask(id: Int): Result<StudentTaskItemRemote>
 }

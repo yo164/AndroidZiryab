@@ -24,7 +24,15 @@ data class StudentTaskListResponseRemote(
 )
 
 data class SubmitTaskRequestRemote(
-    val idTask: Int,
-    val idStudentEnrollment: Int,
     val attachmentUrl: String? = null
+)
+
+data class UploadFileDataRemote(
+    val attachmentUrl: String
+)
+
+data class UploadFileResponseRemote(
+    val success: Boolean,
+    val message: String,
+    val data: UploadFileDataRemote
 )
