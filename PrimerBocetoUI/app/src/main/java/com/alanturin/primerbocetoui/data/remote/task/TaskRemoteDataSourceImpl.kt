@@ -1,7 +1,7 @@
 package com.alanturin.primerbocetoui.data.remote.task
 
 import com.alanturin.primerbocetoui.data.remote.model.*
-
+import org.json.JSONObject
 import javax.inject.Inject
 
 class TaskRemoteDataSourceImpl  @Inject constructor(
@@ -19,7 +19,9 @@ class TaskRemoteDataSourceImpl  @Inject constructor(
                     Result.success(body.data)
                 }
             } else {
-                Result.failure(RuntimeException("Error: ${response.code()}"))
+                val errorBody = response.errorBody()?.string()
+                val message = mensajeErrorApi(response.code(), errorBody)
+                Result.failure(RuntimeException(message))
             }
         } catch (e: Exception) {
             Result.failure(e)
@@ -33,8 +35,9 @@ class TaskRemoteDataSourceImpl  @Inject constructor(
                 response.body()?.data?.let { Result.success(it) }
                     ?: Result.failure(RuntimeException("Body vacío"))
             } else {
-
-                Result.failure(RuntimeException("Error: ${response.code()}"))
+                val errorBody = response.errorBody()?.string()
+                val message = mensajeErrorApi(response.code(), errorBody)
+                Result.failure(RuntimeException(message))
             }
         } catch (e: Exception) {
             Result.failure(e)
@@ -47,11 +50,19 @@ class TaskRemoteDataSourceImpl  @Inject constructor(
             if (response.isSuccessful) {
                 Result.success(response.body()?.data.orEmpty())
             } else {
-
-                Result.failure(RuntimeException("Error: ${response.code()}"))
+                val errorBody = response.errorBody()?.string()
+                val message = mensajeErrorApi(response.code(), errorBody)
+                Result.failure(RuntimeException(message))
             }
         } catch (e: Exception) {
             Result.failure(e)
         }
+    }
+
+    private fun mensajeErrorApi(codigo: Int, cuerpo: String?): String {
+        val desdeJson = runCatching {
+            cuerpo?.let { JSONObject(it).optString("message") }
+        }.getOrNull().orEmpty()
+        return desdeJson.ifBlank { "Error: $codigo" }
     }
 }

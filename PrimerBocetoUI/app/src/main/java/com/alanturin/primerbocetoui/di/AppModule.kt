@@ -44,6 +44,10 @@ import com.alanturin.primerbocetoui.data.remote.clasesalumno.ClasesAlumnoRemoteD
 import com.alanturin.primerbocetoui.data.remote.studenttask.StudentTaskApi
 import com.alanturin.primerbocetoui.data.remote.studenttask.StudentTaskRemoteDataSource
 import com.alanturin.primerbocetoui.data.remote.studenttask.StudentTaskRemoteDataSourceImpl
+import com.alanturin.primerbocetoui.data.remote.announcement.AnnouncementRemoteDataSource
+import com.alanturin.primerbocetoui.data.remote.announcement.AnnouncementRemoteDataSourceImpl
+import com.alanturin.primerbocetoui.data.repository.announcement.AnnouncementRepository
+import com.alanturin.primerbocetoui.data.repository.announcement.AnnouncementRepositoryImpl
 import com.alanturin.primerbocetoui.data.remote.task.TaskApi
 import com.alanturin.primerbocetoui.data.remote.task.TaskRemoteDataSource
 import com.alanturin.primerbocetoui.data.remote.task.TaskRemoteDataSourceImpl
@@ -146,6 +150,14 @@ abstract class AppModule {
     @Binds
     @Singleton
     abstract fun bindTaskRepository(impl: TaskRepositoryImpl): TaskRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAnnouncementRemoteDataSource(impl: AnnouncementRemoteDataSourceImpl): AnnouncementRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindAnnouncementRepository(impl: AnnouncementRepositoryImpl): AnnouncementRepository
 
     @Binds
     @Singleton

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,6 +29,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Switch
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -46,7 +55,7 @@ import com.alanturin.primerbocetoui.domain.model.TeacherTask
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskScreen(viewModel: TaskViewModel = hiltViewModel()) {
+fun TaskScreen(viewModel: TaskViewModel = hiltViewModel(), onTaskClick: (Int) -> Unit) {
     val listUiState by viewModel.listUiState.collectAsStateWithLifecycle()
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val error by viewModel.error.collectAsStateWithLifecycle()
@@ -127,7 +136,7 @@ fun TaskScreen(viewModel: TaskViewModel = hiltViewModel()) {
                                 items = section.tasks,
                                 key = { it.id }
                             ) { task ->
-                                TeacherTaskCard(task = task)
+                                TeacherTaskCard(task = task, onClick = { onTaskClick(task.id) })
                             }
                         }
                     }
@@ -141,8 +150,8 @@ fun TaskScreen(viewModel: TaskViewModel = hiltViewModel()) {
             isLoading = isLoading,
             error = error,
             onDismiss = { showDialog = false },
-            onConfirm = { title, description, type, startDate, dueDate, schoolYear ->
-                viewModel.createTask(title, description, type, startDate, dueDate, schoolYear)
+            onConfirm = { title, description, type, startDate, dueDate, schoolYear, isPublished, allowLateSubmission ->
+                viewModel.createTask(title, description, type, startDate, dueDate, schoolYear, isPublished, allowLateSubmission)
             }
         )
     }
@@ -175,9 +184,12 @@ private fun TaskSectionHeader(dueDateIso: String) {
 }
 
 @Composable
-private fun TeacherTaskCard(task: TeacherTask) {
+private fun TeacherTaskCard(task: TeacherTask, onClick: () -> Unit) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        onClick = onClick,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(
@@ -224,7 +236,7 @@ private fun CreateTaskDialog(
     isLoading: Boolean,
     error: String?,
     onDismiss: () -> Unit,
-    onConfirm: (String, String, String, String, String, String) -> Unit
+    onConfirm: (String, String, String, String, String, String, Boolean, Boolean) -> Unit
 ) {
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
@@ -232,7 +244,13 @@ private fun CreateTaskDialog(
     var startDate by remember { mutableStateOf("") }
     var dueDate by remember { mutableStateOf("") }
     var schoolYear by remember { mutableStateOf("2025-2026") }
+    var isPublished by remember { mutableStateOf(true) }
+    var allowLateSubmission by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
+    
+    val datePickerState = rememberDatePickerState()
+    var showDatePicker by remember { mutableStateOf(false) }
+    var pickingForStart by remember { mutableStateOf(true) }
 
     val taskTypes = listOf("EXAM", "HOMEWORK", "PROJECT")
 
@@ -241,8 +259,10 @@ private fun CreateTaskDialog(
         title = { Text(stringResource(R.string.task_dialog_title)) },
         text = {
             Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 OutlinedTextField(
                     value = title,
@@ -291,21 +311,52 @@ private fun CreateTaskDialog(
                     }
                 }
 
-                OutlinedTextField(
-                    value = startDate,
-                    onValueChange = { startDate = it },
-                    label = { Text(stringResource(R.string.task_label_start_date)) },
-                    singleLine = true,
+                Box(
                     modifier = Modifier.fillMaxWidth()
-                )
+                ) {
+                    OutlinedTextField(
+                        value = startDate,
+                        onValueChange = { },
+                        readOnly = true,
+                        label = { Text(stringResource(R.string.task_label_start_date)) },
+                        supportingText = { Text("Click para seleccionar fecha") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = true
+                    )
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .clickable(enabled = !isLoading) {
+                                pickingForStart = true
+                                showDatePicker = true
+                            }
+                    )
+                }
 
-                OutlinedTextField(
-                    value = dueDate,
-                    onValueChange = { dueDate = it },
-                    label = { Text(stringResource(R.string.task_label_due_date)) },
-                    singleLine = true,
+                Box(
                     modifier = Modifier.fillMaxWidth()
-                )
+                ) {
+                    OutlinedTextField(
+                        value = dueDate,
+                        onValueChange = { },
+                        readOnly = true,
+                        label = { Text(stringResource(R.string.task_label_due_date)) },
+                        supportingText = { Text("Click para seleccionar fecha") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = true
+                    )
+                    // Capa invisible con el clickable encima
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .clickable(enabled = !isLoading) {
+                                pickingForStart = false
+                                showDatePicker = true
+                            }
+                    )
+                }
 
                 OutlinedTextField(
                     value = schoolYear,
@@ -314,6 +365,24 @@ private fun CreateTaskDialog(
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(stringResource(R.string.task_label_publish))
+                    Switch(checked = isPublished, onCheckedChange = { isPublished = it })
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(stringResource(R.string.task_label_allow_late))
+                    Switch(checked = allowLateSubmission, onCheckedChange = { allowLateSubmission = it })
+                }
 
                 if (isLoading) {
                     LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
@@ -331,7 +400,7 @@ private fun CreateTaskDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    onConfirm(title, description, selectedType, startDate, dueDate, schoolYear)
+                    onConfirm(title, description, selectedType, startDate, dueDate, schoolYear, isPublished, allowLateSubmission)
                 },
                 enabled = title.isNotBlank() && startDate.isNotBlank() && dueDate.isNotBlank() && !isLoading
             ) {
@@ -344,4 +413,36 @@ private fun CreateTaskDialog(
             }
         }
     )
+
+    if (showDatePicker) {
+        DatePickerDialog(
+            onDismissRequest = { showDatePicker = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    datePickerState.selectedDateMillis?.let { millis ->
+                        val instant = java.time.Instant.ofEpochMilli(millis)
+                        val date = java.time.LocalDateTime.ofInstant(instant, java.time.ZoneId.of("UTC"))
+                        val formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                        val formatted = date.format(formatter)
+                        
+                        if (pickingForStart) {
+                            startDate = formatted
+                        } else {
+                            dueDate = formatted
+                        }
+                    }
+                    showDatePicker = false
+                }) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDatePicker = false }) {
+                    Text("Cancelar")
+                }
+            }
+        ) {
+            DatePicker(state = datePickerState)
+        }
+    }
 }

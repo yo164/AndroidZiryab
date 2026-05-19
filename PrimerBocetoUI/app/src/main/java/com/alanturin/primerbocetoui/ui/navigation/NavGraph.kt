@@ -42,7 +42,9 @@ fun NavGraph(
             currentDestination?.hasRoute<Route.ClasesProfesor>() == true||
             currentDestination?.hasRoute<Route.GestionClases>() == true ||
             currentDestination?.hasRoute<Route.Task>() == true ||
-            currentDestination?.hasRoute<Route.AlumnoList>() == true
+            currentDestination?.hasRoute<Route.EntregasTarea>() == true ||
+            currentDestination?.hasRoute<Route.AlumnoList>() == true ||
+            currentDestination?.hasRoute<Route.Tablon>() == true
 
 
 
@@ -165,7 +167,14 @@ fun NavGraph(
                 onNavigateToListaAlumnos = { navController.navigateToAlumnoList() }
             )
 
-            taskDestination(modifier = contentModifier)
+            taskDestination(
+                modifier = contentModifier,
+                onTaskClick = { taskId ->
+                    navController.navigateToEntregasTarea(taskId)
+                }
+            )
+
+            entregasTareaDestination(onBack = { navController.popBackStack() })
 
             alumnoListDestination(modifier = contentModifier)
 

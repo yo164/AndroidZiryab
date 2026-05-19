@@ -200,4 +200,14 @@
     <string name="grade_error_loading">Error while grading</string>
     <string name="grade_retry">Retry</string>
     <string name="grade_invalid_score">Enter a valid score (0–10)</string>
+    <!-- Notice Board (Announcements) -->
+    <string name="tablon_empty">No announcements posted on the board.</string>
+    <string name="tablon_author">By: %1$s</string>
+    <string name="tablon_published_at">Published on %1$s</string>
+    <string name="tablon_btn_publish">Publish announcement</string>
+    <string name="tablon_dialog_title">New Announcement</string>
+    <string name="tablon_label_title">Announcement title</string>
+    <string name="tablon_label_body">Write your announcement here…</string>
+    <string name="tablon_error_empty">Title and body cannot be empty</string>
+    <string name="tablon_success_published">Announcement published successfully!</string>
 </resources>

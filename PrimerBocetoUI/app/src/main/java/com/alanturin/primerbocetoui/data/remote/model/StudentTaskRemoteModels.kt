@@ -3,9 +3,6 @@ package com.alanturin.primerbocetoui.data.remote.model
 // En data/remote/model/
 data class StudentTaskItemRemote(
     val id: Int,
-    val title: String?,
-    val description: String?,
-    val type: String?,
     val idTask: Int,
     val idStudentEnrollment: Int,
     val status: String,
@@ -13,7 +10,8 @@ data class StudentTaskItemRemote(
     val score: Double?,
     val feedback: String?,
     val attachmentUrl: String?,
-    val task: TaskItemRemote
+    val task: TaskItemRemote? = null,
+    val studentEnrollment: EnrollmentItemRemote? = null
 )
 data class StudentTaskResponseRemote(
     val success: Boolean,
@@ -26,12 +24,20 @@ data class StudentTaskListResponseRemote(
 )
 
 data class SubmitTaskRequestRemote(
-    val idTask: Int,
-    val idStudentEnrollment: Int,
     val attachmentUrl: String? = null
 )
 
 data class GradeSubmissionRequestRemote(
     val score: Double,
     val feedback: String? = null
+)
+
+data class UploadFileDataRemote(
+    val attachmentUrl: String
+)
+
+data class UploadFileResponseRemote(
+    val success: Boolean,
+    val message: String,
+    val data: UploadFileDataRemote
 )

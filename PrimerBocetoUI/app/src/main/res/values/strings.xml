@@ -101,6 +101,8 @@
     <string name="task_label_start_date">Fecha inicio (yyyy-MM-dd)</string>
     <string name="task_label_due_date">Fecha entrega (yyyy-MM-dd)</string>
     <string name="task_label_school_year">Año escolar</string>
+    <string name="task_label_publish">Publicar inmediatamente</string>
+    <string name="task_label_allow_late">Permitir entrega tardía</string>
     <string name="task_button_create">Crear</string>
     <string name="task_button_cancel">Cancelar</string>
     <string name="task_section_due">Entrega: %1$s</string>
@@ -200,4 +202,18 @@
     <string name="grade_error_loading">Error al calificar</string>
     <string name="grade_retry">Reintentar</string>
     <string name="grade_invalid_score">Introduce una nota válida (0–10)</string>
+    <!-- EntregasTareaScreen -->
+    <string name="entregas_title">Entregas de Tarea</string>
+    <string name="entregas_no_students">No hay entregas para esta tarea.</string>
+
+    <!-- Tablón (Announcements) -->
+    <string name="tablon_empty">No hay anuncios publicados en el tablón.</string>
+    <string name="tablon_author">Por: %1$s</string>
+    <string name="tablon_published_at">Publicado el %1$s</string>
+    <string name="tablon_btn_publish">Publicar anuncio</string>
+    <string name="tablon_dialog_title">Nuevo Anuncio</string>
+    <string name="tablon_label_title">Título del anuncio</string>
+    <string name="tablon_label_body">Escribe tu anuncio aquí…</string>
+    <string name="tablon_error_empty">El título y cuerpo no pueden estar vacíos</string>
+    <string name="tablon_success_published">¡Anuncio publicado con éxito!</string>
 </resources>

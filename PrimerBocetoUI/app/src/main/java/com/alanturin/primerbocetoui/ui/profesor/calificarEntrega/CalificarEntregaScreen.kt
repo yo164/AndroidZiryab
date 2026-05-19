@@ -134,6 +134,9 @@ private fun CalificarContent(
     }
     var parseError by remember { mutableStateOf<String?>(null) }
     val invalidScoreMessage = stringResource(R.string.grade_invalid_score)
+    val displayTitle = entrega.studentEnrollment?.student?.let {
+        "${it.name} ${it.surname} ${it.ndSurname}".trim()
+    } ?: entrega.task?.title ?: stringResource(R.string.error_unknown)
 
     Column(
         modifier = modifier
@@ -142,7 +145,7 @@ private fun CalificarContent(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
-            text = entrega.title ?: entrega.task.title,
+            text = displayTitle,
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold
         )
