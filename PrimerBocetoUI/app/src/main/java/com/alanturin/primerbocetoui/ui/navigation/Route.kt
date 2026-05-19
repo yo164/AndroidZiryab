@@ -29,6 +29,7 @@ import com.alanturin.primerbocetoui.ui.profesor.justificaraistencias.Notificatio
 import com.alanturin.primerbocetoui.ui.profesor.justificaraistencias.confirmajustificacion.JustificarScreen
 import com.alanturin.primerbocetoui.ui.profesor.listaAlumnos.AlumnoListScreen
 import com.alanturin.primerbocetoui.ui.profesor.tasks.TaskScreen
+import com.alanturin.primerbocetoui.ui.tablon.TablonScreen
 
 @Serializable
 sealed class Route {
@@ -221,7 +222,9 @@ fun NavGraphBuilder.calendarioDestination(modifier: Modifier = Modifier) {
 }
 
 fun NavGraphBuilder.tablonDestination(modifier: Modifier = Modifier) {
-    composable<Route.Tablon> { /* TODO */ }
+    composable<Route.Tablon> {
+        TablonScreen(modifier = modifier)
+    }
 }
 
 fun NavGraphBuilder.groupsDestination(modifier: Modifier = Modifier) {

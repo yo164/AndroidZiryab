@@ -43,7 +43,8 @@ fun NavGraph(
             currentDestination?.hasRoute<Route.GestionClases>() == true ||
             currentDestination?.hasRoute<Route.Task>() == true ||
             currentDestination?.hasRoute<Route.EntregasTarea>() == true ||
-            currentDestination?.hasRoute<Route.AlumnoList>() == true
+            currentDestination?.hasRoute<Route.AlumnoList>() == true ||
+            currentDestination?.hasRoute<Route.Tablon>() == true
 
 
 

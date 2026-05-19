@@ -1,6 +1,7 @@
 package com.alanturin.primerbocetoui.di
 
 import com.alanturin.primerbocetoui.data.remote.clasesprofesor.ClasesProfesorApi
+import com.alanturin.primerbocetoui.data.remote.announcement.AnnouncementApi
 import com.alanturin.primerbocetoui.ui.session.SessionViewModel
 import dagger.Module
 import dagger.Provides
@@ -62,5 +63,11 @@ object NetworkModule {
     @Singleton
     fun provideAuthApi(retrofit: Retrofit): com.alanturin.primerbocetoui.data.remote.AuthApi {
         return retrofit.create(com.alanturin.primerbocetoui.data.remote.AuthApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAnnouncementApi(retrofit: Retrofit): AnnouncementApi {
+        return retrofit.create(AnnouncementApi::class.java)
     }
 }

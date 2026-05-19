@@ -194,4 +194,15 @@
     <!-- EntregasTareaScreen -->
     <string name="entregas_title">Entregas de Tarea</string>
     <string name="entregas_no_students">No hay entregas para esta tarea.</string>
+
+    <!-- Tablón (Announcements) -->
+    <string name="tablon_empty">No hay anuncios publicados en el tablón.</string>
+    <string name="tablon_author">Por: %1$s</string>
+    <string name="tablon_published_at">Publicado el %1$s</string>
+    <string name="tablon_btn_publish">Publicar anuncio</string>
+    <string name="tablon_dialog_title">Nuevo Anuncio</string>
+    <string name="tablon_label_title">Título del anuncio</string>
+    <string name="tablon_label_body">Escribe tu anuncio aquí…</string>
+    <string name="tablon_error_empty">El título y cuerpo no pueden estar vacíos</string>
+    <string name="tablon_success_published">¡Anuncio publicado con éxito!</string>
 </resources>
